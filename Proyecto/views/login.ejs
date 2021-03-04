@@ -1,0 +1,17 @@
+<%- include('partials/head.ejs') %>
+
+<body class="text-center">
+    
+    <main class="form-signin">
+        <h1 class="h3 mb-3 fw-normal">Porfavor inicia sesion</h1>
+        <form action="/users/login" method="POST">
+            <input type="text" name="usuario" placeholder="Nombre de usuario"><br>
+            <input type="password" name="password" placeholder="Contraseña"><br><br>
+            <input type="submit" value="Ingresar">
+        </form>
+        <p class="mt-5 mb-3 text-muted">© 2021</p>
+    </main>
+    
+</body>
+
+</html>
