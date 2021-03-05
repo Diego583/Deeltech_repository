@@ -9,5 +9,3 @@ Diego Emilio Barrera Hernández A01366802
 Enrique Santos Fraire A01705746
 
 Leonardo Alvarado Menéndez A01705998
-
-
