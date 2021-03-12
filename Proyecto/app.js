@@ -1,17 +1,23 @@
 console.log("Corriendo servidor");
 
+//Para redirigir en caso de no estar logeado
+const isAuth = require('./util/is-auth');
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
 const app = express();
+
+const cookieParser = require('cookie-parser');
+
+const session = require('express-session');
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 //Rutas
 const rutasUsers = require('./routes/users')
+const rutasProyectos = require('./routes/proyectos')
 
 //Middleware
 app.use(bodyParser.urlencoded({extended: false}));
@@ -31,6 +37,8 @@ app.use(session({
 
 app.use('/users', rutasUsers);
 
+app.use('/proyectos', rutasProyectos);
+
 /* RUTA
 app.get('/ruta', (request, response, next) => {
     response.render('ruta.ejs', {
@@ -40,26 +48,14 @@ app.get('/ruta', (request, response, next) => {
 });
 */
 
-app.get('/inicio', (request, response, next) => {
-    response.render('inicio', {
-        titulo: 'Inicio',
-        isLoggedIn: request.session.isLoggedIn === true ? true : false
-    });
-});
-
-app.get('/', (request, response, next) => {
+app.get('/', isAuth, (request, response, next) => {
     console.log(request.session);
-    if(request.session.isLoggedIn === true ? true : false){
-        response.redirect('/inicio');
-    }
-    else{
-        response.redirect('/users/login')
-    }
+    response.redirect('/proyectos');
 });
 
 app.use( (request, response, next) => {
-    response.status(404).render('404.ejs', {
-        titulo: 'Nor found',
+    response.status(404).render('404', {
+        titulo: 'Not found',
         isLoggedIn: request.session.isLoggedIn === true ? true : false
     });
 });
