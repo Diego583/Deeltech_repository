@@ -5,31 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> <%= titulo %> </title>
-    <!--link rel="icon" type="image/png" href="media/icono.png" /-->
+    <link rel="icon" type="image/png" href="media/icono.png" >
     <link href="css/main.css" rel="stylesheet">
     <link href="css/login.css" rel="stylesheet">
 </head>
 
-<body>
+<body background="media/negroVerde.jpg">
     <div class="wrapper fadeInDown">
-        <div id="formContent">
+        <div id="formContent" class="bg-dark">
           <!-- Tabs Titles -->
       
           <!-- Icon -->
           <div class="fadeIn first">
-            <img src="#" id="icon" alt="User Icon" />
+            <img src="media/logo.png" id="icon" alt="User Icon" />
           </div>
       
           <!-- Login Form -->
           <form action="/users/login" method="POST">
-            <input type="text" id="login" class="fadeIn second" name="usuario" placeholder="login">
-            <input type="text" id="password" class="fadeIn third" name="password" placeholder="password">
-            <input type="submit" class="fadeIn fourth" value="Log In">
+            <input type="text" id="login" class="fadeIn second" name="usuario" placeholder="usuario">
+            <input type="password" id="password" class="fadeIn third" name="contraseña" placeholder="contraseña">
+            <% if (error) { %>
+              <p style="color:red"><%= error %></p>
+            <% } %>
+            <input type="submit" class="fadeIn btn btn-secondary" value="Iniciar Sesion">
           </form>
       
           <!-- Remind Passowrd -->
-          <div id="formFooter">
-            <a class="underlineHover" href="#">Forgot Password?</a>
+          <div id="formFooter" class="bg-dark">
+            <a href="#"></a>
           </div>
       
         </div>
