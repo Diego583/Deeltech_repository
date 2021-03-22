@@ -1,8 +1,28 @@
 CREATE TABLE Usuario(
-	id_usuario numeric(10) NOT NULL,
+	nombre_usuario varchar(50) NOT NULL,
     nombre varchar(50),
     contraseña varchar(50) ,
     Tiempo_por_semana numeric(6,2), -- CHECAR SI SE PUEDE PONER VAIRABLE 'TIME'
+);
+
+CREATE TABLE Rol(
+    id_rol numeric(10) NOT NULL,
+    nombre varchar(100),
+);
+
+CREATE TABLE Privilegio(
+    id_privilegio numeric(10) NOT NULL,
+    privilegio varchar(100),
+);
+
+CREATE TABLE Rol_Privilegio(
+    id_rol numeric(10) NOT NULL,
+    id_privilegio numeric(10) NOT NULL,
+);
+
+CREATE TABLE Usuario_Rol(
+	nombre_usuario varchar(50) NOT NULL,
+    id_rol numeric(10) NOT NULL,
 );
 
 CREATE TABLE Proyecto(
@@ -14,7 +34,7 @@ CREATE TABLE Proyecto(
 );
 
 CREATE TABLE Proyecto_Usuario(
-	id_usuario numeric(10) NOT NULL,
+	nombre_usuario varchar(50) NOT NULL,
     id_proyecto numeric(10) NOT NULL,
     fecha datetime,
    
@@ -55,28 +75,40 @@ CREATE TABLE Caso_de_Uso_Fase_Tarea(
 );
 
 CREATE TABLE Usuario_Tareas( -- CHECAR SI SE AGREGA EL id_proyecto
-	id_usuario numeric(10) NOT NULL,
+	nombre_usuario varchar(50) NOT NULL,
     id_tarea numeric(10) NOT NULL,
     tiempo_real numeric(6,2), -- CHECAR SI SE PUEDE PONER VAIRABLE 'TIME'
 );
 
 
 -----------------------------------------------------------DEFINIR LLAVE PRIMARIA------------------------------------------------------------------------
-ALTER TABLE Usuario add constraint llaveUsuario PRIMARY KEY (id_usuario)
+ALTER TABLE Usuario add constraint llaveUsuario PRIMARY KEY (nombre_usuario)
 ALTER TABLE Proyecto add constraint llaveProyecto PRIMARY KEY (id_proyecto)
-ALTER TABLE Proyecto_Usuario add constraint llaveProyecto_Usuario PRIMARY KEY (id_proyecto, id_usuario)
+
+ALTER TABLE Rol add constraint llaveRol PRIMARY KEY (id_rol)
+ALTER TABLE Privilegio add constraint llavePrivilegio PRIMARY KEY (id_privilegio)
+ALTER TABLE Rol_Privilegio add constraint llaveRol_Privilegio PRIMARY KEY (id_rol, id_privilegio)
+ALTER TABLE Usuario_Rol add constraint llaveUsuario_Rol PRIMARY KEY (nombre_usuario, id_rol)
+
+ALTER TABLE Proyecto_Usuario add constraint llaveProyecto_Usuario PRIMARY KEY (id_proyecto, nombre_usuario)
 ALTER TABLE Puntos_Agiles add constraint llavePuntos_Agiles PRIMARY KEY (id_Valor)
 ALTER TABLE Caso_de_uso add constraint llaveCaso_de_uso PRIMARY KEY (id_caso_de_uso)
 ALTER TABLE Fase add constraint llaveFase PRIMARY KEY (id_fase)
 ALTER TABLE Caso_de_Uso_Fase_Tarea add constraint llaveCaso_de_Uso_Fase_Tarea PRIMARY KEY (id_caso_de_uso, id_fase, id_tarea)
 ALTER TABLE Tareas add constraint llaveTareas PRIMARY KEY (id_tarea)
-ALTER TABLE Usuario_Tareas add constraint llaveUsuario_Tareas PRIMARY KEY (id_usuario, id_tarea)
+ALTER TABLE Usuario_Tareas add constraint llaveUsuario_Tareas PRIMARY KEY (nombre_usuario, id_tarea)
 -------------------------------------------------------------FIN LLAVE PRIMARIA--------------------------------------------------------------------------
 
 
 -----------------------------------------------------------DEFINIR LLAVES FORANEAS-----------------------------------------------------------------------
- ALTER TABLE Proyecto_Usuario add constraint cfProy_Usua_idusua foreign key (id_usuario) references Usuario(id_usuario);
+ ALTER TABLE Proyecto_Usuario add constraint cfProy_Usua_idusua foreign key (nombre_usuario) references Usuario(nombre_usuario);
  ALTER TABLE Proyecto_Usuario add constraint cfProy_Usua_idproy foreign key (id_proyecto) references Proyecto(id_proyecto);
+
+ ALTER TABLE Usuario_Rol add constraint cfUsuarioRol_usuario foreign key (nombre_usuario) references Usuario(nombre_usuario);
+ ALTER TABLE Usuario_Rol add constraint cfUsuarioRol_rol foreign key (id_rol) references Rol(id_rol);
+
+ ALTER TABLE Rol_Privilegio add constraint cfRolPriv_privilegio foreign key (id_privilegio) references Privilegio(id_privilegio);
+ ALTER TABLE Rol_Privilegio add constraint cfRolPriv_rol foreign key (id_rol) references Rol(id_rol)
 
  ALTER TABLE Caso_de_uso add constraint cfCaso_Uso_idvalor foreign key (id_Valor) references Puntos_Agiles(id_Valor);
  ALTER TABLE Caso_de_uso add constraint cfCaso_Uso_idproy foreign key (id_proyecto) references Proyecto(id_proyecto);
@@ -85,7 +117,7 @@ ALTER TABLE Usuario_Tareas add constraint llaveUsuario_Tareas PRIMARY KEY (id_us
  ALTER TABLE Caso_de_Uso_Fase_Tarea add constraint cfCaso_Fase_idFase foreign key (id_fase) references Fase(id_fase);
  ALTER TABLE Caso_de_Uso_Fase_Tarea add constraint cfCaso_Fase_idTarea foreign key (id_tarea) references Tareas(id_tarea);
 
- ALTER TABLE Usuario_Tareas add constraint cfUsuarioTarea_idUsua foreign key (id_usuario) references Usuario(id_usuario);
+ ALTER TABLE Usuario_Tareas add constraint cfUsuarioTarea_idUsua foreign key (nombre_usuario) references Usuario(nombre_usuario);
  ALTER TABLE Usuario_Tareas add constraint cfUsuarioTarea_idTarea foreign key (id_tarea) references Tareas(id_tarea);
  --------------------------------------------------------------FIN LLAVES FORANEAS-----------------------------------------------------------------------
 
@@ -119,17 +151,19 @@ drop TABLE Puntos_Agiles
 drop TABLE Usuario_Tareas
 drop TABLE Usuario
 drop TABLE Tareas
+drop TABLE Privilegio
+drop TABLE Rol
+drop TABLE Rol_Privilegio
+drop TABLE Usuario_Rol
 
 DELETE FROM Usuario
 DELETE FROM Proyecto
 DELETE FROM Proyecto_Usuario
 DELETE FROM Puntos_Agiles
 DELETE FROM Caso_de_uso
-DELETE FROM Historias_de_Usuarios
 DELETE FROM Fase
 DELETE FROM Tareas
 DELETE FROM Caso_de_Uso_Fase_Tarea
-DELETE FROM Criterios_de_Aceptacion
 DELETE FROM Usuario_Tareas
 
 sp_helpconstraint Usuario_Tareas
