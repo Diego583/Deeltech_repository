@@ -7,11 +7,11 @@
 
 <% for (let proyecto of proyectos) { %>
 <div class="col-sm-12 col-md-6 col-lg-4">
-    <div class="card bg-dark">
-        <img src="<%= proyecto.nombre %>" class="card-img-top" alt="natgas">
+    <div class="card bg-dark" style="height: 27rem;">
+        <img src="<%= proyecto.imagen %>" class="card-img-top" alt="<%= proyecto.imagen %>" height="200 px">
         <div class="card-body">
-          <h5 class="card-title text-success">Herramienta de gestión de proyectos</h5>
-          <p class="card-text ">Sistema para gestion de proyectos de un departamento de natgas.</p>
+          <h5 class="card-title text-success"><%= proyecto.nombre_proyecto %>"</h5>
+          <p class="card-text "><%= proyecto.descripcion %>"</p>
           <a href="/proyectos/reportes" class="btn btn-secondary">Ir a proyecto</a>
         </div>
     </div>
