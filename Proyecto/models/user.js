@@ -28,6 +28,10 @@ module.exports = class User{
         return db.execute('SELECT * FROM roles');
     }
 
+    static fetchUsers(){
+        return db.execute('SELECT * FROM usuario');
+    }
+
     static getRol(nombre_usuario){
         return db.execute('SELECT * FROM usuario_rol WHERE nombre_usuario=?', [nombre_usuario]);
     }
@@ -35,4 +39,4 @@ module.exports = class User{
     static fetchOne(nombre_usuario) {
         return db.execute('SELECT * FROM usuario WHERE nombre_usuario=?', [nombre_usuario]);
     }
-}
+} 
