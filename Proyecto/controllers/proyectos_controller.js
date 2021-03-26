@@ -75,10 +75,12 @@ exports.get = (request, response, next) => {
     .then(([rows,fieldData]) => {
         request.session.rol = rows[0].id_rol;
         console.log(request.session);
-        response.render('proyectos', {
-            userRol: request.session.rol, 
-            titulo: 'Proyectos',
-            isLoggedIn: request.session.isLoggedIn === true ? true : false
-        });
+        Usuario.fetchProyectosUsuario(request.session.usuario)
+        .then(([rows,fieldData]) => {
+            for (let proyecto of rows) {
+                console.log(proyecto.nombre_proyecto);
+                Proyecto.fetchProyectos()
+            }
+        }).catch(err => console.log(err));
     }).catch(err => console.log(err));
 };
