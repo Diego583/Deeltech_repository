@@ -2,23 +2,27 @@
 
 <%- include('partials/navbarProyectos.ejs') %>
 
-<main class="row align-items-center">
+<main class="container-fluid row align-items-center">
 <h1 class="col-md-12 text-center text-white"> Proyectos </h1>
 
-<div class="card bg-dark" style="width: 18rem;">
-    <img src="media/logo.png" class="card-img-top" alt="natgas">
-    <div class="card-body">
-      <h5 class="card-title text-success">Herramienta de gestión de proyectos</h5>
-      <p class="card-text ">Sistema para gestion de proyectos de un departamento de natgas.</p>
-      <a href="/proyectos/reportes" class="btn btn-secondary">Ir a proyecto</a>
+<div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="card bg-dark">
+        <img src="media/logo.png" class="card-img-top" alt="natgas">
+        <div class="card-body">
+          <h5 class="card-title text-success">Herramienta de gestión de proyectos</h5>
+          <p class="card-text ">Sistema para gestion de proyectos de un departamento de natgas.</p>
+          <a href="/proyectos/reportes" class="btn btn-secondary">Ir a proyecto</a>
+        </div>
     </div>
 </div>
 
 <% if (userRol == 7001) { %>
-<div class="card bg-success" style="width: 18rem;">
-    <a class="btn btn-sucess" href="/proyectos/nuevo_proyecto" role="button">
-        <i class="fas fa-plus-circle "></i>
-    </a>
+<div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="card bg-success" style="width: 18rem;">
+        <a class="btn btn-sucess" href="/proyectos/nuevo_proyecto" role="button">
+            <i class="fas fa-plus-circle "></i>
+        </a>
+    </div>
 </div>
 <% } %>
 

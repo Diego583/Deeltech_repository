@@ -1,4 +1,5 @@
 const Usuario = require('../models/user');
+const Proyecto = require('../models/proyecto');
 
 exports.getReportes = (request, response, next) => {
     response.render('reportes', {
@@ -40,18 +41,36 @@ exports.getCasoUso = (request, response, next) => {
     });
 };
 exports.getNuevoProyecto = (request, response, next) => {
-    response.render('nuevoProyecto', {
-        userRol: request.session.rol,
-        titulo: 'Nuevo Proyecto',
-        isLoggedIn: request.session.isLoggedIn === true ? true : false
-    });
+    Usuario.fetchUsers()
+        .then(([rows,fieldData]) => {
+            response.render('nuevoProyecto', {
+                userRol: request.session.rol,
+                users: rows, 
+                titulo: 'Nuevo Proyecto',
+                isLoggedIn: request.session.isLoggedIn === true ? true : false
+            });
+        }).catch(err => console.log(err));
 };
 
 exports.postNuevoProyecto = (request, response, next) => {
-    response.redirect('/proyectos');
+    console.log(request.body.nombre_proyecto);
+    console.log(request.body.descripcion);
+    console.log(request.body.imagen);
+    console.log(request.body.users);
+    let arrUsers = request.body.users;
+
+    const nuevo_proyecto = new Proyecto(request.body.nombre_proyecto, request.body.descripcion, request.body.imagen);
+    nuevo_proyecto.saveProyecto()
+        .then(() => {
+            for (var i = 0; i < arrUsers.length; i++) {
+                console.log(arrUsers[i]);
+                nuevo_proyecto.saveProyectoUser(arrUsers[i]);
+            }
+            response.redirect('/proyectos');
+        }).catch(err => console.log(err));
 }
 
-exports.get = (request, response, next) => {
+exports.get = (request, response, next) => { 
     Usuario.getRol(request.session.usuario)
     .then(([rows,fieldData]) => {
         request.session.rol = rows[0].id_rol;
