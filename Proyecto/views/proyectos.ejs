@@ -7,7 +7,8 @@
 
 <% for (let proyecto of proyectos) { %>
 <div class="col-sm-12 col-md-6 col-lg-4">
-    <div class="card bg-dark" style="height: 27rem;">
+    <div><br></div>
+    <div class="card bg-dark" style="height: 27rem; width: 27rem;">
         <img src="<%= proyecto.imagen %>" class="card-img-top" alt="<%= proyecto.imagen %>" height="200 px">
         <div class="card-body">
           <h5 class="card-title text-success"><%= proyecto.nombre_proyecto %>"</h5>
@@ -20,7 +21,7 @@
 
 <% if (userRol == 7001) { %>
 <div class="col-sm-12 col-md-6 col-lg-4">
-    <div class="card bg-success" style="width: 18rem;">
+    <div class="card bg-success" style="width: 27rem;">
         <a class="btn btn-sucess" href="/proyectos/nuevo_proyecto" role="button">
             <i class="fas fa-plus-circle "></i>
         </a>
