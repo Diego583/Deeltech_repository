@@ -2,34 +2,42 @@
 
 <%- include('partials/navbarProyectos.ejs') %>
 
-<main class="container-fluid row align-items-center">
+<main class="container">
+
 <h1 class="col-md-12 text-center text-white"> Proyectos </h1>
 
-<% for (let proyecto of proyectos) { %>
-<div class="col-sm-12 col-md-6 col-lg-4">
-    <div><br></div>
-    <div class="card bg-dark" style="height: 27rem; width: 27rem;">
-        <img src="<%= proyecto.imagen %>" class="card-img-top" alt="<%= proyecto.imagen %>" height="200 px">
-        <div class="card-body">
-          <h5 class="card-title text-success"><%= proyecto.nombre_proyecto %></h5>
-          <p class="card-text "><%= proyecto.descripcion %>"</p>
-          <a href="/proyectos/reportes" class="btn btn-secondary">Ir a proyecto</a>
+<div class="row align-items-center" id="resultados">
+    <% for (let proyecto of proyectos) { %>
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div><br></div>
+            <div class="card bg-dark" style="height: 30rem; width: 20rem;">
+                <img src="<%= proyecto.imagen %>" class="card-img-top" alt="<%= proyecto.imagen %>">
+                <div class="card-body">
+                  <h5 class="card-title text-success"><%= proyecto.nombre_proyecto %></h5>
+                  <p class="card-text "><%= proyecto.descripcion %></p>
+                  <a href="/proyectos/reportes" class="btn btn-secondary">Ir a proyecto</a>
+                </div>
+            </div>
+            <div><br></div>
         </div>
-    </div>
-    <div><br></div>
-</div>
-<% } %>
+    <% } %>
 
-<% if (userRol == 7001) { %>
-<div class="col-sm-12 col-md-6 col-lg-4">
-    <div class="card bg-success" style="width: 27rem;">
-        <a class="btn btn-sucess" href="/proyectos/nuevo_proyecto" role="button">
-            <i class="fas fa-plus-circle "></i>
-        </a>
-    </div>
+    <% if (userRol == 7001) { %>
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <div><br></div>
+            <div class="card bg-success" style="width: 20rem;">
+                <a class="btn btn-sucess" href="/proyectos/nuevo_proyecto" role="button">
+                    <i class="fas fa-plus-circle "></i>
+                </a>
+            </div>
+            <div><br></div>
+        </div>
+    <% } %>
 </div>
-<% } %>
 
 </main>
 
 <%- include('partials/footer.ejs') %>
+
+<!-- Script para busqueda-->
+<script src="js/buscar.js"></script>

@@ -44,6 +44,7 @@ exports.getNuevoProyecto = (request, response, next) => {
     Usuario.fetchUsers()
         .then(([rows,fieldData]) => {
             response.render('nuevoProyecto', {
+                csrfToken: request.csrfToken(),
                 userRol: request.session.rol,
                 users: rows, 
                 titulo: 'Nuevo Proyecto',
@@ -53,14 +54,14 @@ exports.getNuevoProyecto = (request, response, next) => {
 };
 
 exports.postNuevoProyecto = (request, response, next) => {
-    console.log(request.body.nombre_proyecto);
+    /*console.log(request.body.nombre_proyecto);
     console.log(request.body.descripcion);
-    console.log(request.body.users);
+    console.log(request.body.users);*/
 
     let arrUsers = request.body.users;
 
     const image = request.file;
-    console.log(image);
+    //console.log(image);
 
     if(!image) {
         console.error('Error al subir la imagen');
@@ -71,21 +72,36 @@ exports.postNuevoProyecto = (request, response, next) => {
     nuevo_proyecto.saveProyecto()
         .then(() => {
             for (var i = 0; i < arrUsers.length; i++) {
-                console.log(arrUsers[i]);
+                //console.log(arrUsers[i]);
                 nuevo_proyecto.saveProyectoUser(arrUsers[i]);
             }
             response.redirect('/proyectos');
         }).catch(err => console.log(err));
 }
 
+exports.postBuscar = (request, response, next) => {
+    //console.log(request.body);
+    //console.log(request.body.valor_busqueda);
+    const nombre_proyecto = request.body.valor_busqueda;
+    Proyecto.fetchByName(nombre_proyecto)
+        .then(([rows, fieldData]) => {
+            //console.log(rows);
+            response.status(200).json(rows);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
 exports.get = (request, response, next) => { 
     Usuario.getRol(request.session.usuario)
     .then(([rows,fieldData]) => {
         request.session.rol = rows[0].id_rol;
-        console.log(request.session);
+        //console.log(request.session);
         Proyecto.fetchProyectosUsuario(request.session.usuario)
         .then(([rows,fieldData]) => {
             response.render('proyectos', {
+                csrfToken: request.csrfToken(),
                 proyectos: rows,
                 userRol: request.session.rol, 
                 titulo: 'Proyectos',

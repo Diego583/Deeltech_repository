@@ -12,6 +12,9 @@ const cookieParser = require('cookie-parser');
 
 const session = require('express-session');
 
+const csrf = require('csurf');
+const csrfProtection = csrf();
+
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -21,6 +24,7 @@ const rutasProyectos = require('./routes/proyectos')
 
 //Middleware
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 //Para carga de archivos
 const multer = require('multer');
@@ -62,6 +66,9 @@ app.use(session({
     resave: false, //La sesión no se guardará en cada petición, sino sólo se guardará si algo cambió 
     saveUninitialized: false, //Asegura que no se guarde una sesión para una petición que no lo necesita
 }));
+
+//Para estar protegido ante CSRF
+app.use(csrfProtection);
 
 app.use('/users', rutasUsers);
 

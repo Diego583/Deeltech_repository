@@ -5,6 +5,7 @@
 <main>
     <h1 class= "text-white"><%= titulo %></h1>
     <form action="/users/register" method="POST" class="mb-3">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
         <div class="mb-3">
             <label for="nombre" class="form-label text-success">Nombre completo</label>
             <input type="text" class="form-control" id="nombre" name="nombre">

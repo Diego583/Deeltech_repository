@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 exports.getLogin = (request, response, next) => {
     console.log(request.session);
     response.render('login', {
+        csrfToken: request.csrfToken(),
         titulo: 'Inicio de Sesion',
         error: request.session.error,
         isLoggedIn: request.session.isLoggedIn === true ? true : false
@@ -55,6 +56,7 @@ exports.getRegister = (request, response, next) => {
     Usuario.fetchRoles()
         .then(([rows,fieldData]) => {
             response.render('register', {
+                csrfToken: request.csrfToken(),
                 userRol: request.session.rol,
                 roles: rows, 
                 titulo: 'Registrar nuevo usuario',

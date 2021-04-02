@@ -4,7 +4,8 @@
 
 <main>
     <h1 class= "text-white"><%= titulo %></h1>
-    <form action="/proyectos/nuevo_proyecto" method="POST" enctype="multipart/form-data">
+    <form action="/proyectos/nuevo_proyecto?_csrf=<%=csrfToken%>" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
         <div class="mb-3">
             <label for="nombre_proyecto" class="form-label text-success">Nombre:</label>
             <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto">
