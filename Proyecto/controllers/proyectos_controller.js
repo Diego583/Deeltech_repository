@@ -55,11 +55,19 @@ exports.getNuevoProyecto = (request, response, next) => {
 exports.postNuevoProyecto = (request, response, next) => {
     console.log(request.body.nombre_proyecto);
     console.log(request.body.descripcion);
-    console.log(request.body.imagen);
     console.log(request.body.users);
+
     let arrUsers = request.body.users;
 
-    const nuevo_proyecto = new Proyecto(request.body.nombre_proyecto, request.body.descripcion, request.body.imagen);
+    const image = request.file;
+    console.log(image);
+
+    if(!image) {
+        console.error('Error al subir la imagen');
+        return response.status(422).redirect('/');
+    }
+
+    const nuevo_proyecto = new Proyecto(request.body.nombre_proyecto, request.body.descripcion, image.filename);
     nuevo_proyecto.saveProyecto()
         .then(() => {
             for (var i = 0; i < arrUsers.length; i++) {

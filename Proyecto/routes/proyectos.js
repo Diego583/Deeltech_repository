@@ -12,6 +12,9 @@ const isMiembro = require('../util/is-miembro');
 //Para acceder a los recursos de la carpeta public
 router.use(express.static(path.join(__dirname,'..', 'public')));
 
+//Para acceder a los recursos de la carpeta uploads
+router.use(express.static(path.join(__dirname,'..', 'uploads')));
+
 router.get('/reportes', isAuth, proyectosController.getReportes);
 
 router.get('/planeacion', isAuth, isMiembro, proyectosController.getPlaneacion);

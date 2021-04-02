@@ -4,7 +4,7 @@
 
 <main>
     <h1 class= "text-white"><%= titulo %></h1>
-    <form action="/proyectos/nuevo_proyecto" method="POST" class="mb-3">
+    <form action="/proyectos/nuevo_proyecto" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="nombre_proyecto" class="form-label text-success">Nombre:</label>
             <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto">
@@ -13,16 +13,11 @@
             <label for="descripcion" class="form-label text-success">Descripción:</label>
             <input type="text" class="form-control" id="descripcion" name="descripcion">
         </div>
-        <!-- Aqui va la carga de archivo de la imagen -->
-        <!--div class="input-group mb-3">
+        <div class="mb-3">
             <div class="custom-file">
-              <input type="file" class="custom-file-input" id="imagen">
+              <input type="file" class="custom-file-input" id="imagen" name="imagen">
               <label class="custom-file-label" for="imagen">Elegir imagen para proyecto</label>
             </div>
-        </div-->
-        <div class="mb-3">
-            <label for="imagen" class="form-label text-success">Imagen:</label>
-            <input type="text" class="form-control" id="imagen" name="imagen">
         </div>
         <div class="mb-3">
             <label for="users" class="form-label text-success">Involucrados:</label>
