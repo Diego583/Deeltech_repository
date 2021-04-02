@@ -17,4 +17,12 @@ module.exports = class Proyecto{
         return db.execute('INSERT INTO  proyecto_usuario (nombre_usuario, nombre_proyecto) VALUES (?, ?)',
         [nombre_usuario, this.nombre_proyecto]);
     }
+
+    static fetchProyectos(nombre_usuario){
+        return db.execute('SELECT * FROM proyecto WHERE=?', [nombre_usuario]);
+    }
+
+    static fetchProyectosUsuario(nombre_usuario){
+        return db.execute('SELECT P.nombre_proyecto, descripcion, imagen FROM proyecto_usuario AS PU,proyecto AS P WHERE PU.nombre_proyecto = P.nombre_proyecto AND nombre_usuario = ? ORDER BY fecha', [nombre_usuario]);
+    }
 } 

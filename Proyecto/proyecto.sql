@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-03-2021 a las 01:30:38
+-- Tiempo de generación: 02-04-2021 a las 03:53:06
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -20,45 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `proyecto`
 --
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `caso_de_uso`
---
-
-CREATE TABLE `caso_de_uso` (
-  `id_caso_de_uso` decimal(10,0) NOT NULL,
-  `nombre_caso_de_uso` varchar(200) DEFAULT NULL,
-  `iteracion` decimal(10,0) DEFAULT NULL,
-  `epic` varchar(50) DEFAULT NULL,
-  `id_Valor` decimal(10,0) DEFAULT NULL,
-  `id_proyecto` decimal(10,0) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `caso_de_uso_fase_tarea`
---
-
-CREATE TABLE `caso_de_uso_fase_tarea` (
-  `id_caso_de_uso` decimal(10,0) NOT NULL,
-  `id_fase` decimal(10,0) NOT NULL,
-  `id_tarea` decimal(10,0) NOT NULL,
-  `maximo` decimal(6,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `fase`
---
-
-CREATE TABLE `fase` (
-  `id_fase` decimal(10,0) NOT NULL,
-  `nombre_fase` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -103,11 +64,21 @@ INSERT INTO `privilegio` (`id_privilegio`, `privilegio`) VALUES
 --
 
 CREATE TABLE `proyecto` (
-  `id_proyecto` decimal(10,0) NOT NULL,
-  `nombre_proyecto` varchar(100) DEFAULT NULL,
-  `descripción` varchar(300) DEFAULT NULL,
-  `imagen` varchar(400) DEFAULT NULL
+  `nombre_proyecto` varchar(100) NOT NULL,
+  `descripcion` varchar(500) DEFAULT NULL,
+  `imagen` varchar(800) DEFAULT NULL,
+  `fecha` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `proyecto`
+--
+
+INSERT INTO `proyecto` (`nombre_proyecto`, `descripcion`, `imagen`, `fecha`) VALUES
+('Creacion de areas verdes', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'https://goblincreative.com/magazine/wp-content/uploads/2018/03/realidad-virtual-la-era-de-la-experiencia-700x410.jpg', '2021-03-26 16:55:50'),
+('Diseño web para natgas', 'En este proyecto trabajaremos con natgas para  crearle un diseño que eficiente sus procesos', 'https://blogsterapp.com/wp-content/uploads/2019/08/estructura-disen%CC%83o-web-corporativo-e1566205544151.png', '2021-03-26 17:55:33'),
+('Sistema de riego automático (IOT)', 'aaaaaaaaaaaaaaaaaaaasssssssssssssssssddddddddddddddddddjjjjjjjjjjggggggggggggggggggggggggggkkkkkkkkkkfffffllllllll', 'http://www.foroambiental.com.mx/wp-content/uploads/2019/08/20190611181353n5B4xa-1024x395.jpg', '2021-03-26 18:00:50'),
+('Videojuego de realidad virtual', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'https://lh3.googleusercontent.com/proxy/zO8zHeI5AXNMNfPA7oF-chHPypdUHGIgVcokF5poHwcjBNBktxSEL3IQgnrjP4Oi4VO2dwuYaempXdSoych_GlsXmmmp6lf0NsSX4fPYnNb2iu0Vob3buOp13CPYTnu7j5t-hI_TmyclS6UXRQCJ4Q0EoXpxEjDMYbTZQgV7_ggDoF1cDipaZZbTP3uW3IzSJdOx2PabcWhaWQpdWPt-', '2021-03-26 15:08:44');
 
 -- --------------------------------------------------------
 
@@ -117,20 +88,32 @@ CREATE TABLE `proyecto` (
 
 CREATE TABLE `proyecto_usuario` (
   `nombre_usuario` varchar(50) NOT NULL,
-  `id_proyecto` decimal(10,0) NOT NULL,
-  `fecha` datetime DEFAULT NULL
+  `nombre_proyecto` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `puntos_agiles`
+-- Volcado de datos para la tabla `proyecto_usuario`
 --
 
-CREATE TABLE `puntos_agiles` (
-  `id_Valor` decimal(10,0) NOT NULL,
-  `Valor` decimal(10,0) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `proyecto_usuario` (`nombre_usuario`, `nombre_proyecto`) VALUES
+('1014', 'Sistema de riego automático (IOT)'),
+('1015', 'Sistema de riego automático (IOT)'),
+('1017', 'Sistema de riego automático (IOT)'),
+('1019', 'Sistema de riego automático (IOT)'),
+('admin', 'Diseño web para natgas'),
+('admin', 'Sistema de riego automático (IOT)'),
+('admin', 'Videojuego de realidad virtual'),
+('cliente', 'Creacion de areas verdes'),
+('cliente', 'Diseño web para natgas'),
+('cliente', 'Sistema de riego automático (IOT)'),
+('cliente', 'Videojuego de realidad virtual'),
+('CYSGOSH', 'Creacion de areas verdes'),
+('CYSGOSH', 'Diseño web para natgas'),
+('CYSGOSH', 'Sistema de riego automático (IOT)'),
+('Davidguzley', 'Creacion de areas verdes'),
+('Davidguzley', 'Diseño web para natgas'),
+('Davidguzley', 'Sistema de riego automático (IOT)'),
+('Davidguzley', 'Videojuego de realidad virtual');
 
 -- --------------------------------------------------------
 
@@ -191,18 +174,6 @@ INSERT INTO `rol_privilegio` (`id_rol`, `id_privilegio`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tareas`
---
-
-CREATE TABLE `tareas` (
-  `id_tarea` decimal(10,0) NOT NULL,
-  `nombre_tarea` varchar(50) DEFAULT NULL,
-  `status_tarea` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `usuario`
 --
 
@@ -240,6 +211,7 @@ INSERT INTO `usuario` (`nombre_usuario`, `nombre`, `contraseña`, `tiempo_por_se
 ('1020', 'Nombre 20', '543', '29.00'),
 ('admin', 'admin', '$2a$12$mJyrGxhpQj/7ybdnM0.y3et/HGKoyCf0FgMak1uCT3xNdS196PJZm', NULL),
 ('cliente', 'cliente', '$2a$12$/oqjQ7lERVy9JywD4rOJ9O0/L8Z.Fa6sVcwcEh8wVghjz1kzNfS5O', NULL),
+('CYSGOSH', 'Julio', '$2a$12$Vm7cBQ6phi2X3mSbOTuPHOZyAcNd7wpiMgnHICJvkBuwy4jL3BzWe', NULL),
 ('Davidguzley', 'David Guzmán Leyva', '$2a$12$XuW4fcAvrTe1gbac6evYyelcleoVagmTCeU3/watbqsK2jF2pCF3O', NULL);
 
 -- --------------------------------------------------------
@@ -280,45 +252,12 @@ INSERT INTO `usuario_rol` (`nombre_usuario`, `id_rol`) VALUES
 ('1020', '7002'),
 ('admin', '7001'),
 ('cliente', '7002'),
+('CYSGOSH', '7001'),
 ('Davidguzley', '7001');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuario_tareas`
---
-
-CREATE TABLE `usuario_tareas` (
-  `nombre_usuario` varchar(50) NOT NULL,
-  `id_tarea` decimal(10,0) NOT NULL,
-  `tiempo_real` decimal(6,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Índices para tablas volcadas
 --
-
---
--- Indices de la tabla `caso_de_uso`
---
-ALTER TABLE `caso_de_uso`
-  ADD PRIMARY KEY (`id_caso_de_uso`),
-  ADD KEY `id_Valor` (`id_Valor`),
-  ADD KEY `id_proyecto` (`id_proyecto`);
-
---
--- Indices de la tabla `caso_de_uso_fase_tarea`
---
-ALTER TABLE `caso_de_uso_fase_tarea`
-  ADD PRIMARY KEY (`id_caso_de_uso`,`id_fase`,`id_tarea`),
-  ADD KEY `id_fase` (`id_fase`),
-  ADD KEY `id_tarea` (`id_tarea`);
-
---
--- Indices de la tabla `fase`
---
-ALTER TABLE `fase`
-  ADD PRIMARY KEY (`id_fase`);
 
 --
 -- Indices de la tabla `privilegio`
@@ -330,20 +269,14 @@ ALTER TABLE `privilegio`
 -- Indices de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  ADD PRIMARY KEY (`id_proyecto`);
+  ADD PRIMARY KEY (`nombre_proyecto`);
 
 --
 -- Indices de la tabla `proyecto_usuario`
 --
 ALTER TABLE `proyecto_usuario`
-  ADD PRIMARY KEY (`nombre_usuario`,`id_proyecto`),
-  ADD KEY `id_proyecto` (`id_proyecto`);
-
---
--- Indices de la tabla `puntos_agiles`
---
-ALTER TABLE `puntos_agiles`
-  ADD PRIMARY KEY (`id_Valor`);
+  ADD PRIMARY KEY (`nombre_usuario`,`nombre_proyecto`),
+  ADD KEY `nombre_proyecto` (`nombre_proyecto`);
 
 --
 -- Indices de la tabla `roles`
@@ -359,12 +292,6 @@ ALTER TABLE `rol_privilegio`
   ADD KEY `id_privilegio` (`id_privilegio`);
 
 --
--- Indices de la tabla `tareas`
---
-ALTER TABLE `tareas`
-  ADD PRIMARY KEY (`id_tarea`);
-
---
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
@@ -378,37 +305,15 @@ ALTER TABLE `usuario_rol`
   ADD KEY `id_rol` (`id_rol`);
 
 --
--- Indices de la tabla `usuario_tareas`
---
-ALTER TABLE `usuario_tareas`
-  ADD PRIMARY KEY (`nombre_usuario`,`id_tarea`),
-  ADD KEY `id_tarea` (`id_tarea`);
-
---
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `caso_de_uso`
---
-ALTER TABLE `caso_de_uso`
-  ADD CONSTRAINT `caso_de_uso_ibfk_1` FOREIGN KEY (`id_Valor`) REFERENCES `puntos_agiles` (`id_Valor`),
-  ADD CONSTRAINT `caso_de_uso_ibfk_2` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id_proyecto`);
-
---
--- Filtros para la tabla `caso_de_uso_fase_tarea`
---
-ALTER TABLE `caso_de_uso_fase_tarea`
-  ADD CONSTRAINT `caso_de_uso_fase_tarea_ibfk_1` FOREIGN KEY (`id_caso_de_uso`) REFERENCES `caso_de_uso` (`id_caso_de_uso`),
-  ADD CONSTRAINT `caso_de_uso_fase_tarea_ibfk_2` FOREIGN KEY (`id_fase`) REFERENCES `fase` (`id_fase`),
-  ADD CONSTRAINT `caso_de_uso_fase_tarea_ibfk_3` FOREIGN KEY (`id_tarea`) REFERENCES `tareas` (`id_tarea`);
 
 --
 -- Filtros para la tabla `proyecto_usuario`
 --
 ALTER TABLE `proyecto_usuario`
   ADD CONSTRAINT `proyecto_usuario_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `usuario` (`nombre_usuario`),
-  ADD CONSTRAINT `proyecto_usuario_ibfk_2` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id_proyecto`);
+  ADD CONSTRAINT `proyecto_usuario_ibfk_2` FOREIGN KEY (`nombre_proyecto`) REFERENCES `proyecto` (`nombre_proyecto`);
 
 --
 -- Filtros para la tabla `rol_privilegio`
@@ -423,13 +328,6 @@ ALTER TABLE `rol_privilegio`
 ALTER TABLE `usuario_rol`
   ADD CONSTRAINT `usuario_rol_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `usuario` (`nombre_usuario`),
   ADD CONSTRAINT `usuario_rol_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`);
-
---
--- Filtros para la tabla `usuario_tareas`
---
-ALTER TABLE `usuario_tareas`
-  ADD CONSTRAINT `usuario_tareas_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `usuario` (`nombre_usuario`),
-  ADD CONSTRAINT `usuario_tareas_ibfk_2` FOREIGN KEY (`id_tarea`) REFERENCES `tareas` (`id_tarea`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
