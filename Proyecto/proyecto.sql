@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-04-2021 a las 04:54:41
+-- Tiempo de generación: 03-04-2021 a las 02:13:51
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -76,6 +76,7 @@ CREATE TABLE `proyecto` (
 
 INSERT INTO `proyecto` (`nombre_proyecto`, `descripcion`, `imagen`, `fecha`) VALUES
 ('Carrera rocky', 'ddasdsasdsadyyyyyyyyyyyyyyyyeeeeeeeeeeeeeeeeiiiiiiiiiiiirrrrrrrrg', '2021-04-02T02-45-36.007Z-59-595974_rocky-balboa-wallpapers-rocky-balboa-wallpaper-pc.jpg', '2021-04-02 02:45:36'),
+('Creación asistente de voz', 'Este proyecto será para dispositivos móviles.', '2021-04-03T00-08-00.638Z-google_asistente_thumb1200_4-3.jpg', '2021-04-03 00:08:00'),
 ('Creacion de areas verdes', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'https://goblincreative.com/magazine/wp-content/uploads/2018/03/realidad-virtual-la-era-de-la-experiencia-700x410.jpg', '2021-03-26 16:55:50'),
 ('Creacion de software intuitivo', 'dsafsgdhjkyymfgndfbsdvadgshdtjfym', 'https://concepto.de/wp-content/uploads/2015/03/software-1-e1550080097569.jpg', '2021-04-02 02:14:47'),
 ('Diseño web para natgas', 'En este proyecto trabajaremos con natgas para  crearle un diseño que eficiente sus procesos', 'https://blogsterapp.com/wp-content/uploads/2019/08/estructura-disen%CC%83o-web-corporativo-e1566205544151.png', '2021-03-26 17:55:33'),
@@ -99,9 +100,12 @@ CREATE TABLE `proyecto_usuario` (
 
 INSERT INTO `proyecto_usuario` (`nombre_usuario`, `nombre_proyecto`) VALUES
 ('1001', 'Creacion de software intuitivo'),
+('1002', 'Creación asistente de voz'),
 ('1002', 'Creacion de software intuitivo'),
 ('1003', 'Creacion de software intuitivo'),
+('1004', 'Creación asistente de voz'),
 ('1006', 'Carrera rocky'),
+('1007', 'Creación asistente de voz'),
 ('1009', 'Carrera rocky'),
 ('1009', 'El fabuloso proyecto'),
 ('1014', 'El fabuloso proyecto'),
@@ -111,6 +115,7 @@ INSERT INTO `proyecto_usuario` (`nombre_usuario`, `nombre_proyecto`) VALUES
 ('1017', 'Sistema de riego automático (IOT)'),
 ('1019', 'Sistema de riego automático (IOT)'),
 ('admin', 'Carrera rocky'),
+('admin', 'Creación asistente de voz'),
 ('admin', 'Creacion de software intuitivo'),
 ('admin', 'Diseño web para natgas'),
 ('admin', 'El fabuloso proyecto'),
