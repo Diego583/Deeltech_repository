@@ -84,7 +84,6 @@ app.get('/ruta', (request, response, next) => {
 */
 
 app.get('/', isAuth, (request, response, next) => {
-    console.log(request.session);
     response.redirect('/proyectos');
 });
 

@@ -2,7 +2,6 @@ const Usuario = require('../models/user');
 const bcrypt = require('bcryptjs');
 
 exports.getLogin = (request, response, next) => {
-    console.log(request.session);
     response.render('login', {
         csrfToken: request.csrfToken(),
         titulo: 'Inicio de Sesion',
@@ -14,20 +13,19 @@ exports.getLogin = (request, response, next) => {
 exports.postLogin = (request, response, next) => {
     request.session.error = "";
     const username = request.body.usuario;
-    console.log(username);
+    //console.log(username);
     Usuario.fetchOne(username)
         .then(([rows, fieldData]) => {
             if (rows.length < 1) {
                 request.session.error = "El usuario y/o contraseña son incorrectas";
                 response.redirect('/users/login');
             } else {
-                console.log(request.body.contraseña);
-                console.log(rows[0].contraseña);
+                //console.log(request.body.contraseña);
+                //console.log(rows[0].contraseña);
                 bcrypt.compare(request.body.contraseña, rows[0].contraseña)
                     .then(doMatch => {
                         if (doMatch) {
                             request.session.isLoggedIn = true;
-                            //request.session.rol = Usuario.getRol(username);
                             request.session.usuario = username;
                             return request.session.save(err => {
                                 response.redirect('/');
@@ -71,6 +69,6 @@ exports.postRegister = (request, response, next) => {
         .then(() => {
             console.log(request.body.rol);
             nuevo_usuario.saveUserRol(request.body.rol)
-            response.redirect('/proyectos');
+            response.redirect('/');
         }).catch(err => console.log(err));
 }

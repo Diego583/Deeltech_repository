@@ -29,7 +29,7 @@ router.get('/nuevo_proyecto', isAuth, isMiembro, proyectosController.getNuevoPro
 
 router.post('/nuevo_proyecto', isAuth, isMiembro, proyectosController.postNuevoProyecto);
 
-router.post('/buscar', proyectosController.postBuscar);
+router.post('/buscar', isAuth, proyectosController.postBuscar);
 
 router.get('/', isAuth, proyectosController.get);
 

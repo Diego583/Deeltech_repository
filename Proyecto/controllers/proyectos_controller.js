@@ -71,11 +71,18 @@ exports.postNuevoProyecto = (request, response, next) => {
     const nuevo_proyecto = new Proyecto(request.body.nombre_proyecto, request.body.descripcion, image.filename);
     nuevo_proyecto.saveProyecto()
         .then(() => {
-            for (var i = 0; i < arrUsers.length; i++) {
-                //console.log(arrUsers[i]);
-                nuevo_proyecto.saveProyectoUser(arrUsers[i]);
+            if (arrUsers.isArray){
+                for (var i = 0; i < arrUsers.length; i++) {
+                    //console.log(arrUsers[i]);
+                    nuevo_proyecto.saveProyectoUser(arrUsers[i]);
+                }
+                response.redirect('/');
             }
-            response.redirect('/proyectos');
+            else {
+                //console.log(arrUsers);
+                nuevo_proyecto.saveProyectoUser(arrUsers);
+                response.redirect('/');
+            }
         }).catch(err => console.log(err));
 }
 
@@ -97,7 +104,7 @@ exports.get = (request, response, next) => {
     Usuario.getRol(request.session.usuario)
     .then(([rows,fieldData]) => {
         request.session.rol = rows[0].id_rol;
-        //console.log(request.session);
+        console.log(request.session);
         Proyecto.fetchProyectosUsuario(request.session.usuario)
         .then(([rows,fieldData]) => {
             response.render('proyectos', {
