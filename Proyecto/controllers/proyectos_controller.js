@@ -78,6 +78,20 @@ exports.postNuevoProyecto = (request, response, next) => {
         }).catch(err => console.log(err));
 }
 
+// Buscar proyecto
+exports.postBuscar = (request, response, next) => {
+    console.log(request.body);
+    console.log(request.body.valor_busqueda);
+    const nombre = request.body.valor_busqueda;
+
+    Proyecto.fetchNombreProyecto(nombre)
+        .then(([rows, fieldData]) => {
+            console.log(rows);
+            response.status(200).json(rows);
+        })
+    .catch(err => {console.log(err);});
+};
+
 exports.get = (request, response, next) => { 
     Usuario.getRol(request.session.usuario)
     .then(([rows,fieldData]) => {
