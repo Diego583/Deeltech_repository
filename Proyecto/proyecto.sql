@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-04-2021 a las 02:13:51
+-- Tiempo de generación: 03-04-2021 a las 23:31:56
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -81,6 +81,7 @@ INSERT INTO `proyecto` (`nombre_proyecto`, `descripcion`, `imagen`, `fecha`) VAL
 ('Creacion de software intuitivo', 'dsafsgdhjkyymfgndfbsdvadgshdtjfym', 'https://concepto.de/wp-content/uploads/2015/03/software-1-e1550080097569.jpg', '2021-04-02 02:14:47'),
 ('Diseño web para natgas', 'En este proyecto trabajaremos con natgas para  crearle un diseño que eficiente sus procesos', 'https://blogsterapp.com/wp-content/uploads/2019/08/estructura-disen%CC%83o-web-corporativo-e1566205544151.png', '2021-03-26 17:55:33'),
 ('El fabuloso proyecto', 'dsafsadsasadfsafsagvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv', '2021-04-02T02-50-02.653Z-58.jpg', '2021-04-02 02:50:02'),
+('El padrino 👌👌👌', 'Nuevo juego ultra mega pro', '2021-04-03T20-30-12.391Z-69.jpg', '2021-04-03 20:30:12'),
 ('Sistema de riego automático (IOT)', 'aaaaaaaaaaaaaaaaaaaasssssssssssssssssddddddddddddddddddjjjjjjjjjjggggggggggggggggggggggggggkkkkkkkkkkfffffllllllll', 'http://www.foroambiental.com.mx/wp-content/uploads/2019/08/20190611181353n5B4xa-1024x395.jpg', '2021-03-26 18:00:50');
 
 -- --------------------------------------------------------
@@ -119,6 +120,7 @@ INSERT INTO `proyecto_usuario` (`nombre_usuario`, `nombre_proyecto`) VALUES
 ('admin', 'Creacion de software intuitivo'),
 ('admin', 'Diseño web para natgas'),
 ('admin', 'El fabuloso proyecto'),
+('admin', 'El padrino 👌👌👌'),
 ('admin', 'Sistema de riego automático (IOT)'),
 ('cliente', 'Creacion de areas verdes'),
 ('cliente', 'Diseño web para natgas'),
