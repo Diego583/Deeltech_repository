@@ -83,7 +83,7 @@ exports.postBuscar = (request, response, next) => {
     //console.log(request.body);
     //console.log(request.body.valor_busqueda);
     const nombre_proyecto = request.body.valor_busqueda;
-    Proyecto.fetchByName(nombre_proyecto)
+    Proyecto.fetchProyectoUsuarioByName(nombre_proyecto, request.session.usuario)
         .then(([rows, fieldData]) => {
             //console.log(rows);
             response.status(200).json(rows);
