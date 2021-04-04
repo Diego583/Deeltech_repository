@@ -100,10 +100,10 @@ exports.getUpdate = (request, response, next) => {
 
 exports.postUpdate = (request, response, next) => {
     request.session.error = "";
+    const username = request.body.nombre_usuario_nuevo;
 
     Usuario.fetchOne(request.body.nombre_usuario_nuevo)
     .then(([rows,fieldData]) => {
-        //console.log(rows[1].nombre_usuario)
         if(rows.length > 0){
             request.session.error = "El usuario ya está en uso";
             response.redirect('/users/update');
@@ -118,10 +118,12 @@ exports.postUpdate = (request, response, next) => {
             console.log(request.body.nombre_usuario_nuevo);
             Usuario.updateUser(request.body.nombre_usuario_nuevo, request.body.nombre, request.body.contraseña1, request.session.usuario)
             .then(() => {
-                response.redirect('/');
+                request.session.isLoggedIn = true;
+                request.session.usuario = username;
+                return request.session.save(err => {
+                    response.redirect('/');
+                });
             }).catch(err => console.log(err));
         }
-
-
     }).catch(err => console.log(err));
 };

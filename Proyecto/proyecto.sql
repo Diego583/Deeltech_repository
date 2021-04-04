@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-04-2021 a las 23:31:56
+-- Tiempo de generación: 04-04-2021 a las 21:57:46
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -24,6 +24,47 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `caso_de_uso`
+--
+
+CREATE TABLE `caso_de_uso` (
+  `id_caso_de_uso` decimal(10,0) NOT NULL,
+  `nombre_caso_de_uso` varchar(200) DEFAULT NULL,
+  `iteracion` decimal(10,0) DEFAULT NULL,
+  `epic` varchar(50) DEFAULT NULL,
+  `valor` decimal(10,0) DEFAULT NULL,
+  `status_caso` varchar(20) DEFAULT NULL,
+  `id_proyecto` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `caso_de_uso_fase_tarea`
+--
+
+CREATE TABLE `caso_de_uso_fase_tarea` (
+  `id_caso_de_uso` decimal(10,0) NOT NULL,
+  `id_fase` decimal(10,0) NOT NULL,
+  `id_tarea` decimal(10,0) NOT NULL,
+  `maximo` decimal(6,2) DEFAULT NULL,
+  `tiempo_real` decimal(6,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `fase`
+--
+
+CREATE TABLE `fase` (
+  `id_fase` decimal(10,0) NOT NULL,
+  `nombre_fase` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `privilegio`
 --
 
@@ -32,31 +73,6 @@ CREATE TABLE `privilegio` (
   `privilegio` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `privilegio`
---
-
-INSERT INTO `privilegio` (`id_privilegio`, `privilegio`) VALUES
-('8001', 'crear proyecto'),
-('8002', 'modificar proyecto'),
-('8003', 'Crear tarea'),
-('8004', 'modificar tarea'),
-('8005', 'autenticarse'),
-('8006', 'consultar proyecto'),
-('8007', 'generar reporte'),
-('8008', 'registrar caso de uso'),
-('8009', 'modificar caso de uso'),
-('8010', 'registrar punto agil'),
-('8011', 'modificar punto agil'),
-('8012', 'registrar fase'),
-('8013', 'modificar fase'),
-('8014', 'registrar capacidad de equipo'),
-('8015', 'modificar capacidad de equipo'),
-('8016', 'registrar tiempo wbs'),
-('8017', 'modificar tiempo wbs'),
-('8018', 'descargar plantilla wbs'),
-('8019', 'agregar usuario');
-
 -- --------------------------------------------------------
 
 --
@@ -64,7 +80,8 @@ INSERT INTO `privilegio` (`id_privilegio`, `privilegio`) VALUES
 --
 
 CREATE TABLE `proyecto` (
-  `nombre_proyecto` varchar(100) NOT NULL,
+  `id_proyecto` int(11) NOT NULL,
+  `nombre_proyecto` varchar(100) DEFAULT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
   `imagen` varchar(800) DEFAULT NULL,
   `fecha` timestamp NULL DEFAULT current_timestamp()
@@ -74,15 +91,9 @@ CREATE TABLE `proyecto` (
 -- Volcado de datos para la tabla `proyecto`
 --
 
-INSERT INTO `proyecto` (`nombre_proyecto`, `descripcion`, `imagen`, `fecha`) VALUES
-('Carrera rocky', 'ddasdsasdsadyyyyyyyyyyyyyyyyeeeeeeeeeeeeeeeeiiiiiiiiiiiirrrrrrrrg', '2021-04-02T02-45-36.007Z-59-595974_rocky-balboa-wallpapers-rocky-balboa-wallpaper-pc.jpg', '2021-04-02 02:45:36'),
-('Creación asistente de voz', 'Este proyecto será para dispositivos móviles.', '2021-04-03T00-08-00.638Z-google_asistente_thumb1200_4-3.jpg', '2021-04-03 00:08:00'),
-('Creacion de areas verdes', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'https://goblincreative.com/magazine/wp-content/uploads/2018/03/realidad-virtual-la-era-de-la-experiencia-700x410.jpg', '2021-03-26 16:55:50'),
-('Creacion de software intuitivo', 'dsafsgdhjkyymfgndfbsdvadgshdtjfym', 'https://concepto.de/wp-content/uploads/2015/03/software-1-e1550080097569.jpg', '2021-04-02 02:14:47'),
-('Diseño web para natgas', 'En este proyecto trabajaremos con natgas para  crearle un diseño que eficiente sus procesos', 'https://blogsterapp.com/wp-content/uploads/2019/08/estructura-disen%CC%83o-web-corporativo-e1566205544151.png', '2021-03-26 17:55:33'),
-('El fabuloso proyecto', 'dsafsadsasadfsafsagvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv', '2021-04-02T02-50-02.653Z-58.jpg', '2021-04-02 02:50:02'),
-('El padrino 👌👌👌', 'Nuevo juego ultra mega pro', '2021-04-03T20-30-12.391Z-69.jpg', '2021-04-03 20:30:12'),
-('Sistema de riego automático (IOT)', 'aaaaaaaaaaaaaaaaaaaasssssssssssssssssddddddddddddddddddjjjjjjjjjjggggggggggggggggggggggggggkkkkkkkkkkfffffllllllll', 'http://www.foroambiental.com.mx/wp-content/uploads/2019/08/20190611181353n5B4xa-1024x395.jpg', '2021-03-26 18:00:50');
+INSERT INTO `proyecto` (`id_proyecto`, `nombre_proyecto`, `descripcion`, `imagen`, `fecha`) VALUES
+(2000, 'Videojuego de realidad virtual', 'Este proyecto será para dispositivos móviles.', '2021-04-04T02-36-23.831Z-google_asistente_thumb1200_4-3.jpg', '2021-04-04 02:36:25'),
+(2009, 'Pagina web de restaurante', 'En este proyecto trabajaremos para  crearle una pagina que eficiente sus procesos a un restaurante', '2021-04-04T03-16-05.223Z-por-que-tener-una-pagina-web.png', '2021-04-04 03:16:05');
 
 -- --------------------------------------------------------
 
@@ -91,46 +102,18 @@ INSERT INTO `proyecto` (`nombre_proyecto`, `descripcion`, `imagen`, `fecha`) VAL
 --
 
 CREATE TABLE `proyecto_usuario` (
-  `nombre_usuario` varchar(50) NOT NULL,
-  `nombre_proyecto` varchar(100) NOT NULL
+  `id_usuario` int(11) NOT NULL,
+  `id_proyecto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `proyecto_usuario`
 --
 
-INSERT INTO `proyecto_usuario` (`nombre_usuario`, `nombre_proyecto`) VALUES
-('1001', 'Creacion de software intuitivo'),
-('1002', 'Creación asistente de voz'),
-('1002', 'Creacion de software intuitivo'),
-('1003', 'Creacion de software intuitivo'),
-('1004', 'Creación asistente de voz'),
-('1006', 'Carrera rocky'),
-('1007', 'Creación asistente de voz'),
-('1009', 'Carrera rocky'),
-('1009', 'El fabuloso proyecto'),
-('1014', 'El fabuloso proyecto'),
-('1014', 'Sistema de riego automático (IOT)'),
-('1015', 'El fabuloso proyecto'),
-('1015', 'Sistema de riego automático (IOT)'),
-('1017', 'Sistema de riego automático (IOT)'),
-('1019', 'Sistema de riego automático (IOT)'),
-('admin', 'Carrera rocky'),
-('admin', 'Creación asistente de voz'),
-('admin', 'Creacion de software intuitivo'),
-('admin', 'Diseño web para natgas'),
-('admin', 'El fabuloso proyecto'),
-('admin', 'El padrino 👌👌👌'),
-('admin', 'Sistema de riego automático (IOT)'),
-('cliente', 'Creacion de areas verdes'),
-('cliente', 'Diseño web para natgas'),
-('cliente', 'Sistema de riego automático (IOT)'),
-('CYSGOSH', 'Creacion de areas verdes'),
-('CYSGOSH', 'Diseño web para natgas'),
-('CYSGOSH', 'Sistema de riego automático (IOT)'),
-('Davidguzley', 'Creacion de areas verdes'),
-('Davidguzley', 'Diseño web para natgas'),
-('Davidguzley', 'Sistema de riego automático (IOT)');
+INSERT INTO `proyecto_usuario` (`id_usuario`, `id_proyecto`) VALUES
+(1027, 2000),
+(1027, 2009),
+(1028, 2009);
 
 -- --------------------------------------------------------
 
@@ -162,31 +145,23 @@ CREATE TABLE `rol_privilegio` (
   `id_privilegio` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `rol_privilegio`
+-- Estructura de tabla para la tabla `tareas`
 --
 
-INSERT INTO `rol_privilegio` (`id_rol`, `id_privilegio`) VALUES
-('7001', '8001'),
-('7001', '8002'),
-('7001', '8003'),
-('7001', '8004'),
-('7001', '8005'),
-('7001', '8006'),
-('7001', '8007'),
-('7001', '8008'),
-('7001', '8009'),
-('7001', '8010'),
-('7001', '8011'),
-('7001', '8012'),
-('7001', '8013'),
-('7001', '8014'),
-('7001', '8015'),
-('7001', '8016'),
-('7001', '8017'),
-('7001', '8018'),
-('7001', '8019'),
-('7002', '8007');
+CREATE TABLE `tareas` (
+  `id_tarea` decimal(10,0) NOT NULL,
+  `id_fase` decimal(10,0) NOT NULL,
+  `nombre_tarea` varchar(50) DEFAULT NULL,
+  `ap_1` decimal(5,1) DEFAULT NULL,
+  `ap_2` decimal(5,1) DEFAULT NULL,
+  `ap_3` decimal(5,1) DEFAULT NULL,
+  `ap_5` decimal(5,1) DEFAULT NULL,
+  `ap_8` decimal(5,1) DEFAULT NULL,
+  `ap_13` decimal(5,1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -195,6 +170,7 @@ INSERT INTO `rol_privilegio` (`id_rol`, `id_privilegio`) VALUES
 --
 
 CREATE TABLE `usuario` (
+  `id_usuario` int(11) NOT NULL,
   `nombre_usuario` varchar(50) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `contraseña` varchar(1000) NOT NULL,
@@ -205,31 +181,30 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`nombre_usuario`, `nombre`, `contraseña`, `tiempo_por_semana`) VALUES
-('1001', 'Nombre 1', '123', '17.00'),
-('1002', 'Nombre 2', '234', '26.00'),
-('1003', 'Nombre 3', '345', '29.00'),
-('1004', 'Nombre 4', '456', '6.00'),
-('1005', 'Nombre 5', '567', '8.00'),
-('1006', 'Nombre 6', '678', '24.00'),
-('1007', 'Nombre 7', '789', '16.00'),
-('1008', 'Nombre 8', '890', '9.00'),
-('1009', 'Nombre 9', '111', '14.00'),
-('1010', 'Nombre 10', '222', '16.00'),
-('1011', 'Nombre 11', '333', '16.00'),
-('1012', 'Nombre 12', '444', '15.00'),
-('1013', 'Nombre 13', '555', '19.00'),
-('1014', 'Nombre 14', '666', '8.00'),
-('1015', 'Nombre 15', '777', '28.00'),
-('1016', 'Nombre 16', '888', '18.00'),
-('1017', 'Nombre 17', '999', '15.00'),
-('1018', 'Nombre 18', '321', '7.00'),
-('1019', 'Nombre 19', '432', '10.00'),
-('1020', 'Nombre 20', '543', '29.00'),
-('admin', 'admin', '$2a$12$mJyrGxhpQj/7ybdnM0.y3et/HGKoyCf0FgMak1uCT3xNdS196PJZm', NULL),
-('cliente', 'cliente', '$2a$12$/oqjQ7lERVy9JywD4rOJ9O0/L8Z.Fa6sVcwcEh8wVghjz1kzNfS5O', NULL),
-('CYSGOSH', 'Julio', '$2a$12$Vm7cBQ6phi2X3mSbOTuPHOZyAcNd7wpiMgnHICJvkBuwy4jL3BzWe', NULL),
-('Davidguzley', 'David Guzmán Leyva', '$2a$12$XuW4fcAvrTe1gbac6evYyelcleoVagmTCeU3/watbqsK2jF2pCF3O', NULL);
+INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `nombre`, `contraseña`, `tiempo_por_semana`) VALUES
+(1001, 'juanperron', 'Juan Pablo', '$2a$12$pih2qa/gfA.u4COFcisqF.6ZiLxyXZgCBd74cFcSQGp', '17.00'),
+(1002, 'usuario2', 'Nombre 2', '234', '26.00'),
+(1003, 'usuario3', 'Nombre 3', '345', '29.00'),
+(1004, 'usuario4', 'Nombre 4', '456', '6.00'),
+(1005, 'usuario5', 'Nombre 5', '567', '8.00'),
+(1006, 'usuario6', 'Nombre 6', '678', '24.00'),
+(1007, 'usuario7', 'Nombre 7', '789', '16.00'),
+(1008, 'usuario8', 'Nombre 8', '890', '9.00'),
+(1009, 'usuario9', 'Nombre 9', '111', '14.00'),
+(1010, 'usuario10', 'Nombre 10', '222', '16.00'),
+(1011, 'juanperron', 'Juan Pablo', '$2a$12$pih2qa/gfA.u4COFcisqF.6ZiLxyXZgCBd74cFcSQGp', '16.00'),
+(1012, 'usuario12', 'Nombre 12', '444', '15.00'),
+(1013, 'usuario13', 'Nombre 13', '555', '19.00'),
+(1014, 'usuario14', 'Nombre 14', '666', '8.00'),
+(1015, 'usuario15', 'Nombre 15', '777', '28.00'),
+(1016, 'usuario16', 'Nombre 16', '888', '18.00'),
+(1017, 'usuario17', 'Nombre 17', '999', '15.00'),
+(1018, 'usuario18', 'Nombre 18', '321', '7.00'),
+(1019, 'usuario19', 'Nombre 19', '432', '10.00'),
+(1020, 'usuario20', 'Nombre 20', '543', '29.00'),
+(1022, 'ulmo123', 'Emilio', '$2a$12$OiV6JPscYFFwKeJLo851Ue71bdF8XcEoExkm/dWuCUX', NULL),
+(1027, 'admin', 'admin', '$2a$12$WhphQWNZ.rGLBcJBbTDn9.zupACjHuJZfD5LAcO44mElP3aQo9.v.', NULL),
+(1028, 'cliente', 'cliente', '$2a$12$RvY7MQNRYPLpSUP.NBY2Xe0c2z82EidxjDIJtgcPaJ9I4zAZmNJFm', NULL);
 
 -- --------------------------------------------------------
 
@@ -238,7 +213,7 @@ INSERT INTO `usuario` (`nombre_usuario`, `nombre`, `contraseña`, `tiempo_por_se
 --
 
 CREATE TABLE `usuario_rol` (
-  `nombre_usuario` varchar(50) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
   `id_rol` decimal(10,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -246,35 +221,54 @@ CREATE TABLE `usuario_rol` (
 -- Volcado de datos para la tabla `usuario_rol`
 --
 
-INSERT INTO `usuario_rol` (`nombre_usuario`, `id_rol`) VALUES
-('1001', '7001'),
-('1002', '7001'),
-('1003', '7001'),
-('1004', '7002'),
-('1005', '7002'),
-('1006', '7002'),
-('1007', '7002'),
-('1008', '7001'),
-('1009', '7001'),
-('1010', '7002'),
-('1011', '7001'),
-('1012', '7001'),
-('1013', '7001'),
-('1014', '7002'),
-('1015', '7001'),
-('1016', '7002'),
-('1017', '7002'),
-('1018', '7002'),
-('1019', '7002'),
-('1020', '7002'),
-('admin', '7001'),
-('cliente', '7002'),
-('CYSGOSH', '7001'),
-('Davidguzley', '7001');
+INSERT INTO `usuario_rol` (`id_usuario`, `id_rol`) VALUES
+(1001, '7001'),
+(1002, '7001'),
+(1003, '7001'),
+(1004, '7002'),
+(1005, '7002'),
+(1006, '7002'),
+(1007, '7002'),
+(1008, '7001'),
+(1009, '7001'),
+(1010, '7002'),
+(1011, '7001'),
+(1012, '7001'),
+(1013, '7001'),
+(1014, '7002'),
+(1015, '7001'),
+(1016, '7002'),
+(1017, '7002'),
+(1018, '7002'),
+(1019, '7002'),
+(1020, '7002'),
+(1027, '7001'),
+(1028, '7002');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `caso_de_uso`
+--
+ALTER TABLE `caso_de_uso`
+  ADD PRIMARY KEY (`id_caso_de_uso`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
+
+--
+-- Indices de la tabla `caso_de_uso_fase_tarea`
+--
+ALTER TABLE `caso_de_uso_fase_tarea`
+  ADD PRIMARY KEY (`id_caso_de_uso`,`id_fase`,`id_tarea`),
+  ADD KEY `id_fase` (`id_fase`),
+  ADD KEY `id_tarea` (`id_tarea`);
+
+--
+-- Indices de la tabla `fase`
+--
+ALTER TABLE `fase`
+  ADD PRIMARY KEY (`id_fase`);
 
 --
 -- Indices de la tabla `privilegio`
@@ -286,14 +280,14 @@ ALTER TABLE `privilegio`
 -- Indices de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  ADD PRIMARY KEY (`nombre_proyecto`);
+  ADD PRIMARY KEY (`id_proyecto`);
 
 --
 -- Indices de la tabla `proyecto_usuario`
 --
 ALTER TABLE `proyecto_usuario`
-  ADD PRIMARY KEY (`nombre_usuario`,`nombre_proyecto`),
-  ADD KEY `nombre_proyecto` (`nombre_proyecto`);
+  ADD PRIMARY KEY (`id_usuario`,`id_proyecto`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
 
 --
 -- Indices de la tabla `roles`
@@ -309,28 +303,65 @@ ALTER TABLE `rol_privilegio`
   ADD KEY `id_privilegio` (`id_privilegio`);
 
 --
+-- Indices de la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  ADD PRIMARY KEY (`id_tarea`,`id_fase`),
+  ADD KEY `id_fase` (`id_fase`);
+
+--
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`nombre_usuario`);
+  ADD PRIMARY KEY (`id_usuario`);
 
 --
 -- Indices de la tabla `usuario_rol`
 --
 ALTER TABLE `usuario_rol`
-  ADD PRIMARY KEY (`nombre_usuario`,`id_rol`),
+  ADD PRIMARY KEY (`id_usuario`,`id_rol`),
   ADD KEY `id_rol` (`id_rol`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `proyecto`
+--
+ALTER TABLE `proyecto`
+  MODIFY `id_proyecto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2010;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1029;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
+-- Filtros para la tabla `caso_de_uso`
+--
+ALTER TABLE `caso_de_uso`
+  ADD CONSTRAINT `caso_de_uso_ibfk_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id_proyecto`);
+
+--
+-- Filtros para la tabla `caso_de_uso_fase_tarea`
+--
+ALTER TABLE `caso_de_uso_fase_tarea`
+  ADD CONSTRAINT `caso_de_uso_fase_tarea_ibfk_1` FOREIGN KEY (`id_caso_de_uso`) REFERENCES `caso_de_uso` (`id_caso_de_uso`),
+  ADD CONSTRAINT `caso_de_uso_fase_tarea_ibfk_2` FOREIGN KEY (`id_fase`) REFERENCES `fase` (`id_fase`),
+  ADD CONSTRAINT `caso_de_uso_fase_tarea_ibfk_3` FOREIGN KEY (`id_tarea`) REFERENCES `tareas` (`id_tarea`);
+
+--
 -- Filtros para la tabla `proyecto_usuario`
 --
 ALTER TABLE `proyecto_usuario`
-  ADD CONSTRAINT `proyecto_usuario_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `usuario` (`nombre_usuario`),
-  ADD CONSTRAINT `proyecto_usuario_ibfk_2` FOREIGN KEY (`nombre_proyecto`) REFERENCES `proyecto` (`nombre_proyecto`);
+  ADD CONSTRAINT `proyecto_usuario_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`),
+  ADD CONSTRAINT `proyecto_usuario_ibfk_2` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id_proyecto`);
 
 --
 -- Filtros para la tabla `rol_privilegio`
@@ -340,10 +371,16 @@ ALTER TABLE `rol_privilegio`
   ADD CONSTRAINT `rol_privilegio_ibfk_2` FOREIGN KEY (`id_privilegio`) REFERENCES `privilegio` (`id_privilegio`);
 
 --
+-- Filtros para la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  ADD CONSTRAINT `tareas_ibfk_1` FOREIGN KEY (`id_fase`) REFERENCES `fase` (`id_fase`);
+
+--
 -- Filtros para la tabla `usuario_rol`
 --
 ALTER TABLE `usuario_rol`
-  ADD CONSTRAINT `usuario_rol_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `usuario` (`nombre_usuario`),
+  ADD CONSTRAINT `usuario_rol_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`),
   ADD CONSTRAINT `usuario_rol_ibfk_2` FOREIGN KEY (`id_rol`) REFERENCES `roles` (`id_rol`);
 COMMIT;
 
