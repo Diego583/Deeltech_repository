@@ -4,37 +4,28 @@
 
 <main class="container">
     <h1 class= "text-white"><%= titulo %></h1>
-    <form action="/users/register" method="POST" class="mb-3">
+    <form action="/users/update" method="POST" class="mb-3">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
         <div class="mb-3">
             <label for="nombre" class="form-label text-success">Nombre completo:</label>
             <input type="text" class="form-control" id="nombre" name="nombre">
         </div>
         <div class="mb-3">
-            <label for="nombre_usuario" class="form-label text-success">Nombre de usuario:</label>
-            <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario">
+            <label for="nombre_usuario_nuevo" class="form-label text-success">Nombre de usuario:</label>
+            <input type="text" class="form-control" id="nombre_usuario_nuevo" name="nombre_usuario_nuevo">
         </div>
         <div class="mb-3">
             <label for="contraseña1" class="form-label text-success">Contraseña:</label>
             <input type="password" class="form-control" id="contraseña1" name="contraseña1">
         </div>
         <div class="mb-3">
-            <label for="contraseña2" class="form-label text-success">Confirmar contraseña:</label>
+            <label for="contraseña2" class="form-label text-success">Confirmar Contraseña:</label>
             <input type="password" class="form-control" id="contraseña2" name="contraseña2">
-        </div>
-        <div class="mb-3">
-            <label for="rol" class="form-label text-success">Selecciona un rol</label>
-            <select class="form-control" id="rol" name="rol">
-                <option selected>Choose...</option>
-                <% for (let rol of roles) { %>
-                    <option value="<%= rol.id_rol %>"> <%= rol.nombre %> </option> 
-                <% } %>
-            </select>
         </div>
         <% if (error) { %>
             <p style="color:red"><%= error %></p>
         <% } %>
-        <button type="submit" class="btn btn-dark">Ingresar</button>
+        <button type="submit" class="btn btn-dark">Actualizar</button>
       </form>
 </main>
 

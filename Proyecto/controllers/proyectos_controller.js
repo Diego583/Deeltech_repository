@@ -102,10 +102,10 @@ exports.postBuscar = (request, response, next) => {
 };
 
 exports.get = (request, response, next) => {
-    //console.log(request.session.usuario);
     Usuario.getRol(request.session.usuario)
     .then(([rows,fieldData]) => {
         request.session.rol = rows[0].id_rol;
+        console.log(request.session.rol);
         console.log(request.session);
         Proyecto.fetchProyectosUsuario(request.session.usuario)
         .then(([rows,fieldData]) => {

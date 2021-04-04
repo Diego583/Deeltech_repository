@@ -42,4 +42,16 @@ module.exports = class User{
     static fetchOne(nombre_usuario) {
         return db.execute('SELECT * FROM usuario WHERE nombre_usuario=?', [nombre_usuario]);
     }
+
+    static updateUser(nombre_usuario_nuevo, nombre, constraseña, nombre_usuario) { //NUEVO
+
+        return bcrypt.hash(constraseña, 12)
+            .then((password_encriptado) => {
+
+                return db.execute('UPDATE usuario set nombre_usuario = ?, nombre = ?, contraseña = ? WHERE nombre_usuario = ?', 
+                [nombre_usuario_nuevo, nombre, password_encriptado, nombre_usuario]
+
+            );
+            }).catch(err => console.log(err));
+    }
 } 
