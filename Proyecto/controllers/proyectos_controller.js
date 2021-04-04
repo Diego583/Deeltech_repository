@@ -55,10 +55,10 @@ exports.getNuevoProyecto = (request, response, next) => {
 
 exports.postNuevoProyecto = (request, response, next) => {
     /*console.log(request.body.nombre_proyecto);
-    console.log(request.body.descripcion);
-    console.log(request.body.users);*/
+    console.log(request.body.descripcion);*/
+    console.log(request.body.users);
 
-    let arrUsers = request.body.users;
+    var arrUsers = request.body.users;
 
     const image = request.file;
     //console.log(image);
@@ -71,9 +71,10 @@ exports.postNuevoProyecto = (request, response, next) => {
     const nuevo_proyecto = new Proyecto(request.body.nombre_proyecto, request.body.descripcion, image.filename);
     nuevo_proyecto.saveProyecto()
         .then(() => {
-            if (arrUsers.isArray){
+            if (Array.isArray(arrUsers)){
+                console.log("la cague");
                 for (var i = 0; i < arrUsers.length; i++) {
-                    //console.log(arrUsers[i]);
+                    console.log(arrUsers[i]);
                     nuevo_proyecto.saveProyectoUser(arrUsers[i]);
                 }
                 response.redirect('/');
@@ -100,7 +101,8 @@ exports.postBuscar = (request, response, next) => {
         });
 };
 
-exports.get = (request, response, next) => { 
+exports.get = (request, response, next) => {
+    //console.log(request.session.usuario);
     Usuario.getRol(request.session.usuario)
     .then(([rows,fieldData]) => {
         request.session.rol = rows[0].id_rol;

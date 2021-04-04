@@ -2,26 +2,25 @@ const db = require('../util/database');
 const bcrypt = require('bcryptjs');
 
 module.exports = class User{
-    constructor(nombre_usuario, nombre, contraseña, tiempo_por_semana, privilegios){
+    constructor(nombre_usuario, nombre, contraseña){
         this.nombre_usuario = nombre_usuario;
         this.nombre = nombre;
         this.contraseña = contraseña;
-        this.tiempo_por_semana = tiempo_por_semana;
-        this.privilegios = privilegios;
     }
 
     saveUser() {
         return bcrypt.hash(this.contraseña, 12)
             .then((password_encriptado) => {
+                //console.log(password_encriptado);
                 return db.execute('INSERT INTO usuario (nombre_usuario, nombre, contraseña) VALUES (?, ?, ?)',
                 [this.nombre_usuario, this.nombre, password_encriptado]
             );
             }).catch(err => console.log(err));
     }
 
-    saveUserRol(id_rol) {
-        return db.execute('INSERT INTO  usuario_rol (nombre_usuario, id_rol) VALUES (?, ?)',
-        [this.nombre_usuario, id_rol]);
+    saveUserRol(id_usuario, id_rol) {
+        return db.execute('INSERT INTO  usuario_rol (id_usuario, id_rol) VALUES (?, ?)',
+        [id_usuario, id_rol]);
     }
 
     static fetchRoles(){
@@ -32,8 +31,12 @@ module.exports = class User{
         return db.execute('SELECT * FROM usuario');
     }
 
+    getIdUser(nombre_usuario){
+        return db.execute('SELECT id_usuario FROM usuario where nombre_usuario = ?', [nombre_usuario]);
+    }
+
     static getRol(nombre_usuario){
-        return db.execute('SELECT * FROM usuario_rol WHERE nombre_usuario=?', [nombre_usuario]);
+        return db.execute('SELECT id_rol from usuario_rol as ur, usuario as u WHERE ur.id_usuario = u.id_usuario and u.nombre_usuario = ?', [nombre_usuario]);
     }
 
     static fetchOne(nombre_usuario) {

@@ -67,8 +67,13 @@ exports.postRegister = (request, response, next) => {
     const nuevo_usuario = new Usuario(request.body.nombre_usuario, request.body.nombre, request.body.contraseña);
     nuevo_usuario.saveUser()
         .then(() => {
-            console.log(request.body.rol);
-            nuevo_usuario.saveUserRol(request.body.rol)
-            response.redirect('/');
+            nuevo_usuario.getIdUser(request.body.nombre_usuario)
+                .then(([rows,fieldData]) => {
+                    var id_usuario = rows[0].id_usuario;
+                    //console.log(id_usuario);
+                    //console.log(request.body.rol);
+                    nuevo_usuario.saveUserRol(id_usuario, request.body.rol);
+                    response.redirect('/');
+                }).catch(err => console.log(err));
         }).catch(err => console.log(err));
 }

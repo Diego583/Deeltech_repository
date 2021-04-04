@@ -44,8 +44,7 @@ const fileStorage = multer.diskStorage({
 
 //En el registro, pasamos la constante de configuración y
 //usamos single porque es un sólo archivo el que vamos a subir, 
-//pero hay diferentes opciones si se quieren subir varios archivos. 
-//'archivo' es el nombre del input tipo file de la forma
+//pero hay diferentes opciones si se quieren subir varios archivos.
 app.use(multer(
     { storage: fileStorage }
     //{ dest: 'uploads' }

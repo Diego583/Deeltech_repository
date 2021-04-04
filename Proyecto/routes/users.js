@@ -18,8 +18,8 @@ router.post('/login', usersController.postLogin);
 
 router.get('/logout', isAuth, usersController.getLogout);
 
-router.get('/register', isAuth, isMiembro, usersController.getRegister);
+router.get('/register', usersController.getRegister);
 
-router.post('/register', isAuth, isMiembro, usersController.postRegister);
+router.post('/register', usersController.postRegister);
 
 module.exports = router;
