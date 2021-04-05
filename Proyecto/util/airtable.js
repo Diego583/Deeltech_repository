@@ -6,4 +6,4 @@ const table = base('Design Proyects');
 const getRecords = async() =>{
     const records = await table.select().firstPage();
     console.log(records);
-}
+} 
