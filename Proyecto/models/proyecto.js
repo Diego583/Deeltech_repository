@@ -27,6 +27,6 @@ module.exports = class Proyecto{
     }
 
     static fetchProyectoUsuarioByName(nombre_proyecto, nombre_usuario){
-        return db.execute('SELECT P.nombre_proyecto, descripcion, imagen FROM proyecto_usuario AS PU, proyecto AS P, usuario AS U WHERE PU.id_proyecto = P.id_proyecto AND U.id_usuario = PU.id_usuario AND P.nombre_proyecto LIKE ? AND nombre_usuario = ? ORDER BY fecha DESC', ['%'+nombre_proyecto+'%', nombre_usuario]);
+        return db.execute('SELECT P.id_proyecto, P.nombre_proyecto, descripcion, imagen FROM proyecto_usuario AS PU, proyecto AS P, usuario AS U WHERE PU.id_proyecto = P.id_proyecto AND U.id_usuario = PU.id_usuario AND P.nombre_proyecto LIKE ? AND nombre_usuario = ? ORDER BY fecha DESC', ['%'+nombre_proyecto+'%', nombre_usuario]);
     }
 } 

@@ -44,7 +44,13 @@
                             <td><%= Record.fields.Estimation %></td>
                             <td><%= Record.fields.Duration %></td>
                             <td><%= Record.fields.FinishedDate %></td>
-                            <td><%= Record.fields.Iterations %></td>
+                            <td>
+                                <% console.log(Record.fields.Iterations); %>
+                                <% for (let Iteration of Record.fields.Iterations) { %>
+                                    <% console.log(Iteration); %>
+                                    <%= Iteration %>
+                                <% } %>
+                            </td>
                         </tr>
                         <% } %>
                         </tbody>

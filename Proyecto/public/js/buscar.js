@@ -27,7 +27,11 @@ function buscar() {
                         '<div class="card-body">' + 
                             '<h5 class="card-title text-success">'+ proyecto.nombre_proyecto +'</h5>' + 
                             '<p class="card-text ">'+ proyecto.descripcion +'</p>' + 
-                            '<a href="/proyectos/reportes" class="btn btn-secondary">Ir a proyecto</a>' + 
+                            '<form action="/proyectos" method="POST">' + 
+                                '<input type="hidden" name="_csrf" value="'+ csrf +'" >' + 
+                                '<input type="hidden" name="id_proyecto" value="'+ proyecto.id_proyecto +'" >' + 
+                                '<input type="submit" class="btn btn-secondary" value="Ir a proyecto">' + 
+                            '</form>' + 
                         '</div>' + 
                     '</div>' + 
                     '<div><br></div>' + 
