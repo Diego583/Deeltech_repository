@@ -33,4 +33,6 @@ router.post('/buscar', isAuth, proyectosController.postBuscar);
 
 router.get('/', isAuth, proyectosController.get);
 
+router.post('/', isAuth, proyectosController.post);
+
 module.exports = router;

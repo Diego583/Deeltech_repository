@@ -3,58 +3,115 @@
 <%- include('partials/sidebar.ejs') %>
 
 <main class="container">
-            <!-- Page Content  -->
-            <div id="content">
-    
-                <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
-                    <div class="container-fluid">
-    
-                        <button type="button" id="sidebarCollapse" class="btn btn-light">
-                            <i class="fas fa-align-left"></i>
-                            <span>Toggle Sidebar</span>
-                        </button>
-                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <i class="fas fa-align-justify"></i>
-                        </button>
-    
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="nav navbar-nav ml-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link text-white" href="#">Page</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="#">Page</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="#">Page</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="#">Page</a>
-                                </li>
-                            </ul>
-                        </div>
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-light">
+                        <i class="fas fa-align-left"></i>
+                        <span>Toggle Sidebar</span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     </div>
-                </nav>
-    
-                <h2>Pestaña</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    
+                </div>
+            </nav>
+
+            <h2>Capacidad de equipo</h2>    
+            <br>     
+            <table class="table table-hover table-dark">
+                <thead>
+                    <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Horas</th>
+                    <th scope="col">%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    <th scope="row">Horas nominales totales</th>
+                    <td>Total horas</td>
+                    <td>100%</td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Tiempo perdido</th>
+                    <td>Otto</td>
+                    <td><input type="text" name="guardar_porcentaje_tiempo_perdido"></td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Errores de registro</th>
+                    <td>Otto</td>
+                    <td><input type="text" name="guardar_porcentaje_errores_de_registro"></td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Horas nominales restantes</th>
+                    <td>Otto</td>
+                    <td><input type="text" name="guardar_porcentaje_horas_nominales_restantes1"></td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Overhead</th>
+                    <td>Otto</td>
+                    <td><input type="text" name="guardar_porcentaje_overhead"></td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Horas nominales restantes</th>
+                    <td>Otto</td>
+                    <td><input type="text" name="guardar_porcentaje_horas_nominales_restantes2"></td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Produccion</th>
+                    <td>Otto</td>
+                    <td><input type="text" name="guardar_porcentaje_produccion"></td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Operativos</th>
+                    <td>Otto</td>
+                    <td><input type="text" name="guardar_porcentaje_operativos"></td>
+                    </tr>
+                    <tr>
+                    <th scope="row">Humano</th>
+                    <td>Otto</td>
+                    <td><input type="text" name="guardar_porcentaje_humano"></td>
+                    </tr>
+                    <tr>
+                    <th scope="row">CMMI</th>
+                    <td>Otto</td>
+                    <td><input type="text" name="guardar_porcentaje_CMMI"></td>
+                    </tr>
+                    <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td>100%</td>
+                    </tr>
+                </tbody>
+                </table>
+
+                <input type="submit" class="btn btn-primary" value="Guardar porcentajes">
+
                 <div class="line"></div>
-    
-                <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    
-                <div class="line"></div>
-    
-                <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    
-                <div class="line"></div>
-    
-                <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
+
+                <table class="table table-hover table-dark">
+                    <thead>
+                        <tr>
+                        <th scope="col">Integrantes</th>
+                        <th scope="col">Horas</th>
+                        </tr>
+                    </thead>
+                    <% for (let user of users) { %>
+                        <tbody>
+                            <td><%= user.nombre_usuario %></td>
+                            <td><input type="text" name='guardar_horas_integrante'></td>
+                        </tbody>
+                    <% } %>
+                    </tbody>
+                </table>
+                <input type="submit" class="btn btn-primary" value="Guardar horas">
+
         </div>
 </main>
 

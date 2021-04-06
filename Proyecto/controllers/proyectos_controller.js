@@ -1,12 +1,29 @@
 const Usuario = require('../models/user');
 const Proyecto = require('../models/proyecto');
+const airtable = require('../util/airtable');
 
 exports.getReportes = (request, response, next) => {
-    response.render('reportes', {
-        userRol: request.session.rol,
-        titulo: 'Reportes',
-        isLoggedIn: request.session.isLoggedIn === true ? true : false
-    });
+    console.log(request.cookies);
+    console.log(request.cookies.id_proyecto);
+    const table = airtable('Tasks');
+
+    const getRecords = async() => {
+        const records = await table
+            .select({
+                view: "Global view",
+                cellFormat: 'json'
+            })
+            .firstPage();
+        //console.log(records);
+        response.render('reportes', {
+            Records: records,
+            userRol: request.session.rol,
+            titulo: 'Reportes',
+            isLoggedIn: request.session.isLoggedIn === true ? true : false
+        });
+    };
+
+    getRecords();
 };
 
 exports.getPlaneacion = (request, response, next) => {
@@ -26,11 +43,17 @@ exports.getWbs = (request, response, next) => {
 };
 
 exports.getCapacidadEquipo = (request, response, next) => {
-    response.render('capacidadEquipo', {
-        userRol: request.session.rol,
-        titulo: 'Capacidad de Equipo',
-        isLoggedIn: request.session.isLoggedIn === true ? true : false
-    });
+    const id_proyecto = request.cookies.id_proyecto;
+    Usuario.fetchUsers_Proyects(id_proyecto)
+        .then(([rows,fieldData]) => {
+            response.render('capacidadEquipo', {
+                csrfToken: request.csrfToken(),
+                userRol: request.session.rol,
+                users: rows, 
+                titulo: 'Capacidad Equipo',
+                isLoggedIn: request.session.isLoggedIn === true ? true : false
+            });
+        }).catch(err => console.log(err));
 };
 
 exports.getCasoUso = (request, response, next) => {
@@ -118,4 +141,9 @@ exports.get = (request, response, next) => {
             });
         }).catch(err => console.log(err));
     }).catch(err => console.log(err));
+};
+
+exports.post = (request, response, next) => {
+    response.setHeader('Set-Cookie', ['id_proyecto='+request.body.id_proyecto+'; HttpOnly']);
+    response.redirect('/proyectos/reportes');
 };
