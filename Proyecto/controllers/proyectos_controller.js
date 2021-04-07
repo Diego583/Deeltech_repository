@@ -12,7 +12,7 @@ exports.getReportes = (request, response, next) => {
                 view: "Global view",
             })
             .all();
-        console.log(records);
+        //console.log(records);
         response.render('reportes', {
             id: request.params.id,
             Records: records,
