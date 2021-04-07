@@ -3,16 +3,16 @@ const Proyecto = require('../models/proyecto');
 const airtable = require('../util/airtable');
 
 exports.getReportes = (request, response, next) => {
-    const table = airtable('Tasks');
+    const tasksTable = airtable('Tasks');
+    //const iterationsTable = airtable('Iterations');
 
     const getRecords = async() => {
-        const records = await table
+        const records = await tasksTable
             .select({
                 view: "Global view",
-                cellFormat: 'json'
             })
-            .firstPage();
-        //console.log(records);
+            .all();
+        console.log(records);
         response.render('reportes', {
             id: request.params.id,
             Records: records,

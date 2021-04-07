@@ -24,6 +24,8 @@
     
                 <h2>Work item List</h2>
 
+                <div><canvas id="chart" width="400" height="400"></canvas></div>
+
                 <div>
                     <table class="table table-dark">
                         <thead class="thead-success">
@@ -45,9 +47,9 @@
                             <td><%= Record.fields.Duration %></td>
                             <td><%= Record.fields.FinishedDate %></td>
                             <td>
-                                <% console.log(Record.fields.Iterations); %>
+                                <% //console.log(Record.fields.Iterations); %>
                                 <% for (let Iteration of Record.fields.Iterations) { %>
-                                    <% console.log(Iteration); %>
+                                    <% //console.log(Iteration); %>
                                     <%= Iteration %>
                                 <% } %>
                             </td>
@@ -59,3 +61,6 @@
 </main>
 
 <%- include('partials/footer.ejs') %>
+
+<!-- Script para grafica-->
+<script src="/js/grafica.js"></script>
