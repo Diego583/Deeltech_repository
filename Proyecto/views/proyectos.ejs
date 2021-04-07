@@ -15,11 +15,7 @@
                 <div class="card-body">
                   <h5 class="card-title text-success"><%= proyecto.nombre_proyecto %></h5>
                   <p class="card-text "><%= proyecto.descripcion %></p>
-                  <form action="/proyectos" method="POST"> 
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <input type="hidden" name="id_proyecto" value="<%= proyecto.id_proyecto %>" >
-                    <input type="submit" class="btn btn-secondary" value="Ir a proyecto">
-                  </form>
+                    <a href="/proyectos/<%= proyecto.id_proyecto %>/reportes" class="btn btn-secondary">Ir a proyecto</a>
                 </div>
             </div>
             <div><br></div>

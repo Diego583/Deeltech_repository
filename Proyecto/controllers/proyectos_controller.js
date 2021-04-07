@@ -3,8 +3,6 @@ const Proyecto = require('../models/proyecto');
 const airtable = require('../util/airtable');
 
 exports.getReportes = (request, response, next) => {
-    console.log(request.cookies);
-    console.log(request.cookies.id_proyecto);
     const table = airtable('Tasks');
 
     const getRecords = async() => {
@@ -16,6 +14,7 @@ exports.getReportes = (request, response, next) => {
             .firstPage();
         //console.log(records);
         response.render('reportes', {
+            id: request.params.id,
             Records: records,
             userRol: request.session.rol,
             titulo: 'Reportes',
@@ -28,6 +27,7 @@ exports.getReportes = (request, response, next) => {
 
 exports.getPlaneacion = (request, response, next) => {
     response.render('planeacion', {
+        id: request.params.id,
         userRol: request.session.rol,
         titulo: 'Planeacion',
         isLoggedIn: request.session.isLoggedIn === true ? true : false
@@ -36,6 +36,7 @@ exports.getPlaneacion = (request, response, next) => {
 
 exports.getWbs = (request, response, next) => {
     response.render('wbs', {
+        id: request.params.id,
         userRol: request.session.rol,
         titulo: 'WBS',
         isLoggedIn: request.session.isLoggedIn === true ? true : false
@@ -43,10 +44,10 @@ exports.getWbs = (request, response, next) => {
 };
 
 exports.getCapacidadEquipo = (request, response, next) => {
-    const id_proyecto = request.cookies.id_proyecto;
-    Usuario.fetchUsers_Proyects(id_proyecto)
+    Usuario.fetchUsers_Proyects(request.params.id)
         .then(([rows,fieldData]) => {
             response.render('capacidadEquipo', {
+                id: request.params.id,
                 csrfToken: request.csrfToken(),
                 userRol: request.session.rol,
                 users: rows, 
@@ -58,6 +59,7 @@ exports.getCapacidadEquipo = (request, response, next) => {
 
 exports.getCasoUso = (request, response, next) => {
     response.render('casoUso', {
+        id: request.params.id,
         userRol: request.session.rol,
         titulo: 'Caso de Uso',
         isLoggedIn: request.session.isLoggedIn === true ? true : false
@@ -141,9 +143,4 @@ exports.get = (request, response, next) => {
             });
         }).catch(err => console.log(err));
     }).catch(err => console.log(err));
-};
-
-exports.post = (request, response, next) => {
-    response.setHeader('Set-Cookie', ['id_proyecto='+request.body.id_proyecto+'; HttpOnly']);
-    response.redirect('/proyectos/reportes');
 };
