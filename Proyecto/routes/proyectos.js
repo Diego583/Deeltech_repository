@@ -25,6 +25,10 @@ router.get('/capacidad_de_equipo', isAuth, isMiembro, proyectosController.getCap
 
 router.get('/caso_de_uso', isAuth, isMiembro, proyectosController.getCasoUso);
 
+router.post('/caso_de_uso', isAuth, isMiembro, proyectosController.postCasoUso);
+
+router.post('/status', isAuth, isMiembro, proyectosController.postStatus); //NUEVO
+
 router.get('/nuevo_proyecto', isAuth, isMiembro, proyectosController.getNuevoProyecto);
 
 router.post('/nuevo_proyecto', isAuth, isMiembro, proyectosController.postNuevoProyecto);
