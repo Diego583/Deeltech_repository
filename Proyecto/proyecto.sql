@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-04-2021 a las 21:57:46
+-- Tiempo de generación: 07-04-2021 a las 20:49:03
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 8.0.2
 
@@ -93,7 +93,9 @@ CREATE TABLE `proyecto` (
 
 INSERT INTO `proyecto` (`id_proyecto`, `nombre_proyecto`, `descripcion`, `imagen`, `fecha`) VALUES
 (2000, 'Videojuego de realidad virtual', 'Este proyecto será para dispositivos móviles.', '2021-04-04T02-36-23.831Z-google_asistente_thumb1200_4-3.jpg', '2021-04-04 02:36:25'),
-(2009, 'Pagina web de restaurante', 'En este proyecto trabajaremos para  crearle una pagina que eficiente sus procesos a un restaurante', '2021-04-04T03-16-05.223Z-por-que-tener-una-pagina-web.png', '2021-04-04 03:16:05');
+(2009, 'Pagina web de restaurante', 'En este proyecto trabajaremos para  crearle una pagina que eficiente sus procesos a un restaurante', '2021-04-04T03-16-05.223Z-por-que-tener-una-pagina-web.png', '2021-04-04 03:16:05'),
+(2010, 'Creacion de areas verdes', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2021-04-06T01-56-11.890Z-f09ed718399263.562c8d3e84279.jpg', '2021-04-06 01:56:11'),
+(2011, 'Platica TED', '1111111111111111111111111111111111222222222222222222222222222333333333333333333333333', '2021-04-06T15-56-43.568Z-7dbd8998d246f77531d78d47fbc8a9fb.jpg', '2021-04-06 15:56:44');
 
 -- --------------------------------------------------------
 
@@ -111,9 +113,23 @@ CREATE TABLE `proyecto_usuario` (
 --
 
 INSERT INTO `proyecto_usuario` (`id_usuario`, `id_proyecto`) VALUES
+(1002, 2010),
+(1003, 2010),
+(1005, 2010),
+(1006, 2010),
+(1007, 2010),
+(1009, 2010),
+(1015, 2010),
+(1017, 2010),
+(1020, 2010),
+(1020, 2011),
+(1022, 2011),
 (1027, 2000),
 (1027, 2009),
-(1028, 2009);
+(1027, 2010),
+(1027, 2011),
+(1028, 2009),
+(1028, 2011);
 
 -- --------------------------------------------------------
 
@@ -330,7 +346,7 @@ ALTER TABLE `usuario_rol`
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `id_proyecto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2010;
+  MODIFY `id_proyecto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2014;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
