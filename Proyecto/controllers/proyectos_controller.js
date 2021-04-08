@@ -58,13 +58,63 @@ exports.getCapacidadEquipo = (request, response, next) => {
 };
 
 exports.getCasoUso = (request, response, next) => {
-    response.render('casoUso', {
-        id: request.params.id,
-        userRol: request.session.rol,
-        titulo: 'Caso de Uso',
-        isLoggedIn: request.session.isLoggedIn === true ? true : false
-    });
+
+    Proyecto.fetchCasosDeUso(2009)
+    .then(([rows,fieldData]) => {
+        response.render('CasoUso', {
+            Casos: rows,
+            error: request.session.error,
+            userRol: request.session.rol,
+            titulo: 'Caso de Uso',
+            csrfToken: request.csrfToken(),
+            isLoggedIn: request.session.isLoggedIn === true ? true : false
+        });
+    }).catch(err => console.log(err));
+
 };
+
+exports.postCasoUso = (request, response, next) => {
+    request.session.error = "";
+    const casoUso = request.body.casoUso;
+    const iteracion = request.body.iteracion;
+    const epic = request.body.epic;
+    const ap = request.body.ap;
+
+    if(casoUso.length < 1 || iteracion.length < 1 || epic.length < 1 || ap.length < 1){
+        request.session.error = "Te faltan campos por llenar";
+        response.redirect('/proyectos/caso_de_uso');
+    }
+    else if(ap == "Choose..."){
+        request.session.error = "Te faltó escoger el punto ágil";
+        response.redirect('/proyectos/caso_de_uso');
+    }
+    else{
+        Proyecto.saveCasoDeUso(request.body.casoUso, request.body.iteracion, request.body.epic, request.body.ap, "Pendiente", 2009)
+        .then(([rows,fieldData]) => {
+            console.log("Guardando caso de uso...");
+            response.redirect('/proyectos/caso_de_uso');
+        }).catch(err => console.log(err));
+    }
+}
+
+exports.postStatus = (request, response, next) => {
+    request.session.error = "";
+    const status = request.body.status;
+    const id = request.body.id;
+
+    Proyecto.updateStatusCaso(status, id, 2009);
+    Proyecto.fetchCasosDeUso(2009)
+        .then(([rows, fieldData]) => {
+            //console.log(rows);
+            response.status(200).json(rows);
+
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+}
+
 exports.getNuevoProyecto = (request, response, next) => {
     Usuario.fetchUsers()
         .then(([rows,fieldData]) => {
