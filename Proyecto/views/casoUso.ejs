@@ -36,9 +36,12 @@
                     </div>
                 </nav>
 
+                <div id = "mensaje" name = "mensaje">
+                    .
+                </div>
+
+
                 <div>
-
-
                     <table class="table table-dark">
                         <thead class="thead-success">
                             <tr>
@@ -46,38 +49,41 @@
                                 <th scope="col">Status</th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" id="_csrf" >
-                            <div name = "resultados" name = "resultados">
-                                
-                                <% for (let CasoUso of Casos) { %>
 
-                                    <tr>
-                                        <td> <%= CasoUso.nombre_caso_de_uso %> </td>
-                                        <input type="hidden" id="<%= CasoUso.id_caso_de_uso %>" value ="<%= CasoUso.id_caso_de_uso %>">
-                                        <td>
-                                            <select class="form-control" name="status" id="s<%= CasoUso.id_caso_de_uso %>" onchange="status('<%= CasoUso.id_caso_de_uso %>')">
-                                                <option selected value=" <%=CasoUso.status_caso%>" class="font-weight-bold"> <%=CasoUso.status_caso%> </option>
-                                                <option style="color:rgb(0, 255, 55)" value="Terminado" class="font-weight-bold" >Terminado</option>
-                                                <option style="color:rgb(211, 22, 22)" value="Pendiente" class="font-weight-bold" >Pendiente</option>
-                                            </select>
-                                        </td>
-    
-                                    </tr>
-    
-                                <% } %>
+                            <% for (let CasoUso of Casos) { %>
 
-                            </div>
+                                <tr>
+                                    
+                                    <td> <%= CasoUso.nombre_caso_de_uso %> </td>
+
+                                    <input type="hidden" id="<%= CasoUso.id_caso_de_uso %>" value ="<%= CasoUso.id_caso_de_uso %>">
+                                    <td>
+                                        <select class="form-control" name="status" id="s<%= CasoUso.id_caso_de_uso %>" onchange="status('<%= CasoUso.id_caso_de_uso %>')">
+                                            <option selected value=" <%=CasoUso.status_caso%>" class="font-weight-bold"> <%=CasoUso.status_caso%> </option>
+                                            <option style="color:rgb(0, 255, 55)" value="Terminado" class="font-weight-bold" >Terminado</option>
+                                            <option style="color:rgb(211, 22, 22)" value="Pendiente" class="font-weight-bold" >Pendiente</option>
+                                        </select>
+                                    </td>
+
+                                </tr>
+
+                            <% } %>
+
+                            
 
                         </tbody>
+
                     </table>
-                    <p></p>
+
                     <p><br></p>
+
                 </div>
 
                 <div>
                     <form action="/proyectos/caso_de_uso" method="POST">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+                        <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
                         <div class="mb-3">
                             <label for="casoUso" class="form-label text-success">Caso de Uso:</label>
                             <input type="text" class="form-control" id="casoUso" name="casoUso">
@@ -117,3 +123,10 @@
 
 <!-- Script para busqueda-->
 <script src="js/status.js"></script>
+
+<!-- Script para mensaje-->
+<script>
+    $(document).ready(function(){
+        $('.toast').toast('show'); 
+    });
+</script>

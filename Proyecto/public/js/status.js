@@ -23,26 +23,39 @@ function status(caso_id) {
     }).then(data => {
         //Modificamos el DOM de nuestra página de acuerdo a los datos de la segunda promesa
         
-        /*
+        //alert("hola")
+        
         console.log(data);
         let html = '';
-        for (let CasoUso of data) {
-          html += '<tr>' +
-          '<td id="nombre_caso" value ="' + CasoUso.id_caso_de_uso + '">' + CasoUso.nombre_caso_de_uso + '</td>' +
-          '<td>' +
-              '<select class="form-control" name="status" id="status">' +
-                  '<option selected value="' + CasoUso.status_caso + '" class="font-weight-bold">' + CasoUso.status_caso + '</option>' +
-                  '<option style="color:rgb(0, 255, 55)" value="Terminado" class="font-weight-bold" onclick="status()">Terminado</option>' +
-                  '<option style="color:rgb(211, 22, 22)" value="Pendiente" class="font-weight-bold" onclick="status()">Pendiente</option>' +
+        //html += '<div style="color: rgb(16, 204, 16);" class="content" id = "mensaje">Actualizado correctamente</div>';
+        //document.getElementById("mensaje").innerHTML = html;
 
-                '</select>' +
-          '</td>' +
+        html+= '<div id="toast3" class="toast bg-dark" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1500">'+
+                    '<div class="toast-header bg-success ">'+
+                        
+                        '<strong class="mr-auto text-white">'+
+                            '<i class="fas fa-bell"></i>'+
+                            '&nbsp; Mensaje de confirmación'+
+                        '</strong>'+
+                        '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">'+
+                        '<span aria-hidden="true">×</span>'+
+                        '</button>'+
+                    '</div>'+
+                    '<div class="toast-body bg-dark text-white">'+
+                        'Status actualizado correctamente'+
+                    '</div>'+
+                '</div>'+
+                '<br>';
 
-      '</tr>';
+        document.getElementById("mensaje").innerHTML = html;
+        
+        $(document).ready(function(){
+            $('.toast').toast('show'); 
+        });
 
-        }
-        document.getElementById("resultados").innerHTML = html;*/
+            
 
+        
     }).catch(err => {
         console.error(err);
     });
