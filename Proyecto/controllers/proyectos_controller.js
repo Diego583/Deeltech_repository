@@ -59,10 +59,11 @@ exports.getCapacidadEquipo = (request, response, next) => {
 
 exports.getCasoUso = (request, response, next) => {
 
-    Proyecto.fetchCasosDeUso(2009)
+    Proyecto.fetchCasosDeUso(request.params.id)
     .then(([rows,fieldData]) => {
         response.render('CasoUso', {
             Casos: rows,
+            id: request.params.id,
             error: request.session.error,
             userRol: request.session.rol,
             titulo: 'Caso de Uso',
@@ -82,17 +83,17 @@ exports.postCasoUso = (request, response, next) => {
 
     if(casoUso.length < 1 || iteracion.length < 1 || epic.length < 1 || ap.length < 1){
         request.session.error = "Te faltan campos por llenar";
-        response.redirect('/proyectos/caso_de_uso');
+        response.redirect('/proyectos/'+ request.params.id +'/caso_de_uso');
     }
     else if(ap == "Choose..."){
         request.session.error = "Te faltó escoger el punto ágil";
-        response.redirect('/proyectos/caso_de_uso');
+        response.redirect('/proyectos/'+ request.params.id +'/caso_de_uso');
     }
     else{
-        Proyecto.saveCasoDeUso(request.body.casoUso, request.body.iteracion, request.body.epic, request.body.ap, "Pendiente", 2009)
+        Proyecto.saveCasoDeUso(request.body.casoUso, request.body.iteracion, request.body.epic, request.body.ap, "Pendiente", request.params.id)
         .then(([rows,fieldData]) => {
             console.log("Guardando caso de uso...");
-            response.redirect('/proyectos/caso_de_uso');
+            response.redirect('/proyectos/'+ request.params.id +'/caso_de_uso');
         }).catch(err => console.log(err));
     }
 }
@@ -102,8 +103,8 @@ exports.postStatus = (request, response, next) => {
     const status = request.body.status;
     const id = request.body.id;
 
-    Proyecto.updateStatusCaso(status, id, 2009);
-    Proyecto.fetchCasosDeUso(2009)
+    Proyecto.updateStatusCaso(status, id, request.params.id);
+    Proyecto.fetchCasosDeUso(request.params.id)
         .then(([rows, fieldData]) => {
             //console.log(rows);
             response.status(200).json(rows);

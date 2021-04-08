@@ -60,7 +60,7 @@
 
                                     <input type="hidden" id="<%= CasoUso.id_caso_de_uso %>" value ="<%= CasoUso.id_caso_de_uso %>">
                                     <td>
-                                        <select class="form-control" name="status" id="s<%= CasoUso.id_caso_de_uso %>" onchange="status('<%= CasoUso.id_caso_de_uso %>')">
+                                        <select class="form-control" name="status" id="s<%= CasoUso.id_caso_de_uso %>" onchange="status('<%= CasoUso.id_caso_de_uso %>' , '<%=id%>')">'
                                             <option selected value=" <%=CasoUso.status_caso%>" class="font-weight-bold"> <%=CasoUso.status_caso%> </option>
                                             <option style="color:rgb(0, 255, 55)" value="Terminado" class="font-weight-bold" >Terminado</option>
                                             <option style="color:rgb(211, 22, 22)" value="Pendiente" class="font-weight-bold" >Pendiente</option>
@@ -82,7 +82,7 @@
                 </div>
 
                 <div>
-                    <form action="/proyectos/caso_de_uso" method="POST">
+                    <form action="/proyectos/<%= id %>/caso_de_uso" method="POST">
                         <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
                         <div class="mb-3">
                             <label for="casoUso" class="form-label text-success">Caso de Uso:</label>
@@ -122,7 +122,7 @@
 <%- include('partials/footer.ejs') %>
 
 <!-- Script para busqueda-->
-<script src="js/status.js"></script>
+<script src="/js/status.js"></script>
 
 <!-- Script para mensaje-->
 <script>

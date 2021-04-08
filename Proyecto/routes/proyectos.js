@@ -25,9 +25,9 @@ router.get('/:id/capacidad_de_equipo', isAuth, isMiembro, proyectosController.ge
 
 router.get('/:id/caso_de_uso', isAuth, isMiembro, proyectosController.getCasoUso);
 
-router.post('/caso_de_uso', isAuth, isMiembro, proyectosController.postCasoUso);
+router.post('/:id/caso_de_uso', isAuth, isMiembro, proyectosController.postCasoUso);
 
-router.post('/status', isAuth, isMiembro, proyectosController.postStatus);
+router.post('/:id/status', isAuth, isMiembro, proyectosController.postStatus);
 
 router.get('/nuevo_proyecto', isAuth, isMiembro, proyectosController.getNuevoProyecto);
 

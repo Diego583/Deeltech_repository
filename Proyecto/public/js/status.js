@@ -1,4 +1,4 @@
-function status(caso_id) {
+function status(caso_id, proyecto_id) {
     const status = document.getElementById('s' + caso_id).value;
     //El token de protección CSRF
     const csrf = document.getElementById('_csrf').value;
@@ -11,7 +11,7 @@ function status(caso_id) {
     let data = {status: status, id: id};
     //console.log(valor_busqueda);
     //función que manda la petición asíncrona
-    fetch('/proyectos/status', {
+    fetch('/proyectos/' + proyecto_id + '/status', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
