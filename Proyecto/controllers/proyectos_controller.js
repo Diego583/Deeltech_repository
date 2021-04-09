@@ -1,3 +1,4 @@
+const filesystem = require('fs');
 const Usuario = require('../models/user');
 const Proyecto = require('../models/proyecto');
 const airtable = require('../util/airtable');
@@ -13,6 +14,11 @@ exports.getReportes = (request, response, next) => {
             })
             .all();
         //console.log(records);
+        /*filesystem.writeFile('data.js',
+        'export default {' + '\n' + 
+        '}'
+        );*/
+        
         response.render('reportes', {
             id: request.params.id,
             Records: records,
