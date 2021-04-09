@@ -58,4 +58,8 @@ module.exports = class User{
     static fetchUsers_Proyects(id_proyecto){
         return db.execute('select nombre_usuario from usuario as u, usuario_rol as ur where u.id_usuario=ur.id_usuario and u.id_usuario in  (SELECT id_usuario FROM proyecto_usuario WHERE id_proyecto=?) and ur.id_rol != 7002', [id_proyecto]);
     }
+
+    static updateHoraUser(nueva_hora){
+        return db.execute('UPDATE usuario set tiempo_por_semana = ?  WHERE nombre_usuario = ?', [nueva_hora,nombre_usuario]);
+    }
 } 
