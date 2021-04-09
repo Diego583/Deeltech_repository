@@ -22,11 +22,11 @@
             </div>
         </nav>
 
+        <div class="chart-container" style="position: relative; height: 50%; width: 100%">
+            <canvas id="chart"></canvas>
+        </div>
+
         <h2>Work item List</h2>
-
-        <div>
-            <canvas id="chart" width="400" height="400"></canvas></div>
-
         <div>
             <table class="table table-dark">
                 <thead class="thead-success">
@@ -62,52 +62,72 @@
 function totalCasesChart(ctx) {
     const chart = new Chart(ctx, {
         type: 'line',
-        data:
-            {
-                labels: [1, 20],
-                datasets: [
-                    {
-                        label: 'Valor Ganado Acumulado (VGA)',
-                        data: [2,20],
-                        borderColor: [
-                            'rgba(255, 99, 132, 0.2)'
-                        ],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 1)'
-                        ]
-                    },
-                    {
-                        label: 'Valor Planeado Acumulado (VPA)',
-                        data: [3,30],
-                        borderColor: [
-                            'rgba(54, 162, 235, 0.2)'
-                        ],
-                        backgroundColor: [
-                            'rgba(54, 162, 235, 1)'
-                        ]
-                    },
-                    {
-                        label: 'Costo Real Acumulado (CRA)',
-                        data: [4,40],
-                        borderColor: [
-                            'rgba(255, 206, 86, 0.2)'
-                        ],
-                        backgroundColor: [
-                            'rgba(255, 206, 86, 1)'
-                        ]
-                    },
-                    {
-                        label: 'Valor Planeado Ajustado',
-                        data: [5,50],
-                        borderColor: [
-                            'rgba(75, 192, 192, 0.2)'
-                        ],
-                        backgroundColor: [
-                            'rgba(75, 192, 192, 1)'
-                        ]
+        data:{
+            labels: [1, 20],
+            datasets: [
+                {
+                    label: 'Valor Ganado Acumulado (VGA)',
+                    data: [2,20],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 2)'
+                    ]
+                },
+                {
+                    label: 'Valor Planeado Acumulado (VPA)',
+                    data: [3,30],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 2)'
+                    ]
+                },
+                {
+                    label: 'Costo Real Acumulado (CRA)',
+                    data: [4,40],
+                    borderColor: [
+                        'rgba(255, 206, 86, 1)'
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 206, 86, 2)'
+                    ]
+                },
+                {
+                    label: 'Valor Planeado Ajustado',
+                    data: [5,50],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 2)'
+                    ]
+                }
+            ]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Costo',
+                    padding: 10,
+                    color: 'rgba(255, 255, 255)',
+                    font: {
+                        size: 30
                     }
-                ]
+                },
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
             }
+        }
     })
 }
 
