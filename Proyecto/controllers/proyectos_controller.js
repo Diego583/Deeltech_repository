@@ -13,11 +13,6 @@ exports.getReportes = (request, response, next) => {
                 view: "Global view",
             })
             .all();
-        //console.log(records);
-        /*filesystem.writeFile('data.js',
-        'export default {' + '\n' + 
-        '}'
-        );*/
         
         response.render('reportes', {
             id: request.params.id,
