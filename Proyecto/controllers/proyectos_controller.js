@@ -195,3 +195,23 @@ exports.get = (request, response, next) => {
         }).catch(err => console.log(err));
     }).catch(err => console.log(err));
 };
+
+exports.getModificarCaso = (request, response, next) => {
+
+    Proyecto.fetchCasosDeUso(request.params.id)
+    .then(([rows,fieldData]) => {
+        response.render('modificarCaso', {
+
+            Casos: rows,
+            id: request.params.id,
+            error: request.session.error,
+            userRol: request.session.rol,
+            titulo: 'Modificar Caso de Uso',
+            csrfToken: request.csrfToken(),
+            isLoggedIn: request.session.isLoggedIn === true ? true : false
+
+        });
+
+    }).catch(err => console.log(err));
+
+};

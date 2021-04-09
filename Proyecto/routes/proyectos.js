@@ -29,6 +29,8 @@ router.post('/:id/caso_de_uso', isAuth, isMiembro, proyectosController.postCasoU
 
 router.post('/:id/status', isAuth, isMiembro, proyectosController.postStatus);
 
+router.get('/:id/modificar_caso_de_uso', isAuth, isMiembro, proyectosController.getModificarCaso);
+
 router.get('/nuevo_proyecto', isAuth, isMiembro, proyectosController.getNuevoProyecto);
 
 router.post('/nuevo_proyecto', isAuth, isMiembro, proyectosController.postNuevoProyecto);
