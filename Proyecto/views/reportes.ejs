@@ -3,59 +3,118 @@
 <%- include('partials/sidebar.ejs') %>
 
 <main class="container">
-            <!-- Page Content  -->
-            <div id="content">
-    
-                <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
-                    <div class="container-fluid">
-    
-                        <button type="button" id="sidebarCollapse" class="btn btn-light">
-                            <i class="fas fa-align-left"></i>
-                            <span>Toggle Sidebar</span>
-                        </button>
-                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <i class="fas fa-align-justify"></i>
-                        </button>
-    
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        </div>
-                    </div>
-                </nav>
-    
-                <h2>Work item List</h2>
+    <!-- Page Content  -->
+    <div id="content">
 
-                <div>
-                    <table class="table table-dark">
-                        <thead class="thead-success">
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Estimation</th>
-                            <th scope="col">Duration</th>
-                            <th scope="col">Finished Date</th>
-                            <th scope="col">Iterations</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <% for (let Record of Records) { %>
-                        <tr>
-                            <td><%= Record.fields.Name %></td>
-                            <td><%= Record.fields.Status %></td>
-                            <td><%= Record.fields.Estimation %></td>
-                            <td><%= Record.fields.Duration %></td>
-                            <td><%= Record.fields.FinishedDate %></td>
-                            <td>
-                                <% //console.log(Record.fields.Iterations); %>
-                                <% for (let Iteration of Record.fields.Iterations) { %>
-                                    <% //console.log(Iteration); %>
-                                    <%= Iteration %>
-                                <% } %>
-                            </td>
-                        </tr>
-                        <% } %>
-                        </tbody>
-                    </table>
+        <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-light">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 </div>
+            </div>
+        </nav>
+
+        <h2>Work item List</h2>
+
+        <div>
+            <canvas id="chart" width="400" height="400"></canvas></div>
+
+        <div>
+            <table class="table table-dark">
+                <thead class="thead-success">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Estimation</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Finished Date</th>
+                    <th scope="col">Iterations</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% for (let Record of Records) { %>
+                <tr>
+                    <td><%= Record.fields.Name %></td>
+                    <td><%= Record.fields.Status %></td>
+                    <td><%= Record.fields.Estimation %></td>
+                    <td><%= Record.fields.Duration %></td>
+                    <td><%= Record.fields.FinishedDate %></td>
+                </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
 </main>
 
 <%- include('partials/footer.ejs') %>
+
+<!-- Script para grafica-->
+<!--script src="/js/grafica.js"></script-->
+<script>
+//console.log("Entre");
+function totalCasesChart(ctx) {
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data:
+            {
+                labels: [1, 20],
+                datasets: [
+                    {
+                        label: 'Valor Ganado Acumulado (VGA)',
+                        data: [2,20],
+                        borderColor: [
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 1)'
+                        ]
+                    },
+                    {
+                        label: 'Valor Planeado Acumulado (VPA)',
+                        data: [3,30],
+                        borderColor: [
+                            'rgba(54, 162, 235, 0.2)'
+                        ],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 1)'
+                        ]
+                    },
+                    {
+                        label: 'Costo Real Acumulado (CRA)',
+                        data: [4,40],
+                        borderColor: [
+                            'rgba(255, 206, 86, 0.2)'
+                        ],
+                        backgroundColor: [
+                            'rgba(255, 206, 86, 1)'
+                        ]
+                    },
+                    {
+                        label: 'Valor Planeado Ajustado',
+                        data: [5,50],
+                        borderColor: [
+                            'rgba(75, 192, 192, 0.2)'
+                        ],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 1)'
+                        ]
+                    }
+                ]
+            }
+    })
+}
+
+function renderCharts(){
+    const ctx = document.getElementById('chart').getContext('2d');
+    totalCasesChart(ctx);
+}
+renderCharts();
+</script>

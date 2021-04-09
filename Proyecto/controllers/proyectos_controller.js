@@ -1,18 +1,19 @@
+const filesystem = require('fs');
 const Usuario = require('../models/user');
 const Proyecto = require('../models/proyecto');
 const airtable = require('../util/airtable');
 
 exports.getReportes = (request, response, next) => {
-    const table = airtable('Tasks');
+    const tasksTable = airtable('Tasks');
+    //const iterationsTable = airtable('Iterations');
 
     const getRecords = async() => {
-        const records = await table
+        const records = await tasksTable
             .select({
                 view: "Global view",
-                cellFormat: 'json'
             })
-            .firstPage();
-        //console.log(records);
+            .all();
+        
         response.render('reportes', {
             id: request.params.id,
             Records: records,
