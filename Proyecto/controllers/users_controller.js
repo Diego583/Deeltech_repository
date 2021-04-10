@@ -58,17 +58,32 @@ exports.getRegister = (request, response, next) => {
                 userRol: request.session.rol,
                 roles: rows, 
                 titulo: 'Registrar nuevo usuario',
-                error: request.session.error,
+                error: request.session.errorRegister,
                 isLoggedIn: request.session.isLoggedIn === true ? true : false
             });
         }).catch(err => console.log(err));
 };
 
 exports.postRegister = (request, response, next) => {
-    request.session.error = "";
+    request.session.errorRegister = "";
+    const contraseña1 = request.body.contraseña1;
+    const contraseña2 = request.body.contraseña2;
+    const nombre = request.body.nombre;
+    const nombre_usuario = request.body.nombre_usuario;
+    const rol = request.body.rol;
 
-    if (request.body.contraseña1 != request.body.contraseña2){
-        request.session.error = "Las contraseñas no coinciden";
+    if (nombre.length < 1 || nombre_usuario < 1 || contraseña1 < 1 || contraseña2 < 1){
+        request.session.errorRegister = "Te faltan campos por llenar";
+        response.redirect('/users/register');
+    }
+
+    else if(rol == "Choose..."){
+        request.session.errorRegister = "Te faltó escoger el rol";
+        response.redirect('/users/register');
+    }
+
+    else if (request.body.contraseña1 != request.body.contraseña2){
+        request.session.errorRegister = "Las contraseñas no coinciden";
         response.redirect('/users/register');
     }
 
@@ -93,7 +108,7 @@ exports.getUpdate = (request, response, next) => {
         userRol: request.session.rol,
         csrfToken: request.csrfToken(),
         titulo: 'Modificar Usuario',
-        error: request.session.error,
+        error: request.session.errorUpdate,
         isLoggedIn: request.session.isLoggedIn === true ? true : false
     });
 };
@@ -101,16 +116,25 @@ exports.getUpdate = (request, response, next) => {
 exports.postUpdate = (request, response, next) => {
     request.session.error = "";
     const username = request.body.nombre_usuario_nuevo;
+    const nombre = request.body.nombre;
+    const contraseña1 = request.body.contraseña1;
+    const contraseña2 = request.body.contraseña2;
+
 
     Usuario.fetchOne(request.body.nombre_usuario_nuevo)
     .then(([rows,fieldData]) => {
         if(rows.length > 0){
-            request.session.error = "El usuario ya está en uso";
+            request.session.errorUpdate = "El usuario ya está en uso";
+            response.redirect('/users/update');
+        }
+
+        else if (username.length < 1 || nombre < 1 || contraseña1 < 1 || contraseña2 < 1){
+            request.session.errorUpdate = "Te faltaron campos por llenar";
             response.redirect('/users/update');
         }
 
         else if (request.body.contraseña1 != request.body.contraseña2){
-            request.session.error = "Las contraseñas no coinciden";
+            request.session.errorUpdate = "Las contraseñas no coinciden";
             response.redirect('/users/update');
         }
 
