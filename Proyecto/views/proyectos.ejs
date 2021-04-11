@@ -3,6 +3,14 @@
 <%- include('partials/navbarProyectos.ejs') %>
 
 <main class="container">
+<% if (error) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Holy guacamole!</strong> <%= error %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<% } %>
 
 <h1 class="col-md-12 text-center text-white"> Proyectos </h1>
 
@@ -13,8 +21,8 @@
             <div class="card bg-dark" style="height: 30rem; width: 20rem;">
                 <img src="<%= proyecto.imagen %>" class="card-img-top" alt="<%= proyecto.imagen %>">
                 <div class="card-body">
-                  <h5 class="card-title text-success"><%= proyecto.nombre_proyecto %></h5>
-                  <p class="card-text "><%= proyecto.descripcion %></p>
+                    <h5 class="card-title text-success"><%= proyecto.nombre_proyecto %></h5>
+                    <p class="card-text "><%= proyecto.descripcion %></p>
                     <a href="/proyectos/<%= proyecto.id_proyecto %>/reportes" class="btn btn-secondary">Ir a proyecto</a>
                 </div>
             </div>

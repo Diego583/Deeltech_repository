@@ -12,14 +12,149 @@
             <ul class="navbar-nav mr-auto">
               <% if (userRol == 7001) { %>
               <li class="nav-item">
-                <a class="nav-link" href="/proyectos/nuevo_proyecto">Agregar proyecto</a>
+                <a type="button" class="nav-link" data-toggle="modal" data-target="#AgregarProyecto">
+                  Agregar proyecto
+                </a>
+                <!-- Modal -->
+                <div class="modal fade" id="AgregarProyecto" tabindex="-1" role="dialog" aria-labelledby="AgregarProyectoLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="AgregarProyectoLabel">Nuevo Proyecto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="/proyectos/nuevo_proyecto" method="POST" enctype="multipart/form-data">
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+                          <div class="mb-3">
+                              <label for="nombre_proyecto" class="form-label">Nombre:</label>
+                              <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto">
+                          </div>
+                          <div class="mb-3">
+                              <label for="descripcion" class="form-label">Descripción:</label>
+                              <input type="text" class="form-control" id="descripcion" name="descripcion">
+                          </div>
+                          <div class="mb-3">
+                              <div class="form-group">
+                                <label for="imagen" class="form-label">Imagen:</label>
+                                <input type="file" class="form-control-file" id="imagen" name="imagen">
+                              </div>
+                          </div>
+                          <div class="mb-3">
+                              <label for="users" class="form-label">Involucrados:</label>
+                              <select class="form-control" id="users" name="users" multiple data-live-search="true">
+                                  <% for (let user of users) { %>
+                                    <option value="<%= user.nombre_usuario %>"> <%= user.nombre_usuario %> </option>
+                                  <% } %>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Añadir</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/users/register">Registrar usuario</a>
+                <a type="button" class="nav-link" data-toggle="modal" data-target="#RegistrarUsuario">
+                  Registrar Usuario
+                </a>
+                <!-- Modal -->
+                <div class="modal fade" id="RegistrarUsuario" tabindex="-1" role="dialog" aria-labelledby="RegistrarUsuarioLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="RegistrarUsuarioLabel">Registrar Nuevo Usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="/users/register" method="POST" class="mb-3">
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+                          <div class="mb-3">
+                              <label for="nombre" class="form-label">Nombre completo:</label>
+                              <input type="text" class="form-control" id="nombre" name="nombre">
+                          </div>
+                          <div class="mb-3">
+                              <label for="nombre_usuario" class="form-label">Nombre de usuario:</label>
+                              <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario">
+                          </div>
+                          <div class="mb-3">
+                              <label for="contraseña1" class="form-label">Contraseña:</label>
+                              <input type="password" class="form-control" id="contraseña1" name="contraseña1">
+                          </div>
+                          <div class="mb-3">
+                              <label for="contraseña2" class="form-label">Confirmar contraseña:</label>
+                              <input type="password" class="form-control" id="contraseña2" name="contraseña2">
+                          </div>
+                          <div class="mb-3">
+                              <label for="rol" class="form-label">Selecciona un rol</label>
+                              <select class="form-control" id="rol" name="rol">
+                                  <option selected>Choose...</option>
+                                  <% for (let rol of roles) { %>
+                                      <option value="<%= rol.id_rol %>"> <%= rol.nombre %> </option> 
+                                  <% } %>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Registrar</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </li>
               <% } %>
               <li class="nav-item">
-                <a class="nav-link" href="/users/update">Modificar cuenta</a>
+                <a type="button" class="nav-link" data-toggle="modal" data-target="#ModificarCuenta">
+                  Modificar Cuenta
+                </a>
+                <!-- Modal -->
+                <div class="modal fade" id="ModificarCuenta" tabindex="-1" role="dialog" aria-labelledby="ModificarCuentaLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="ModificarCuentaLabel">Modificar Cuenta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form action="/users/update" method="POST" class="mb-3">
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+                          <div class="mb-3">
+                              <label for="nombre" class="form-label">Nombre completo:</label>
+                              <input type="text" class="form-control" id="nombre" name="nombre">
+                          </div>
+                          <div class="mb-3">
+                              <label for="nombre_usuario_nuevo" class="form-label">Nombre de usuario:</label>
+                              <input type="text" class="form-control" id="nombre_usuario_nuevo" name="nombre_usuario_nuevo">
+                          </div>
+                          <div class="mb-3">
+                              <label for="contraseña1" class="form-label">Contraseña:</label>
+                              <input type="password" class="form-control" id="contraseña1" name="contraseña1">
+                          </div>
+                          <div class="mb-3">
+                              <label for="contraseña2" class="form-label">Confirmar Contraseña:</label>
+                              <input type="password" class="form-control" id="contraseña2" name="contraseña2">
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/users/logout">Cerrar sesion</a>

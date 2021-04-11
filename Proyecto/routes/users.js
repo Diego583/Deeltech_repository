@@ -18,11 +18,7 @@ router.post('/login', usersController.postLogin);
 
 router.get('/logout', isAuth, usersController.getLogout);
 
-router.get('/register', isAuth, isMiembro, usersController.getRegister);
-
 router.post('/register', isAuth, isMiembro, usersController.postRegister);
-
-router.get('/update', isAuth, usersController.getUpdate);
 
 router.post('/update', isAuth, usersController.postUpdate);
 

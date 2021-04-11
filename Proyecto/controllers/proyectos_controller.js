@@ -117,19 +117,6 @@ exports.postStatus = (request, response, next) => {
 
 }
 
-exports.getNuevoProyecto = (request, response, next) => {
-    Usuario.fetchUsers()
-        .then(([rows,fieldData]) => {
-            response.render('nuevoProyecto', {
-                csrfToken: request.csrfToken(),
-                userRol: request.session.rol,
-                users: rows, 
-                titulo: 'Nuevo Proyecto',
-                isLoggedIn: request.session.isLoggedIn === true ? true : false
-            });
-        }).catch(err => console.log(err));
-};
-
 exports.postNuevoProyecto = (request, response, next) => {
     /*console.log(request.body.nombre_proyecto);
     console.log(request.body.descripcion);*/
@@ -179,6 +166,16 @@ exports.postBuscar = (request, response, next) => {
 };
 
 exports.get = (request, response, next) => {
+    Usuario.fetchRoles()
+    .then(([rows,fieldData]) => {
+        request.session.roles = rows;
+    }).catch(err => console.log(err));
+
+    Usuario.fetchUsers()
+    .then(([rows,fieldData]) => {
+        request.session.usuarios = rows;
+    }).catch(err => console.log(err));
+
     Usuario.getRol(request.session.usuario)
     .then(([rows,fieldData]) => {
         request.session.rol = rows[0].id_rol;
@@ -188,8 +185,11 @@ exports.get = (request, response, next) => {
         .then(([rows,fieldData]) => {
             response.render('proyectos', {
                 csrfToken: request.csrfToken(),
+                roles: request.session.roles,
+                users: request.session.usuarios,
                 proyectos: rows,
-                userRol: request.session.rol, 
+                userRol: request.session.rol,
+                error: request.session.error,
                 titulo: 'Proyectos',
                 isLoggedIn: request.session.isLoggedIn === true ? true : false
             });

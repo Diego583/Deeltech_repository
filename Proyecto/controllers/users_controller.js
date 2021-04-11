@@ -50,53 +50,38 @@ exports.getLogout = (request, response, next) => {
     });
 };
 
-exports.getRegister = (request, response, next) => {
-    Usuario.fetchRoles()
-        .then(([rows,fieldData]) => {
-            response.render('register', {
-                csrfToken: request.csrfToken(),
-                userRol: request.session.rol,
-                roles: rows, 
-                titulo: 'Registrar nuevo usuario',
-                error: request.session.error,
-                isLoggedIn: request.session.isLoggedIn === true ? true : false
-            });
-        }).catch(err => console.log(err));
-};
-
 exports.postRegister = (request, response, next) => {
     request.session.error = "";
 
-    if (request.body.contraseña1 != request.body.contraseña2){
-        request.session.error = "Las contraseñas no coinciden";
-        response.redirect('/users/register');
-    }
+    Usuario.fetchOne(request.body.nombre_usuario)
+    .then(([rows,fieldData]) => {
+        if(rows.length > 0){
+            request.session.error = "El usuario ya está en uso";
+            response.redirect('/');
+        }
 
-    else{
-        const nuevo_usuario = new Usuario(request.body.nombre_usuario, request.body.nombre, request.body.contraseña1);
-        nuevo_usuario.saveUser()
-            .then(() => {
-                nuevo_usuario.getIdUser(request.body.nombre_usuario)
-                    .then(([rows,fieldData]) => {
-                        var id_usuario = rows[0].id_usuario;
-                        //console.log(id_usuario);
-                        //console.log(request.body.rol);
-                        nuevo_usuario.saveUserRol(id_usuario, request.body.rol);
-                        response.redirect('/');
-                    }).catch(err => console.log(err));
-            }).catch(err => console.log(err));
-    }
+        else if (request.body.contraseña1 != request.body.contraseña2){
+            request.session.error = "Las contraseñas no coinciden.";
+            response.redirect('/');
+        }
+
+        else{
+            const nuevo_usuario = new Usuario(request.body.nombre_usuario, request.body.nombre, request.body.contraseña1);
+            nuevo_usuario.saveUser()
+                .then(() => {
+                    nuevo_usuario.getIdUser(request.body.nombre_usuario)
+                        .then(([rows,fieldData]) => {
+                            var id_usuario = rows[0].id_usuario;
+                            //console.log(id_usuario);
+                            //console.log(request.body.rol);
+                            nuevo_usuario.saveUserRol(id_usuario, request.body.rol);
+                            response.redirect('/');
+                        }).catch(err => console.log(err));
+                }).catch(err => console.log(err));
+        }
+    }).catch(err => console.log(err));
+
 }
-
-exports.getUpdate = (request, response, next) => {
-    response.render('update', {
-        userRol: request.session.rol,
-        csrfToken: request.csrfToken(),
-        titulo: 'Modificar Usuario',
-        error: request.session.error,
-        isLoggedIn: request.session.isLoggedIn === true ? true : false
-    });
-};
 
 exports.postUpdate = (request, response, next) => {
     request.session.error = "";
@@ -106,12 +91,12 @@ exports.postUpdate = (request, response, next) => {
     .then(([rows,fieldData]) => {
         if(rows.length > 0){
             request.session.error = "El usuario ya está en uso";
-            response.redirect('/users/update');
+            response.redirect('/');
         }
 
         else if (request.body.contraseña1 != request.body.contraseña2){
             request.session.error = "Las contraseñas no coinciden";
-            response.redirect('/users/update');
+            response.redirect('/');
         }
 
         else{
