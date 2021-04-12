@@ -44,18 +44,23 @@ exports.getWbs = (request, response, next) => {
 };
 
 exports.getCapacidadEquipo = (request, response, next) => {
-    Usuario.fetchUsers_Proyects(request.params.id)
-        .then(([rows,fieldData]) => {
+    Usuario.fetchSuma_Horas(request.params.id)
+    .then(([rows1,fieldData])=>{
+        Usuario.fetchUsers_Proyects(request.params.id)
+        .then(([rows2,fieldData]) => {
             response.render('capacidadEquipo', {
                 id: request.params.id,
                 csrfToken: request.csrfToken(),
                 userRol: request.session.rol,
-                users: rows, 
+                users: rows2, 
+                tiempoP: rows1,
                 titulo: 'Capacidad Equipo',
                 isLoggedIn: request.session.isLoggedIn === true ? true : false
                 
             });
         }).catch(err => console.log(err));
+    }).catch(err => console.log(err));
+    
 };
 
 exports.getCasoUso = (request, response, next) => {
