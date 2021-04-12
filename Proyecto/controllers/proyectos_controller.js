@@ -136,19 +136,24 @@ exports.postNuevoProyecto = (request, response, next) => {
     nuevo_proyecto.saveProyecto()
         .then(() => {
             if (Array.isArray(arrUsers)){
-                console.log("la cague");
+                //console.log("la cague");
                 for (var i = 0; i < arrUsers.length; i++) {
                     console.log(arrUsers[i]);
                     nuevo_proyecto.saveProyectoUser(arrUsers[i]);
                 }
+                request.flash('success','Nuevo proyecto agregado al sistema. 😁👍');
                 response.redirect('/');
             }
             else {
                 //console.log(arrUsers);
                 nuevo_proyecto.saveProyectoUser(arrUsers);
+                request.flash('success','Nuevo proyecto agregado al sistema. 😁👍');
                 response.redirect('/');
             }
-        }).catch(err => console.log(err));
+        })
+        .catch(err => {
+            console.log(err);
+        });
 }
 
 exports.postBuscar = (request, response, next) => {
@@ -189,7 +194,8 @@ exports.get = (request, response, next) => {
                 users: request.session.usuarios,
                 proyectos: rows,
                 userRol: request.session.rol,
-                error: request.session.error,
+                error: request.flash("error"),
+                success: request.flash("success"),
                 titulo: 'Proyectos',
                 isLoggedIn: request.session.isLoggedIn === true ? true : false
             });

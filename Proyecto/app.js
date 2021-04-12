@@ -15,6 +15,8 @@ const session = require('express-session');
 const csrf = require('csurf');
 const csrfProtection = csrf();
 
+const flash = require('connect-flash');
+
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -68,6 +70,8 @@ app.use(session({
 
 //Para estar protegido ante CSRF
 app.use(csrfProtection);
+
+app.use(flash());
 
 app.use('/users', rutasUsers);
 

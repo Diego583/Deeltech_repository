@@ -4,10 +4,19 @@
 
 <main class="container">
 
-<% if (error) { %>
+<% if (success.length != 0) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Excelsior!</strong> <%= success %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlert()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<% } %>
+
+<% if (error.length != 0) { %>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>Holy guacamole!</strong> <%= error %>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlert()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>

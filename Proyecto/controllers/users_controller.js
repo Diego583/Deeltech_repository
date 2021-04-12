@@ -51,8 +51,6 @@ exports.getLogout = (request, response, next) => {
 };
 
 exports.postRegister = (request, response, next) => {
-    request.session.error = "";
-
     const nombre_usuario = request.body.nombre_usuario;
     const nombre = request.body.nombre;
     const contraseña1 = request.body.contraseña1;
@@ -62,17 +60,17 @@ exports.postRegister = (request, response, next) => {
     Usuario.fetchOne(request.body.nombre_usuario)
     .then(([rows,fieldData]) => {
         if(rows.length > 0){
-            request.session.error = "El usuario ya está en uso";
+            request.flash('error','El usuario ya está en uso. 😢🙃');
             response.redirect('/');
         }
 
         else if (nombre_usuario.length < 1 || nombre.length < 1 || contraseña1.length < 1 || contraseña2.length < 1){
-            request.session.error = "Te faltaron campos por llenar.";
+            request.flash('error','Te faltaron campos por llenar. 😢🙃');
             response.redirect('/');
         }
 
         else if (contraseña1 != contraseña2){
-            request.session.error = "Las contraseñas no coinciden.";
+            request.flash('error','Las contraseñas no coinciden. 😢🙃');
             response.redirect('/');
         }
 
@@ -86,6 +84,7 @@ exports.postRegister = (request, response, next) => {
                             //console.log(id_usuario);
                             //console.log(request.body.rol);
                             nuevo_usuario.saveUserRol(id_usuario, request.body.rol);
+                            request.flash('success', 'Nuevo usuario agregado al sistema. 😁👍');
                             response.redirect('/');
                         }).catch(err => console.log(err));
                 }).catch(err => console.log(err));
@@ -95,7 +94,6 @@ exports.postRegister = (request, response, next) => {
 }
 
 exports.postUpdate = (request, response, next) => {
-    request.session.error = "";
     const nombre = request.body.nombre;
     const nombreUsuario = request.body.nombre_usuario_nuevo;
     const contraseña1 = request.body.contraseña1;
@@ -104,17 +102,17 @@ exports.postUpdate = (request, response, next) => {
     Usuario.fetchOne(nombreUsuario)
     .then(([rows,fieldData]) => {
         if(rows.length > 0){
-            request.session.error = "El usuario ya está en uso";
+            request.flash('error','El usuario ya está en uso. 😢🙃');
             response.redirect('/');
         }
 
         else if (nombreUsuario.length < 1 || nombre.length < 1 || contraseña1.length < 1 || contraseña2.length < 1){
-            request.session.error = "Te faltaron campos por llenar.";
+            request.flash('error','Te faltaron campos por llenar. 😢🙃');
             response.redirect('/');
         }
 
         else if (contraseña1 != contraseña2){
-            request.session.error = "Las contraseñas no coinciden";
+            request.flash('error','Las contraseñas no coinciden 😢🙃');
             response.redirect('/');
         }
 
@@ -125,6 +123,7 @@ exports.postUpdate = (request, response, next) => {
                 request.session.isLoggedIn = true;
                 request.session.usuario = username;
                 return request.session.save(err => {
+                    request.flash('success', 'Tu datos han sido actualizados. 😁👍');
                     response.redirect('/');
                 });
             }).catch(err => console.log(err));
