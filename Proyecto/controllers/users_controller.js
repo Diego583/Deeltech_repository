@@ -59,18 +59,23 @@ exports.postRegister = (request, response, next) => {
 
     Usuario.fetchOne(request.body.nombre_usuario)
     .then(([rows,fieldData]) => {
-        if(rows.length > 0){
-            request.flash('error','El usuario ya está en uso. 😢🙃');
+        if (nombre_usuario.length == 0 && nombre.length == 0 && contraseña1.length == 0 && contraseña2.length == 0){
+            request.flash('error','No se recibio ningun dato. 😢🙃');
             response.redirect('/');
         }
 
-        else if (nombre_usuario.length < 1 || nombre.length < 1 || contraseña1.length < 1 || contraseña2.length < 1){
+        else if (nombre_usuario.length == 0 || nombre.length == 0 || contraseña1.length == 0 || contraseña2.length == 0){
             request.flash('error','Te faltaron campos por llenar. 😢🙃');
             response.redirect('/');
         }
 
         else if (contraseña1 != contraseña2){
             request.flash('error','Las contraseñas no coinciden. 😢🙃');
+            response.redirect('/');
+        }
+
+        else if(rows.length > 0){
+            request.flash('error','El usuario ya está en uso. 😢🙃');
             response.redirect('/');
         }
 
@@ -101,18 +106,23 @@ exports.postUpdate = (request, response, next) => {
 
     Usuario.fetchOne(nombreUsuario)
     .then(([rows,fieldData]) => {
-        if(rows.length > 0){
-            request.flash('error','El usuario ya está en uso. 😢🙃');
+        if (nombreUsuario.length == 0 && nombre.length == 0 && contraseña1.length == 0 && contraseña2.length == 0){
+            request.flash('error','No se recibio ningun dato. 😢🙃');
             response.redirect('/');
         }
 
-        else if (nombreUsuario.length < 1 || nombre.length < 1 || contraseña1.length < 1 || contraseña2.length < 1){
+        else if (nombreUsuario.length == 0 || nombre.length == 0|| contraseña1.length == 0 || contraseña2.length == 0){
             request.flash('error','Te faltaron campos por llenar. 😢🙃');
             response.redirect('/');
         }
 
         else if (contraseña1 != contraseña2){
             request.flash('error','Las contraseñas no coinciden 😢🙃');
+            response.redirect('/');
+        }
+
+        else if(rows.length > 0){
+            request.flash('error','El usuario ya está en uso. 😢🙃');
             response.redirect('/');
         }
 

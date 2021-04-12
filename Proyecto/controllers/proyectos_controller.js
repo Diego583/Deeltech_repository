@@ -118,22 +118,35 @@ exports.postStatus = (request, response, next) => {
 }
 
 exports.postNuevoProyecto = (request, response, next) => {
-    /*console.log(request.body.nombre_proyecto);
-    console.log(request.body.descripcion);*/
-    console.log(request.body.users);
-
+    const nombre_proyecto = request.body.nombre_proyecto;
+    const descripcion = request.body.descripcion;
     var arrUsers = request.body.users;
-
     const image = request.file;
-    //console.log(image);
 
-    if(!image) {
+    console.log(nombre_proyecto);
+    console.log(descripcion);
+    console.log(image);
+    console.log(arrUsers);
+
+    if (nombre_proyecto.length == 0 && descripcion.length == 0 && arrUsers == undefined && !image){
+        request.flash('error','No se recibio ningun dato. 😢🙃');
+        response.redirect('/');
+    }
+
+    else if (nombre_proyecto.length == 0 || descripcion.length == 0 || arrUsers == undefined || !image){
+        request.flash('error','Te faltaron campos por llenar. 😢🙃');
+        response.redirect('/');
+    }
+
+    else if (!image) {
         console.error('Error al subir la imagen');
+        request.flash('error','Error al subir la imagen. 😢🙃');
         return response.status(422).redirect('/');
     }
 
-    const nuevo_proyecto = new Proyecto(request.body.nombre_proyecto, request.body.descripcion, image.filename);
-    nuevo_proyecto.saveProyecto()
+    else{
+        const nuevo_proyecto = new Proyecto(nombre_proyecto, descripcion, image.filename);
+        nuevo_proyecto.saveProyecto()
         .then(() => {
             if (Array.isArray(arrUsers)){
                 //console.log("la cague");
@@ -154,6 +167,7 @@ exports.postNuevoProyecto = (request, response, next) => {
         .catch(err => {
             console.log(err);
         });
+    }
 }
 
 exports.postBuscar = (request, response, next) => {
@@ -184,8 +198,8 @@ exports.get = (request, response, next) => {
     Usuario.getRol(request.session.usuario)
     .then(([rows,fieldData]) => {
         request.session.rol = rows[0].id_rol;
+        console.log(request.session.usuario);
         console.log(request.session.rol);
-        console.log(request.session);
         Proyecto.fetchProyectosUsuario(request.session.usuario)
         .then(([rows,fieldData]) => {
             response.render('proyectos', {
