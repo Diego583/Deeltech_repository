@@ -53,6 +53,12 @@ exports.getLogout = (request, response, next) => {
 exports.postRegister = (request, response, next) => {
     request.session.error = "";
 
+    const nombre_usuario = request.body.nombre_usuario;
+    const nombre = request.body.nombre;
+    const contraseña1 = request.body.contraseña1;
+    const contraseña2 = request.body.contraseña2;
+
+
     Usuario.fetchOne(request.body.nombre_usuario)
     .then(([rows,fieldData]) => {
         if(rows.length > 0){
@@ -60,13 +66,18 @@ exports.postRegister = (request, response, next) => {
             response.redirect('/');
         }
 
-        else if (request.body.contraseña1 != request.body.contraseña2){
+        else if (nombre_usuario.length < 1 || nombre.length < 1 || contraseña1.length < 1 || contraseña2.length < 1){
+            request.session.error = "Te faltaron campos por llenar.";
+            response.redirect('/');
+        }
+
+        else if (contraseña1 != contraseña2){
             request.session.error = "Las contraseñas no coinciden.";
             response.redirect('/');
         }
 
         else{
-            const nuevo_usuario = new Usuario(request.body.nombre_usuario, request.body.nombre, request.body.contraseña1);
+            const nuevo_usuario = new Usuario(nombre_usuario, nombre, contraseña1);
             nuevo_usuario.saveUser()
                 .then(() => {
                     nuevo_usuario.getIdUser(request.body.nombre_usuario)
@@ -85,23 +96,31 @@ exports.postRegister = (request, response, next) => {
 
 exports.postUpdate = (request, response, next) => {
     request.session.error = "";
-    const username = request.body.nombre_usuario_nuevo;
+    const nombre = request.body.nombre;
+    const nombreUsuario = request.body.nombre_usuario_nuevo;
+    const contraseña1 = request.body.contraseña1;
+    const contraseña2 = request.body.contraseña2;
 
-    Usuario.fetchOne(request.body.nombre_usuario_nuevo)
+    Usuario.fetchOne(nombreUsuario)
     .then(([rows,fieldData]) => {
         if(rows.length > 0){
             request.session.error = "El usuario ya está en uso";
             response.redirect('/');
         }
 
-        else if (request.body.contraseña1 != request.body.contraseña2){
+        else if (nombreUsuario.length < 1 || nombre.length < 1 || contraseña1.length < 1 || contraseña2.length < 1){
+            request.session.error = "Te faltaron campos por llenar.";
+            response.redirect('/');
+        }
+
+        else if (contraseña1 != contraseña2){
             request.session.error = "Las contraseñas no coinciden";
             response.redirect('/');
         }
 
         else{
             console.log(request.body.nombre_usuario_nuevo);
-            Usuario.updateUser(request.body.nombre_usuario_nuevo, request.body.nombre, request.body.contraseña1, request.session.usuario)
+            Usuario.updateUser(nombreUsuario, nombre, contraseña1, request.session.usuario)
             .then(() => {
                 request.session.isLoggedIn = true;
                 request.session.usuario = username;
