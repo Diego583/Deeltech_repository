@@ -56,7 +56,11 @@ module.exports = class User{
     }
 
     static fetchUsers_Proyects(id_proyecto){
-        return db.execute('select nombre_usuario from usuario as u, usuario_rol as ur where u.id_usuario=ur.id_usuario and u.id_usuario in  (SELECT id_usuario FROM proyecto_usuario WHERE id_proyecto=?) and ur.id_rol != 7002', [id_proyecto]);
+        return db.execute('select nombre_usuario, tiempo_por_semana from usuario as u, usuario_rol as ur where u.id_usuario=ur.id_usuario and u.id_usuario in  (SELECT id_usuario FROM proyecto_usuario WHERE id_proyecto=?) and ur.id_rol != 7002', [id_proyecto]);
+    }
+
+    static fetchSuma_Horas(id_proyecto){
+        return db.execute('select sum(tiempo_por_semana) as tiempo from (select nombre_usuario, tiempo_por_semana from usuario as u, usuario_rol as ur where u.id_usuario=ur.id_usuario and u.id_usuario in  (SELECT id_usuario FROM proyecto_usuario WHERE id_proyecto=?) and ur.id_rol != 7002) as tabla', [id_proyecto]);
     }
 
     static updateHoraUser(nueva_hora){

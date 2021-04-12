@@ -53,6 +53,7 @@ exports.getCapacidadEquipo = (request, response, next) => {
                 users: rows, 
                 titulo: 'Capacidad Equipo',
                 isLoggedIn: request.session.isLoggedIn === true ? true : false
+                
             });
         }).catch(err => console.log(err));
 };

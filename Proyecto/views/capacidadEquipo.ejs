@@ -37,7 +37,7 @@
                     <tbody>
                         <tr>
                         <th scope="row">Horas nominales totales</th>
-                        <td>Total horas</td>
+                        <td>aqui falta algo</td>
                         <td>100%</td>
                         </tr>
                         <tr>
@@ -107,8 +107,8 @@
                                 <%= user.nombre_usuario %>
                             </td>
                             <td>
-                                <select class="form-control" name="horario" id="s<%= user.nombre_usuario %>" onchange="horario('<%= user.nombre_usuario %>' , '<%=id%>')")">'
-                                    <option selected value=" <%=user.horario%>" class="font-weight-bold"> <%=user.horario%> </option>
+                                <select class="form-control" name="horario" id="s<%= user.nombre_usuario %>" onchange="horario('<%= user.nombre_usuario %>' , '<%=id%>')">'
+                                    <option selected value=" <%=user.tiempo_por_semana%>" class="font-weight-bold"> <%=user.tiempo_por_semana%> </option>
                                     <% for (var i = 1 ; i<51; i++) { %>
                                         <option value="<%= i %>" class="font-weight-bold" ><%= i%></option>
                                     <% } %>
