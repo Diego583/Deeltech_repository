@@ -11,7 +11,7 @@ Enrique Santos Fraire A01705746
 Leonardo Alvarado Menéndez A01705998
 
 
-Instrucciones de uso:
+# Instrucciones de uso:
 
 -1. Clonar el repositorio
 
