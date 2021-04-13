@@ -66,4 +66,8 @@ module.exports = class User{
     static updateHoraUser(nueva_hora){
         return db.execute('UPDATE usuario set tiempo_por_semana = ?  WHERE nombre_usuario = ?', [nueva_hora,nombre_usuario]);
     }
+
+    static fetchPorcentajes(id_proyecto){
+        return db.execute('select * from capacidad_equipo where id_proyecto = ?', [id_proyecto]);
+    }
 } 
