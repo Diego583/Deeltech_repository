@@ -97,4 +97,4 @@ app.use( (request, response, next) => {
     });
 });
 
-app.listen(5000);
+app.listen(process.env.PORT || 5000);
