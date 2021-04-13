@@ -36,6 +36,7 @@ Instrucciones de uso:
 -7. Crear el archivo "airtable.js" en la carpeta "util" con el siguiente código
 
 var Airtable = require('airtable');
+
 module.exports = new Airtable({apiKey: 'keykb63i6wmy8nYC7'}).base('appigpq6U2yrVUY3w');
 
 -8. Se guarda el archivo "airtable.js"
