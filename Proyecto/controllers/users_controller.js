@@ -131,7 +131,7 @@ exports.postUpdate = (request, response, next) => {
             Usuario.updateUser(nombreUsuario, nombre, contraseña1, request.session.usuario)
             .then(() => {
                 request.session.isLoggedIn = true;
-                request.session.usuario = username;
+                request.session.usuario = nombreUsuario;
                 return request.session.save(err => {
                     request.flash('success', 'Tu datos han sido actualizados. 😁👍');
                     response.redirect('/');
