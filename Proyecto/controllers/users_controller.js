@@ -120,7 +120,6 @@ exports.postUpdate = (request, response, next) => {
     const contraseña1 = request.body.contraseña1;
     const contraseña2 = request.body.contraseña2;
 
-
     Usuario.fetchOne(request.body.nombre_usuario_nuevo)
     .then(([rows,fieldData]) => {
         if(rows.length > 0){
@@ -128,7 +127,7 @@ exports.postUpdate = (request, response, next) => {
             response.redirect('/users/update');
         }
 
-        else if (username.length < 1 || nombre < 1 || contraseña1 < 1 || contraseña2 < 1){
+        else if (username.length < 1 || nombre.length < 1 || contraseña1.length < 1 || contraseña2.length < 1){
             request.session.errorUpdate = "Te faltaron campos por llenar";
             response.redirect('/users/update');
         }

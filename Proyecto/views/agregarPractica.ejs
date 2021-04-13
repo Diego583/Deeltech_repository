@@ -1,0 +1,68 @@
+<%- include('partials/head.ejs') %>
+
+<%- include('partials/sidebar.ejs') %>
+
+<main class="container">
+    <!-- Page Content  -->
+    <div id="content">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-light">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link text-white" href="/proyectos/<%= id %>/agregar_practica">Agregar Practica</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Modificar Practica</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+
+            <form action="/proyectos/<%= id %>/agregar_practica" method="POST">
+
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+                <div class="mb-3">
+                    <label for="nombre" class="form-label text-success">Nombre de Practica de trabajo:</label>
+                    <input type="text" class="form-control" id="nombrePractica" name="nombrePractica">
+                </div>
+                <div class="mb-3">
+                    <label for="fase" class="form-label text-success">Fase:</label>
+                    <select class="form-control" id="fase" name="fase" >
+                        <option selected class="font-weight-bold"> Choose... </option>
+                        <% for (let fase of fases) { %>
+                            <option value="<%= fase.id_fase%>"> <%= fase.nombre_fase %> </option>
+                        <% } %>
+                    </select>
+                </div>
+    
+                <% if (error) { %>
+                    <p style="color:red"><%= error %></p>
+                <% } %>
+    
+                <button type="submit" class="btn btn-dark">Agregar</button>
+
+            </form>
+
+
+
+        </div>
+
+    </div>
+        
+</main>
+
+<%- include('partials/footer.ejs') %>

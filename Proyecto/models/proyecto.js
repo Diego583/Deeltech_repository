@@ -44,4 +44,44 @@ module.exports = class Proyecto{
         return db.execute('UPDATE caso_de_uso set status_caso = ? WHERE id_caso_de_uso = ? AND id_proyecto = ?', 
         [status, id_caso, id_proyecto]);
     }
+
+    static fetchProyectoTareasAnalisis(id_proyecto){ // NUEVO: Busqueda de tareas en fase Analisis
+        return db.execute('SELECT id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Analisis" AND proyecto.id_proyecto = ?', 
+        [id_proyecto]);
+    }
+
+    static fetchProyectoTareasDiseño(id_proyecto){ // NUEVO: Busqueda de tareas en fase Diseño
+        return db.execute('SELECT id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Diseño" AND proyecto.id_proyecto = ?', 
+        [id_proyecto]);
+    }
+
+    static fetchProyectoTareasImplementacion(id_proyecto){ // NUEVO: Busqueda de tareas en fase Implementacion
+        return db.execute('SELECT id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Implementacion" AND proyecto.id_proyecto = ?', 
+        [id_proyecto]);
+    }
+
+    static fetchProyectoTareasPruebas(id_proyecto){ // NUEVO: Busqueda de tareas en fase Pruebas
+        return db.execute('SELECT id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Pruebas" AND proyecto.id_proyecto = ?', 
+        [id_proyecto]);
+    }
+
+    static fetchProyectoTareasDespliegue (id_proyecto){ // NUEVO: Busqueda de tareas en fase Despliegue
+        return db.execute('SELECT id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Despliegue" AND proyecto.id_proyecto = ?', 
+        [id_proyecto]);
+    }
+
+    static savePracticaTrabajo(fase, id_proyecto, nombre_practica){ // NUEVO: Guardar practica de tarea 
+        return db.execute('INSERT into tareas (id_fase, id_proyecto, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13) values (?, ?, ?, 0, 0, 0, 0, 0, 0)', 
+        [fase, id_proyecto, nombre_practica]);
+    }
+
+    static fetchFases(){
+        return db.execute('SELECT * FROM fase');
+    }
+
+    static updateTarea(ap_1, ap_2, ap_3, ap_5, ap_8, ap_13, id_tarea, id_proyecto){
+        return db.execute('UPDATE tareas SET ap_1 = ?, ap_2 = ?, ap_3 = ?, ap_5 = ?, ap_8 = ?, ap_13 = ? WHERE id_tarea = ? AND id_proyecto = ?', 
+        [ap_1, ap_2, ap_3, ap_5, ap_8, ap_13, id_tarea, id_proyecto]);
+    }
+
 } 
