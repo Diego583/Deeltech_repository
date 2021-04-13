@@ -50,7 +50,7 @@ module.exports = new Airtable({apiKey: 'keykb63i6wmy8nYC7'}).base('appigpq6U2yrV
 
 - Se trabaja sobre "localhost:5000"
 
-- Si julio tiene que ver este proyecto o si alguien conoce a julio, diganle que me marque
+- Si julio tiene que ver este proyecto o si alguien conoce a julio, diganle que me marque -> 722 109 3984
 
 # SI NO LLEGA A JALAR EL PROYECTO DESPUES DE ESTOS PASOS, MARCAR A LOS SIGUIENTES NUMEROS
 
