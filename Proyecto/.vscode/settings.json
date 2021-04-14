@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/1658b2b5-e7af-44cd-ba17-ec945ab93cca/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/nodejsNatgas",
+    "appService.deploySubpath": "."
+}
