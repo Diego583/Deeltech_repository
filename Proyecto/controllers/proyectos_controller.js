@@ -50,23 +50,27 @@ exports.getWbs = (request, response, next) => { // NUEVO
                     Proyecto.fetchProyectoTareasDespliegue(request.params.id)
                     .then(([rows5,fieldData]) => {
                         var tamañoDes = rows5.length + 1;
-                        response.render('wbs', {
-                            id: request.params.id,
-                            csrfToken: request.csrfToken(),
-                            userRol: request.session.rol,
-                            titulo: 'WBS',
-                            tareasAnalisis: rows1,
-                            tareasDiseño: rows2,
-                            tareasImplementacion: rows3,
-                            tareasPruebas: rows4,
-                            tareasDespliegue: rows5,
-                            nA: tamañoA,
-                            nD:tamañoD,
-                            nI: tamañoI,
-                            nP: tamañoP,
-                            nDes: tamañoDes,
-                            isLoggedIn: request.session.isLoggedIn === true ? true : false
-                        });
+                        Proyecto.fetchPromedioWbs(request.params.id)
+                        .then(([rows6,fieldData]) => {
+                            response.render('wbs', {
+                                id: request.params.id,
+                                csrfToken: request.csrfToken(),
+                                userRol: request.session.rol,
+                                titulo: 'WBS',
+                                tareasAnalisis: rows1,
+                                tareasDiseño: rows2,
+                                tareasImplementacion: rows3,
+                                tareasPruebas: rows4,
+                                tareasDespliegue: rows5,
+                                total: rows6,
+                                nA: tamañoA,
+                                nD:tamañoD,
+                                nI: tamañoI,
+                                nP: tamañoP,
+                                nDes: tamañoDes,
+                                isLoggedIn: request.session.isLoggedIn === true ? true : false
+                            });
+                        }).catch(err => console.log(err));    
                     }).catch(err => console.log(err));   
                 }).catch(err => console.log(err));
             }).catch(err => console.log(err));  
@@ -84,9 +88,12 @@ exports.postWbs = (request, response, next) => { //NUEVO
     const ap_13 = request.body.ap_13;
     const id = request.body.id;
 
-    Proyecto.updateTarea(ap_1, ap_2, ap_3, ap_5, ap_8, ap_13, id, request.params.id)
+    Proyecto.updateTarea(ap_1, ap_2, ap_3, ap_5, ap_8, ap_13, id, request.params.id);
+    Proyecto.fetchPromedioWbs(request.params.id)
         .then(([rows, fieldData]) => {
+            console.log(rows);
             response.status(200).json(rows);
+            
         })
         .catch(err => {
             console.log(err);

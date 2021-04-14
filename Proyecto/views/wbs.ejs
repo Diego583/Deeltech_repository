@@ -5,8 +5,8 @@
 <main class="container">
     <!-- Page Content  -->
     <div id="content">
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+        
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-secondary">
             <div class="container-fluid">
 
                 <button type="button" id="sidebarCollapse" class="btn btn-light">
@@ -23,7 +23,7 @@
                             <a class="nav-link text-white" href="/proyectos/<%= id %>/agregar_practica">Agregar Practica</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="#">Modificar Practica</a>
+                            <a class="nav-link text-white" href="#">Ir arriba</a>
                         </li>
                     </ul>
                 </div>
@@ -36,6 +36,7 @@
                 <thead class="thead-success">
                     <tr>
                         <th class = "text-center" scope="col">Fase</th>
+                        <th class = "text-center" scope="col">Edit</th>
                         <th class = "text-center" scope="col">Practica de trabajo</th>
                         <th class = "text-center" scope="col">AP 1</th>
                         <th class = "text-center" scope="col">AP 2</th>
@@ -52,19 +53,22 @@
                     
                     <% for (let tareasA of tareasAnalisis) { %>
                         <tr>
+                            <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
+
                             <input type="hidden" id="<%= tareasA.id_tarea %>" value ="<%= tareasA.id_tarea %>">
-                            <td class = "text-center"> <%= tareasA.nombre_tarea %> </td>
+                            <td class = "text-center"><%= tareasA.nombre_tarea %> </td>
+                        
+                            <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
 
                             <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
-
-                            <div class="input-group">
-                                <td class = "text-center"><input class="form-control"  style="width: 50%;" onkeyup="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_1 %>" type="number" id="1<%= tareasA.id_tarea %>" name="ap1_A"></td>
-                                <td class = "text-center"><input class="form-control" onkeyup="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_2 %>" type="number" id="2<%= tareasA.id_tarea %>" name="ap2_A"></td>
-                                <td class = "text-center"><input class="form-control" onkeyup="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_3 %>" type="number" id="3<%= tareasA.id_tarea %>" name="ap3_A"></td>
-                                <td class = "text-center"><input class="form-control" onkeyup="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_5 %>" type="number" id="5<%= tareasA.id_tarea %>" name="ap5_A"></td>
-                                <td class = "text-center"><input class="form-control" onkeyup="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_8 %>" type="number" id="8<%= tareasA.id_tarea %>" name="ap8_A"></td>
-                                <td class = "text-center"><input class="form-control" onkeyup="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_13 %>" type="number" id="13<%= tareasA.id_tarea %>" name="ap13_A"></td>
-                            </div>
+                           
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_1 %>" type="number" id="1<%= tareasA.id_tarea %>" name="ap1_A"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_2 %>" type="number" id="2<%= tareasA.id_tarea %>" name="ap2_A"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_3 %>" type="number" id="3<%= tareasA.id_tarea %>" name="ap3_A"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_5 %>" type="number" id="5<%= tareasA.id_tarea %>" name="ap5_A"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_8 %>" type="number" id="8<%= tareasA.id_tarea %>" name="ap8_A"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_13 %>" type="number" id="13<%= tareasA.id_tarea %>" name="ap13_A"></td>
+                        
                             
 
                         </tr>
@@ -74,16 +78,19 @@
                     <th rowspan="<%= nD %>" class = "text-center">Diseño</th>  
                     <% for (let tareasD of tareasDiseño) { %>
                         <tr>
+                            <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
                             <input type="hidden" id="<%= tareasD.id_tarea %>" value ="<%= tareasD.id_tarea %>">
                             <td class = "text-center"> <%= tareasD.nombre_tarea %> </td>
 
+                            <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
+
                             <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_1 %>" type="number" id="1<%= tareasD.id_tarea %>" name="Ap1_D"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_2 %>" type="number" id="2<%= tareasD.id_tarea %>" name="Ap2_D"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_3 %>" type="number" id="3<%= tareasD.id_tarea %>" name="Ap3_D"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_5 %>" type="number" id="5<%= tareasD.id_tarea %>" name="Ap5_D"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_8 %>" type="number" id="8<%= tareasD.id_tarea %>" name="Ap8_D"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_13 %>" type="number" id="13<%= tareasD.id_tarea %>" name="Ap13_D"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_1 %>" type="number" id="1<%= tareasD.id_tarea %>" name="Ap1_D"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_2 %>" type="number" id="2<%= tareasD.id_tarea %>" name="Ap2_D"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_3 %>" type="number" id="3<%= tareasD.id_tarea %>" name="Ap3_D"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_5 %>" type="number" id="5<%= tareasD.id_tarea %>" name="Ap5_D"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_8 %>" type="number" id="8<%= tareasD.id_tarea %>" name="Ap8_D"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_13 %>" type="number" id="13<%= tareasD.id_tarea %>" name="Ap13_D"></td>
 
                         </tr>
 
@@ -92,16 +99,19 @@
                     <th rowspan="<%= nI %>" class = "text-center">Implementacion</th>  
                     <% for (let tareasI of tareasImplementacion) { %>
                         <tr>
+                            <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
                             <input type="hidden" id="<%= tareasI.id_tarea %>" value ="<%= tareasI.id_tarea %>">
                             <td class = "text-center"> <%= tareasI.nombre_tarea %> </td>
 
+                            <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
+
                             <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_1 %>" type="number" id="1<%= tareasI.id_tarea %>" name="Ap1_I"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_2 %>" type="number" id="2<%= tareasI.id_tarea %>" name="Ap2_I"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_3 %>" type="number" id="3<%= tareasI.id_tarea %>" name="Ap3_I"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_5 %>" type="number" id="5<%= tareasI.id_tarea %>" name="Ap5_I"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_8 %>" type="number" id="8<%= tareasI.id_tarea %>" name="Ap8_I"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_13 %>" type="number" id="13<%= tareasI.id_tarea %>" name="Ap13_I"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_1 %>" type="number" id="1<%= tareasI.id_tarea %>" name="Ap1_I"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_2 %>" type="number" id="2<%= tareasI.id_tarea %>" name="Ap2_I"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_3 %>" type="number" id="3<%= tareasI.id_tarea %>" name="Ap3_I"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_5 %>" type="number" id="5<%= tareasI.id_tarea %>" name="Ap5_I"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_8 %>" type="number" id="8<%= tareasI.id_tarea %>" name="Ap8_I"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_13 %>" type="number" id="13<%= tareasI.id_tarea %>" name="Ap13_I"></td>
 
                         </tr>
 
@@ -110,16 +120,19 @@
                     <th rowspan="<%= nP %>" class = "text-center">Pruebas</th>  
                     <% for (let tareasP of tareasPruebas) { %>
                         <tr>
+                            <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
                             <input type="hidden" id="<%= tareasP.id_tarea %>" value ="<%= tareasP.id_tarea %>">
                             <td class = "text-center"> <%= tareasP.nombre_tarea %> </td>
 
+                            <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
+
                             <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_1 %>" type="number" id="1<%= tareasP.id_tarea %>" name="Ap1_P"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_2 %>" type="number" id="2<%= tareasP.id_tarea %>" name="Ap2_P"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_3 %>" type="number" id="3<%= tareasP.id_tarea %>" name="Ap3_P"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_5 %>" type="number" id="5<%= tareasP.id_tarea %>" name="Ap5_P"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_8 %>" type="number" id="8<%= tareasP.id_tarea %>" name="Ap8_P"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_13 %>" type="number" id="13<%= tareasP.id_tarea %>" name="Ap13_P"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_1 %>" type="number" id="1<%= tareasP.id_tarea %>" name="Ap1_P"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_2 %>" type="number" id="2<%= tareasP.id_tarea %>" name="Ap2_P"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_3 %>" type="number" id="3<%= tareasP.id_tarea %>" name="Ap3_P"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_5 %>" type="number" id="5<%= tareasP.id_tarea %>" name="Ap5_P"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_8 %>" type="number" id="8<%= tareasP.id_tarea %>" name="Ap8_P"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_13 %>" type="number" id="13<%= tareasP.id_tarea %>" name="Ap13_P"></td>
 
                         </tr>
 
@@ -128,31 +141,64 @@
                     <th rowspan="<%= nDes %>" class = "text-center">Despliegue</th>  
                     <% for (let tareasDes of tareasDespliegue) { %>
                         <tr>
+                            <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
                             <input type="hidden" id="<%= tareasDes.id_tarea %>" value ="<%= tareasDes.id_tarea %>">
                             <td class = "text-center"> <%= tareasDes.nombre_tarea %> </td>
 
+                            <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
+
                             <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_1 %>"  type="number" id="1<%= tareasDes.id_tarea %>" name="Ap1_Des"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_2 %>"  type="number" id="2<%= tareasDes.id_tarea %>" name="Ap2_Des"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_3 %>"  type="number" id="3<%= tareasDes.id_tarea %>" name="Ap3_Des"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_5 %>"  type="number" id="5<%= tareasDes.id_tarea %>" name="Ap5_Des"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_8 %>"  type="number" id="8<%= tareasDes.id_tarea %>" name="Ap8_Des"></td>
-                            <td class = "text-center"><input onkeyup="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_13 %>"  type="number" id="13<%= tareasDes.id_tarea %>" name="Ap13_Des"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;"  onkeyup="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_1 %>"  type="number" id="1<%= tareasDes.id_tarea %>" name="Ap1_Des"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_2 %>"  type="number" id="2<%= tareasDes.id_tarea %>" name="Ap2_Des"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_3 %>"  type="number" id="3<%= tareasDes.id_tarea %>" name="Ap3_Des"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_5 %>"  type="number" id="5<%= tareasDes.id_tarea %>" name="Ap5_Des"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_8 %>"  type="number" id="8<%= tareasDes.id_tarea %>" name="Ap8_Des"></td>
+                            <td class = "text-center"><input class="form-control" style="width: 5em;" onkeyup="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_13 %>"  type="number" id="13<%= tareasDes.id_tarea %>" name="Ap13_Des"></td>
 
                         </tr>
 
                     <% } %>
-                    
-                    
 
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+
+                    <tr id="total" name="total">
+
+                        <th class = "text-center">Horas totales</th>
+                        <td></td>
+                        <td></td>
+                        <td class = "text-center"><%= total[0].Total_1 %></td>
+                        <td class = "text-center"><%= total[0].Total_2 %></td>
+                        <td class = "text-center"><%= total[0].Total_3 %></td>
+                        <td class = "text-center"><%= total[0].Total_5 %></td>
+                        <td class = "text-center"><%= total[0].Total_8 %></td>
+                        <td class = "text-center"><%= total[0].Total_13 %></td>
+
+                    </tr>
+                    
                 </tbody>
 
             </table>
 
         </div>
 
+        <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-angle-up"></i></button>
+        
+        <p><br></p>
 
     </div>
+
+
         
 </main>
 

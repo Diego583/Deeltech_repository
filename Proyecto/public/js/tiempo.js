@@ -37,10 +37,8 @@ function tiempo(tarea_id, proyecto_id) {
         
         console.log(data);
         let html = '';
-        //html += '<div style="color: rgb(16, 204, 16);" class="content" id = "mensaje">Actualizado correctamente</div>';
-        //document.getElementById("mensaje").innerHTML = html;
 
-        html+= '<div id="toast3" class="toast bg-dark" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1500">'+
+        /*html+= '<div id="toast3" class="toast bg-dark" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1500">'+
                     '<div class="toast-header bg-success ">'+
                         
                         '<strong class="mr-auto text-white">'+
@@ -57,11 +55,24 @@ function tiempo(tarea_id, proyecto_id) {
                 '</div>'+
                 '<br>';
 
-        //document.getElementById("mensaje").innerHTML = html;
+        document.getElementById("mensaje").innerHTML = html;
         
         $(document).ready(function(){
             $('.toast').toast('show'); 
-        });
+        });*/
+
+        html += '<th class = "text-center">Horas totales</th>' +
+                '<td></td>' +
+                '<td></td>' +
+                '<td class = "text-center">' + data[0].Total_1 + '</td>' +
+                '<td class = "text-center">' + data[0].Total_2 + '</td>' +
+                '<td class = "text-center">' + data[0].Total_3 + '</td>' +
+                '<td class = "text-center">' + data[0].Total_5 + '</td>' +
+                '<td class = "text-center">' + data[0].Total_8 + '</td>' +
+                '<td class = "text-center">' + data[0].Total_13 + '</td>';
+
+        document.getElementById("total").innerHTML = html;
+
 
             
 

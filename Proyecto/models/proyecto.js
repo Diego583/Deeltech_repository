@@ -75,13 +75,18 @@ module.exports = class Proyecto{
         [fase, id_proyecto, nombre_practica]);
     }
 
-    static fetchFases(){
+    static fetchFases(){ //NUEVO: Mostrar las fases
         return db.execute('SELECT * FROM fase');
     }
 
-    static updateTarea(ap_1, ap_2, ap_3, ap_5, ap_8, ap_13, id_tarea, id_proyecto){
+    static updateTarea(ap_1, ap_2, ap_3, ap_5, ap_8, ap_13, id_tarea, id_proyecto){ //NUEVO: Se actualiza la tabla
         return db.execute('UPDATE tareas SET ap_1 = ?, ap_2 = ?, ap_3 = ?, ap_5 = ?, ap_8 = ?, ap_13 = ? WHERE id_tarea = ? AND id_proyecto = ?', 
         [ap_1, ap_2, ap_3, ap_5, ap_8, ap_13, id_tarea, id_proyecto]);
+    }
+
+    static fetchPromedioWbs(id_proyecto){ //NUEVO: Se muestra el promedio de la tabla WBS
+        return db.execute('SELECT round(AVG(ap_1),1) as Total_1, round(AVG(ap_2),1) as Total_2, round(AVG(ap_3),1) as Total_3, round(AVG(ap_5),1) as Total_5, round(AVG(ap_8),1) as Total_8, round(AVG(ap_13),1) as Total_13 FROM tareas WHERE id_proyecto = ?', 
+        [id_proyecto]);
     }
 
 } 
