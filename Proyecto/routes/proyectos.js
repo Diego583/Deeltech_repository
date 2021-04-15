@@ -21,6 +21,12 @@ router.get('/:id/planeacion', isAuth, isMiembro, proyectosController.getPlaneaci
 
 router.get('/:id/wbs', isAuth, isMiembro, proyectosController.getWbs);
 
+router.post('/:id/wbs', isAuth, isMiembro, proyectosController.postWbs);
+
+router.get('/:id/agregar_practica', isAuth, isMiembro, proyectosController.getAgregarPractica); // Agregar tarea de WBS
+
+router.post('/:id/agregar_practica', isAuth, isMiembro, proyectosController.postAgregarPractica); // Agregar tarea de WBS
+
 router.get('/:id/capacidad_de_equipo', isAuth, isMiembro, proyectosController.getCapacidadEquipo);
 
 router.get('/:id/caso_de_uso', isAuth, isMiembro, proyectosController.getCasoUso);
@@ -28,6 +34,10 @@ router.get('/:id/caso_de_uso', isAuth, isMiembro, proyectosController.getCasoUso
 router.post('/:id/caso_de_uso', isAuth, isMiembro, proyectosController.postCasoUso);
 
 router.post('/:id/status', isAuth, isMiembro, proyectosController.postStatus);
+
+router.get('/:id/modificar_caso_de_uso', isAuth, isMiembro, proyectosController.getModificarCaso);
+
+//router.get('/nuevo_proyecto', isAuth, isMiembro, proyectosController.getNuevoProyecto);
 
 router.post('/nuevo_proyecto', isAuth, isMiembro, proyectosController.postNuevoProyecto);
 
