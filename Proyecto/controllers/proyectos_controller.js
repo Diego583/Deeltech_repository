@@ -53,24 +53,30 @@ exports.getWbs = (request, response, next) => { // NUEVO
                         var tamañoDes = rows5.length + 1;
                         Proyecto.fetchPromedioWbs(request.params.id)
                         .then(([rows6,fieldData]) => {
-                            response.render('wbs', {
-                                id: request.params.id,
-                                csrfToken: request.csrfToken(),
-                                userRol: request.session.rol,
-                                titulo: 'WBS',
-                                tareasAnalisis: rows1,
-                                tareasDiseño: rows2,
-                                tareasImplementacion: rows3,
-                                tareasPruebas: rows4,
-                                tareasDespliegue: rows5,
-                                total: rows6,
-                                nA: tamañoA,
-                                nD:tamañoD,
-                                nI: tamañoI,
-                                nP: tamañoP,
-                                nDes: tamañoDes,
-                                isLoggedIn: request.session.isLoggedIn === true ? true : false
-                            });
+                            Proyecto.fetchFases()
+                            .then(([rows7,fieldData]) => {
+                                response.render('wbs', {
+                                    id: request.params.id,
+                                    csrfToken: request.csrfToken(),
+                                    userRol: request.session.rol,
+                                    error: request.flash("error"),
+                                    success: request.flash("success"),
+                                    titulo: 'WBS',
+                                    tareasAnalisis: rows1,
+                                    tareasDiseño: rows2,
+                                    tareasImplementacion: rows3,
+                                    tareasPruebas: rows4,
+                                    tareasDespliegue: rows5,
+                                    total: rows6,
+                                    fases: rows7,
+                                    nA: tamañoA,
+                                    nD:tamañoD,
+                                    nI: tamañoI,
+                                    nP: tamañoP,
+                                    nDes: tamañoDes,
+                                    isLoggedIn: request.session.isLoggedIn === true ? true : false
+                                });
+                            }).catch(err => console.log(err));   
                         }).catch(err => console.log(err));    
                     }).catch(err => console.log(err));   
                 }).catch(err => console.log(err));
@@ -123,19 +129,20 @@ exports.postAgregarPractica = (request, response, next) => { //NUEVO
     const fase = request.body.fase;
 
     if(nombrePractica.length < 1){
-        request.session.error = "Falta nombre de la practica de trabajo";
-        response.redirect('/proyectos/'+ request.params.id +'/agregar_practica');
+        request.flash('error','Falta nombre de la practica de trabajo. 😢🙃');
+        response.redirect('/proyectos/'+ request.params.id +'/wbs');
     }
 
     else if(fase == "Choose..."){
-        request.session.error = "Falta escoger la fase";
-        response.redirect('/proyectos/'+ request.params.id +'/agregar_practica');
+        request.flash('error','Falta nombre de la practica de trabajo. 😢🙃');
+        response.redirect('/proyectos/'+ request.params.id +'/wbs');
     }
 
     else{
         Proyecto.savePracticaTrabajo(request.body.fase, request.params.id, request.body.nombrePractica)
         .then(([rows,fieldData]) => {
             console.log("Guardando Practica de tarea...");
+            request.flash('success','Practica guardada exitosamente. 😁👍');
             response.redirect('/proyectos/'+ request.params.id +'/wbs');
         }).catch(err => console.log(err));
     }
@@ -281,6 +288,27 @@ exports.postBuscar = (request, response, next) => {
         });
 };
 
+
+exports.getModificarCaso = (request, response, next) => {
+
+    Proyecto.fetchCasosDeUso(request.params.id)
+    .then(([rows,fieldData]) => {
+        response.render('modificarCaso', {
+
+            Casos: rows,
+            id: request.params.id,
+            error: request.session.error,
+            userRol: request.session.rol,
+            titulo: 'Modificar Caso de Uso',
+            csrfToken: request.csrfToken(),
+            isLoggedIn: request.session.isLoggedIn === true ? true : false
+
+        });
+
+    }).catch(err => console.log(err));
+
+};
+
 exports.get = (request, response, next) => {
     Usuario.fetchRoles()
     .then(([rows,fieldData]) => {
@@ -312,24 +340,4 @@ exports.get = (request, response, next) => {
             });
         }).catch(err => console.log(err));
     }).catch(err => console.log(err));
-};
-
-exports.getModificarCaso = (request, response, next) => {
-
-    Proyecto.fetchCasosDeUso(request.params.id)
-    .then(([rows,fieldData]) => {
-        response.render('modificarCaso', {
-
-            Casos: rows,
-            id: request.params.id,
-            error: request.session.error,
-            userRol: request.session.rol,
-            titulo: 'Modificar Caso de Uso',
-            csrfToken: request.csrfToken(),
-            isLoggedIn: request.session.isLoggedIn === true ? true : false
-
-        });
-
-    }).catch(err => console.log(err));
-
 };
