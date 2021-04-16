@@ -327,6 +327,7 @@ exports.postNuevoProyecto = (request, response, next) => {
         const nuevo_proyecto = new Proyecto(nombre_proyecto, descripcion, image.filename);
         nuevo_proyecto.saveProyecto()
         .then(() => {
+            nuevo_proyecto.saveCapacidad_Equipo(nombre_proyecto, descripcion);
             if (Array.isArray(arrUsers)){
                 //console.log("la cague");
                 for (var i = 0; i < arrUsers.length; i++) {

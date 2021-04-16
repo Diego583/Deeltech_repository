@@ -98,4 +98,9 @@ module.exports = class Proyecto{
         return db.execute('DELETE FROM caso_de_uso WHERE id_proyecto = ? AND id_caso_de_uso = ?',
             [id_proyecto, id_caso]);
     }
+
+    saveCapacidad_Equipo(nombre_proyecto, descripcion){
+        return db.execute('Insert into capacidad_equipo (id_proyecto) values ((SELECT id_proyecto from proyecto where nombre_proyecto = ? and descripcion=?))', [nombre_proyecto, descripcion]);
+    }
+
 } 
