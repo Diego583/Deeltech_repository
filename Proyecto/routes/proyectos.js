@@ -29,6 +29,12 @@ router.post('/:id/caso_de_uso', isAuth, isMiembro, proyectosController.postCasoU
 
 router.post('/:id/status', isAuth, isMiembro, proyectosController.postStatus);
 
+router.post('/:id/eliminar_caso/:id_caso', isAuth, isMiembro, proyectosController.postEliminarCaso);
+
+//router.get('/:id/modificar_caso_de_uso/:nombre_caso-:iteracion-:epic-:valor/', isAuth, isMiembro, proyectosController.getModificarCaso);
+
+router.post('/:id/modificar_caso_de_uso/:id_caso/:nombre_caso/:iteracion/:epic/:valor/', isAuth, isMiembro, proyectosController.postModificarCaso);
+
 router.post('/nuevo_proyecto', isAuth, isMiembro, proyectosController.postNuevoProyecto);
 
 router.get('/', isAuth, proyectosController.get);
