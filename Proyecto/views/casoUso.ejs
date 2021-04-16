@@ -33,11 +33,17 @@
 
 
                 <div>
-                    <table class="table table-dark">
+                    <table class="table  table-hover table-dark table-striped">
                         <thead class="thead-success">
                             <tr>
-                                <th scope="col">Caso de uso</th>
-                                <th scope="col">Status</th>
+                                <th class = "text-center" scope="col">Caso de uso</th>
+                                <th class = "text-center" scope="col">Iteracion</th>
+                                <th class = "text-center"  scope="col">Epic</th>
+                                <th class = "text-center"  scope="col">Valor</th>
+                                <th class = "text-center" scope="col">Status</th>
+                                <th class = "text-center"  scope="col">&nbsp</th>
+                                <th class = "text-center" scope="col">&nbsp</th>
+                                
                             </tr>
                         </thead>
 
@@ -47,11 +53,13 @@
 
                                 <tr>
                                     
-                                    <td> <%= CasoUso.nombre_caso_de_uso %> </td>
+                                    <td class = "text-center" style="width: 15rem"> <%= CasoUso.nombre_caso_de_uso %> </td>
+                                    <td class = "text-center" style="width: 10rem"style="width: 10rem"> <%= CasoUso.iteracion %> </td>
+                                    <td class = "text-center" style="width: 10rem"> <%= CasoUso.epic %> </td>
+                                    <td class = "text-center" style="width: 10rem"> <%= CasoUso.valor %> </td>
 
                                     <input type="hidden" id="<%= CasoUso.id_caso_de_uso %>" value ="<%= CasoUso.id_caso_de_uso %>">
-                                    <td>
-
+                                    <td style="width: 10rem">
                                         <select class="form-control" name="status" id="s<%= CasoUso.id_caso_de_uso %>" onchange="status('<%= CasoUso.id_caso_de_uso %>' , '<%=id%>')">'
                                             <option selected value=" <%=CasoUso.status_caso%>" class="font-weight-bold"> <%=CasoUso.status_caso%> </option>
                                             <option style="color:rgb(0, 255, 55)" value="Terminado" class="font-weight-bold" >Terminado</option>
@@ -60,15 +68,89 @@
                                         
                                     </td>
 
+                                    <td class = "text-center">
+                                        <a onMouseover="this.style.cursor='pointer'" role="button" title="Modificar" data-toggle="tooltip" data-placement="top" onclick="modificar_caso('<%=id%>', '<%= CasoUso.id_caso_de_uso %>', '<%= CasoUso.nombre_caso_de_uso %>', '<%= CasoUso.iteracion %>', '<%= CasoUso.epic %>', '<%= CasoUso.valor %>')">
+                                            <i data-toggle="modal" data-target="#modificarCaso" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
+                                        </a>
+                                    </td>
+
+                                    <td class = "text-center">
+                                        <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_caso('<%=id%>', '<%= CasoUso.id_caso_de_uso %>', '<%= CasoUso.nombre_caso_de_uso %>')">
+                                            <i data-toggle="modal" data-target="#confirmDelete" onMouseover="this.style.color='red'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+
                                 </tr>
 
-                            <% } %>
-
-                            
+                            <% } %>  
 
                         </tbody>
 
                     </table>
+
+                    <div class="modal fade" id="confirmDelete" tabindex="0" aria-hidden="true">
+                        <div class="modal-dialog" >
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Eliminar caso de uso</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <div>¿Eliminar el siguiente caso de uso?
+                                    <i><strong id="nombreCasoUso"></strong></i>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button id="delete" type="button" class="btn btn-danger">Eliminar</button>
+                              </div>
+                            </div>
+                          </div>                      
+                    </div>
+
+                    <div class="modal fade" id="modificarCaso"  data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" >
+                            <div class="modal-content bg-dark text-white">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Modificar caso de uso</h5>
+                                <button class="btn btn-danger" type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+
+                              <div class="modal-body">
+                                <div class="mb-3">
+                                    <div><p class="form-label text-success"><strong>Nombre:</strong></p></div>
+                                    <input type="text" class="form-control" id="mod_nombre_caso" name="mod_nombre_caso" placeholder="nuevo nombre">
+                                </div>
+                                <div class="mb-3">
+                                    <div><p class="form-label text-success"><strong>Iteracion:</strong></p></div>
+                                    <input type="number" class="form-control" id="mod_iteracion" name="mod_iteracion" placeholder="nueva iteracion">
+                                </div>
+                                <div class="mb-3">
+                                    <div><p class="form-label text-success"><strong>Epic:</strong></p></div>
+                                    <input type="text" class="form-control" id="mod_epic" name="mod_epic" placeholder="nuevo epic">
+                                </div>
+                                <div class="mb-3">
+                                    <div><p class="form-label text-success"><strong>Valor AP:</strong></p></div>
+                                    <select class="form-control" id="mod_ap" name="mod_ap" placeholder="Nuevo valor AP ...">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="5">5</option>
+                                        <option value="8">8</option>
+                                        <option value="13">13</option>
+                                    </select>
+                                </div>
+                              </div>
+
+                              <div class="modal-footer">
+                                <button id="mod_ingresar" type="button" class="btn btn-success">Ingresar</button>
+                              </div>
+                            </div>
+                          </div>                  
+                    </div>
 
                     <p><br></p>
 
@@ -117,9 +199,23 @@
 <!-- Script para busqueda-->
 <script src="/js/status.js"></script>
 
+<script src="/js/eliminar_caso.js"></script>
+
+<script src="/js/modificar_caso.js"></script>
+
 <!-- Script para mensaje-->
 <script>
     $(document).ready(function(){
         $('.toast').toast('show'); 
     });
+</script>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    $('#myModal').on('shown.bs.modal', function () {
+      $('#myInput').trigger('focus')
+    })
 </script>

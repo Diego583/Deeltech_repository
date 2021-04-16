@@ -89,4 +89,13 @@ module.exports = class Proyecto{
         [id_proyecto]);
     }
 
+    static updateCasoDeUso(idProyecto, idCaso, nuevoNombre, iteracion, epic, valor){
+        return db.execute('UPDATE caso_de_uso SET nombre_caso_de_uso = ?, iteracion = ?, epic = ?, valor = ? WHERE id_proyecto = ? AND id_caso_de_uso = ?',
+            [nuevoNombre, iteracion, epic, valor, idProyecto, idCaso]);
+    }
+
+    static deleteCasoDeUso(id_proyecto, id_caso){
+        return db.execute('DELETE FROM caso_de_uso WHERE id_proyecto = ? AND id_caso_de_uso = ?',
+            [id_proyecto, id_caso]);
+    }
 } 

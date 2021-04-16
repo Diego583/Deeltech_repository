@@ -278,6 +278,24 @@ exports.postStatus = (request, response, next) => {
 
 }
 
+exports.postEliminarCaso = (request, response, next) => {
+    request.session.error = "";
+    const id_proyecto = request.params.id;
+    const id_caso = request.params.id_caso;
+
+    Proyecto.deleteCasoDeUso(id_proyecto, id_caso);
+    Proyecto.fetchCasosDeUso(request.params.id)
+        .then(([rows, fieldData]) => {
+            //console.log(rows);
+            response.status(200).json(rows);
+
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+}
+
 exports.postNuevoProyecto = (request, response, next) => {
     const nombre_proyecto = request.body.nombre_proyecto;
     const descripcion = request.body.descripcion;
@@ -345,26 +363,24 @@ exports.postBuscar = (request, response, next) => {
         });
 };
 
+exports.postModificarCaso = (request, response, next) => {
 
-exports.getModificarCaso = (request, response, next) => {
+    const nombre_caso = request.params.nombre_caso;
+    const iteracion = request.params.iteracion;
+    const epic = request.params.epic;
+    const valor = request.params.valor;
 
+    Proyecto.updateCasoDeUso(request.params.id, request.params.id_caso, nombre_caso, iteracion, epic, valor)
     Proyecto.fetchCasosDeUso(request.params.id)
-    .then(([rows,fieldData]) => {
-        response.render('modificarCaso', {
+    .then(([rows, fieldData]) => {
+        response.status(200).json(rows);
 
-            Casos: rows,
-            id: request.params.id,
-            error: request.session.error,
-            userRol: request.session.rol,
-            titulo: 'Modificar Caso de Uso',
-            csrfToken: request.csrfToken(),
-            isLoggedIn: request.session.isLoggedIn === true ? true : false
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
-        });
-
-    }).catch(err => console.log(err));
-
-};
+}
 
 exports.get = (request, response, next) => {
     Usuario.fetchRoles()
