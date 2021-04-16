@@ -29,6 +29,10 @@ router.post('/:id/agregar_practica', isAuth, isMiembro, proyectosController.post
 
 router.get('/:id/capacidad_de_equipo', isAuth, isMiembro, proyectosController.getCapacidadEquipo);
 
+router.post('/:id/capacidad_de_equipo', isAuth, isMiembro, proyectosController.postCapacidadEquipo);
+
+router.post('/:id/porcentajes', isAuth, isMiembro, proyectosController.postporcentajes);
+
 router.get('/:id/caso_de_uso', isAuth, isMiembro, proyectosController.getCasoUso);
 
 router.post('/:id/caso_de_uso', isAuth, isMiembro, proyectosController.postCasoUso);
