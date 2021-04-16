@@ -23,6 +23,10 @@ router.get('/:id/wbs', isAuth, isMiembro, proyectosController.getWbs);
 
 router.get('/:id/capacidad_de_equipo', isAuth, isMiembro, proyectosController.getCapacidadEquipo);
 
+router.post('/:id/capacidad_de_equipo', isAuth, isMiembro, proyectosController.postCapacidadEquipo);
+
+router.post('/:id/porcentajes', isAuth, isMiembro, proyectosController.postporcentajes);
+
 router.get('/:id/caso_de_uso', isAuth, isMiembro, proyectosController.getCasoUso);
 
 router.get('/nuevo_proyecto', isAuth, isMiembro, proyectosController.getNuevoProyecto);

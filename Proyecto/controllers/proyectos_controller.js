@@ -66,6 +66,54 @@ exports.getCapacidadEquipo = (request, response, next) => {
     
 };
 
+exports.postCapacidadEquipo = (request, response, next) => {
+    console.log(request.body);
+
+    var arrUsers_proyecto = request.body.id_proyecto;
+    var arrUsers_usuario = request.body.id_usuario;
+    var arrUsers_horario = request.body.horario;
+
+    const nuevos_horarios = new Usuario(request.body.id_proyecto, request.body.id_usuario, request.body.horario);
+    nuevos_horarios.getHorarios1(request.body.id_proyecto)
+        .then(() => {
+            if(Array.isArray(arrUsers_proyecto)){
+                for (var i = 0; i < arrUsers_proyecto.length; i++) {
+                    nuevos_horarios.saveHorarios(arrUsers_proyecto[i],arrUsers_usuario[i],arrUsers_horario[i]);
+                }
+                response.redirect('/proyectos/'+ arrUsers_proyecto[i-1] +'/capacidad_de_equipo');
+            }
+            else{
+                nuevos_horarios.saveHorarios(request.body.id_proyecto, request.body.id_usuario, request.body.horario)
+                response.redirect('/proyectos/'+ request.body.id_proyecto +'/capacidad_de_equipo');
+            }
+        }).catch(err => console.log(err));
+}
+
+exports.postporcentajes = (request, response, next) => {
+    console.log(request.body);
+
+    const nuevos_porcentajes = new Usuario();
+    nuevos_porcentajes.setporcentajes(request.body.tiempo_perdido, request.body.errores_registro, request.body.overhead, request.body.productivas, request.body.operativos, request.body.humano, request.body.cmmi, request.body.id_proyecto)
+        .then(() => {
+            response.redirect('/proyectos/'+ request.body.id_proyecto +'/capacidad_de_equipo');
+        }).catch(err => console.log(err));
+        
+}
+
+exports.postBuscar = (request, response, next) => {
+    //console.log(request.body);
+    //console.log(request.body.valor_busqueda);
+    const nombre_proyecto = request.body.valor_busqueda;
+    Proyecto.fetchProyectoUsuarioByName(nombre_proyecto, request.session.usuario)
+        .then(([rows, fieldData]) => {
+            //console.log(rows);
+            response.status(200).json(rows);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
 exports.getCasoUso = (request, response, next) => {
     response.render('casoUso', {
         id: request.params.id,

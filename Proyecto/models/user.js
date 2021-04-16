@@ -56,18 +56,26 @@ module.exports = class User{
     }
 
     static fetchUsers_Proyects(id_proyecto){
-        return db.execute('select nombre_usuario, tiempo_por_semana from usuario as u, usuario_rol as ur where u.id_usuario=ur.id_usuario and u.id_usuario in  (SELECT id_usuario FROM proyecto_usuario WHERE id_proyecto=?) and ur.id_rol != 7002', [id_proyecto]);
+        return db.execute('SELECT us.id_usuario, us.nombre_usuario, pu.tiempo_por_semana FROM `proyecto_usuario` as pu, usuario as us WHERE us.id_usuario=pu.id_usuario and id_proyecto=? and us.id_usuario in (select id_usuario as miembro from usuario_rol where id_rol!=7002)', [id_proyecto]);
     }
 
     static fetchSuma_Horas(id_proyecto){
-        return db.execute('select sum(tiempo_por_semana) as tiempo from (select nombre_usuario, tiempo_por_semana from usuario as u, usuario_rol as ur where u.id_usuario=ur.id_usuario and u.id_usuario in  (SELECT id_usuario FROM proyecto_usuario WHERE id_proyecto=?) and ur.id_rol != 7002) as tabla', [id_proyecto]);
-    }
-
-    static updateHoraUser(nueva_hora){
-        return db.execute('UPDATE usuario set tiempo_por_semana = ?  WHERE nombre_usuario = ?', [nueva_hora,nombre_usuario]);
+        return db.execute('select sum(tiempo_por_semana) as tiempo from (SELECT us.id_usuario, us.nombre_usuario, pu.tiempo_por_semana FROM `proyecto_usuario` as pu, usuario as us WHERE us.id_usuario=pu.id_usuario and id_proyecto=? and us.id_usuario in (select id_usuario as miembro from usuario_rol where id_rol!=7002)) as t', [id_proyecto]);
     }
 
     static fetchPorcentajes(id_proyecto){
         return db.execute('select * from capacidad_equipo where id_proyecto = ?', [id_proyecto]);
+    }
+
+    saveHorarios(id_proyecto, nombre, horario) {
+        return db.execute('UPDATE  proyecto_usuario set tiempo_por_semana=? where id_proyecto=? and id_usuario=?',[horario, id_proyecto, nombre]);
+    }
+
+    getHorarios1(id_proyecto) {
+        return db.execute('select id_usuario from proyecto_usuario where id_proyecto=?',[id_proyecto]);
+    }
+
+    setporcentajes(tiempo_perdido, errores_registro, overhead, productivas, operativos, humano, cmmi, id_proyecto){
+        return db.execute('update capacidad_equipo set  tiempo_perdido=?, errores_registro=?, overhead=?, productivas=?, operativos=?, humano=?, cmmi=? where id_proyecto=?', [tiempo_perdido, errores_registro, overhead, productivas, operativos, humano, cmmi, id_proyecto]);
     }
 } 

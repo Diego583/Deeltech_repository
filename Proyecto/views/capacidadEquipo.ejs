@@ -25,132 +25,135 @@
             <h2>Capacidad de equipo</h2>    
             <br>     
             
-            
-            <table class="table table-hover table-dark">
-                <thead>
-                    <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Horas</th>
-                    <th scope="col">%</th>
-                    </tr>
-                </thead>
+            <form action="/proyectos/<%= id %>/porcentajes?_csrf=<%=csrfToken%>" method="POST">
+                <input type="hidden" value="<%= id %>" name="id_proyecto">
+                <table class="table table-hover table-dark">
+                    <thead>
+                        <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Horas</th>
+                        <th scope="col">%</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    <tr>
-                    <th scope="row">Horas nominales totales</th>
-                    <td>
-                        <input type="number" value="<%=tiempoP[0].tiempo%>" name = "tiempo_total" id = "tiempo_total" disabled>
-                    </td>
-                    <td>100%</td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                        <th scope="row">Horas nominales totales</th>
+                        <td>
+                            <input type="number" value="<%=tiempoP[0].tiempo%>" name = "tiempo_total" id = "tiempo_total" disabled>
+                        </td>
+                        <td>100%</td>
+                        </tr>
 
-                    <tr>
-                    <th scope="row">Tiempo perdido</th>
-                    <%var tiempo_perdido_p=tiempoP[0].tiempo * porcentaje[0].tiempo_perdido / 100%>
-                    <td>
-                        <input type="number" value="<%=tiempo_perdido_p%>" name="tiempo_perdido_p" id="tiempo_perdido_p" disabled>
-                    </td>
-                    <td>
-                        <input type="number" min="0" max="100" value="<%=porcentaje[0].tiempo_perdido%>" name="tiempo_perdido" id="tiempo_perdido">
-                    </td>
-                    </tr>
+                        <tr>
+                        <th scope="row">Tiempo perdido</th>
+                        <%var tiempo_perdido_p=tiempoP[0].tiempo * porcentaje[0].tiempo_perdido / 100%>
+                        <td>
+                            <input type="number" value="<%=tiempo_perdido_p%>" name="tiempo_perdido_p" id="tiempo_perdido_p" disabled>
+                        </td>
+                        <td>
+                            <input type="number" min="0" max="100" value="<%=porcentaje[0].tiempo_perdido%>" name="tiempo_perdido" id="tiempo_perdido">
+                        </td>
+                        </tr>
 
-                    <tr>
-                    <th scope="row">Errores de registro</th>
-                    <%var error=tiempoP[0].tiempo * porcentaje[0].errores_registro / 100%>
-                    <td>
-                        <input type="number" value="<%=error%>" name="error" id="error" disabled>
-                    </td>
-                    <td>
-                        <input type="number" min="0" max="100" value="<%=porcentaje[0].errores_registro%>" name="errores_registro" id="errores_registro">
-                    </td>
-                    </tr>
+                        <tr>
+                        <th scope="row">Errores de registro</th>
+                        <%var error=tiempoP[0].tiempo * porcentaje[0].errores_registro / 100%>
+                        <td>
+                            <input type="number" value="<%=error%>" name="error" id="error" disabled>
+                        </td>
+                        <td>
+                            <input type="number" min="0" max="100" value="<%=porcentaje[0].errores_registro%>" name="errores_registro" id="errores_registro">
+                        </td>
+                        </tr>
 
-                    <tr>
+                        <tr>
 
-                    <th scope="row">Horas nominales restantes</th>   
-                    <%var tiempo_restante = tiempoP[0].tiempo - (tiempoP[0].tiempo * porcentaje[0].tiempo_perdido / 100) - (tiempoP[0].tiempo * porcentaje[0].errores_registro / 100) %>
-                    <td>
-                        <input type="number" value="<%=tiempo_restante%>" name="tiempo_restante" id="tiempo_restante" disabled>  
-                    </td>
-                    <%var porcentaje1 = 100 - porcentaje[0].tiempo_perdido - porcentaje[0].errores_registro%>
-                    <td>
-                        <input type="number" value="<%=porcentaje1%>" name="porcentaje1" id="porcentaje1" style="width: 5.7em;" disabled>
-                    </td>
-                    </tr>
+                        <th scope="row">Horas nominales restantes</th>   
+                        <%var tiempo_restante = tiempoP[0].tiempo - (tiempoP[0].tiempo * porcentaje[0].tiempo_perdido / 100) - (tiempoP[0].tiempo * porcentaje[0].errores_registro / 100) %>
+                        <td>
+                            <input type="number" value="<%=tiempo_restante%>" name="tiempo_restante" id="tiempo_restante" disabled>  
+                        </td>
+                        <%var porcentaje1 = 100 - porcentaje[0].tiempo_perdido - porcentaje[0].errores_registro%>
+                        <td>
+                            <input type="number" value="<%=porcentaje1%>" name="porcentaje1" id="porcentaje1" style="width: 5.7em;" disabled>
+                        </td>
+                        </tr>
 
-                    <tr>
-                    <%var tiempo2 = tiempo_restante * porcentaje[0].overhead / 100%>
-                    <th scope="row">Overhead</th>  
-                    <td>
-                        <input type="number" value="<%=tiempo2%>" name="tiempo2" id="tiempo2" disabled> 
-                    </td>
-                    <td>
-                        <input type="number" min="0" max="100" value="<%=porcentaje[0].overhead%>" name="overhead" id="overhead">
-                    </td>
-                    </tr>
+                        <tr>
+                        <%var tiempo2 = tiempo_restante * porcentaje[0].overhead / 100%>
+                        <th scope="row">Overhead</th>  
+                        <td>
+                            <input type="number" value="<%=tiempo2%>" name="tiempo2" id="tiempo2" disabled> 
+                        </td>
+                        <td>
+                            <input type="number" min="0" max="100" value="<%=porcentaje[0].overhead%>" name="overhead" id="overhead">
+                        </td>
+                        </tr>
 
-                    <tr>
-                    <%var tiempo3 = tiempo_restante - tiempo2%>
-                    <th scope="row">Horas nominales restantes</th>  
-                    <td>
-                        <input type="number" value="<%=tiempo3%>" name="tiempo3" id="tiempo3" disabled> 
-                    </td>
-                    <td>
-                        <%var porcentaje2 = 100 - porcentaje[0].overhead%>
-                        <input type="number" value="<%=porcentaje2%>" name="porcentaje2" id="porcentaje2" style="width: 5.7em;" disabled>
-                    </td>
-                    </tr>
+                        <tr>
+                        <%var tiempo3 = tiempo_restante - tiempo2%>
+                        <th scope="row">Horas nominales restantes</th>  
+                        <td>
+                            <input type="number" value="<%=tiempo3%>" name="tiempo3" id="tiempo3" disabled> 
+                        </td>
+                        <td>
+                            <%var porcentaje2 = 100 - porcentaje[0].overhead%>
+                            <input type="number" value="<%=porcentaje2%>" name="porcentaje2" id="porcentaje2" style="width: 5.7em;" disabled>
+                        </td>
+                        </tr>
 
-                    <tr>
-                    <th scope="row">Productivas</th>
-                    <%var prod=tiempo3 * porcentaje[0].productivas / 100%>
-                    <td>
-                        <input type="number" value="<%=prod%>" name="prod" id="prod" disabled> 
-                    </td>
-                    <td>
-                        <input type="number" min="0" max="100" value="<%=porcentaje[0].productivas%>" name="productivas" id="productivas">
-                    </td>
-                    </tr>
+                        <tr>
+                        <th scope="row" class="bg-success">Productivas</th>
+                        <%var prod=tiempo3 * porcentaje[0].productivas / 100%>
+                        <td class="bg-success">
+                            <input type="number" value="<%=prod%>" name="prod" id="prod" disabled> 
+                        </td>
+                        <td class="bg-success">
+                            <input type="number" min="0" max="100" value="<%=porcentaje[0].productivas%>" name="productivas" id="productivas">
+                        </td>
+                        </tr>
 
-                    <tr>
-                    <th scope="row">Operativos</th>
-                    <%var ope=tiempo3 * porcentaje[0].operativos / 100%>
-                    <td>
-                        <input type="number" value="<%=ope%>" name="ope" id="ope" disabled> 
-                    </td>
-                    <td>
-                        <input type="number" min="0" max="100" value="<%=porcentaje[0].operativos%>" name="operativos" id="operativos">
-                    </td>
-                    </tr>
+                        <tr>
+                        <th scope="row">Operativos</th>
+                        <%var ope=tiempo3 * porcentaje[0].operativos / 100%>
+                        <td>
+                            <input type="number" value="<%=ope%>" name="ope" id="ope" disabled> 
+                        </td>
+                        <td>
+                            <input type="number" min="0" max="100" value="<%=porcentaje[0].operativos%>" name="operativos" id="operativos">
+                        </td>
+                        </tr>
 
-                    <tr>
-                    <th scope="row">Humano</th>
-                    <%var hum=tiempo3 * porcentaje[0].humano / 100%>
-                    <td>
-                        <input type="number" value="<%=hum%>" name="hum" id="hum" disabled> 
-                    </td>
-                    <td>
-                        <input type="number" min="0" max="100" value="<%=porcentaje[0].humano%>" name="humano" id="humano">
-                    </td>
-                    </tr>
+                        <tr>
+                        <th scope="row">Humano</th>
+                        <%var hum=tiempo3 * porcentaje[0].humano / 100%>
+                        <td>
+                            <input type="number" value="<%=hum%>" name="hum" id="hum" disabled> 
+                        </td>
+                        <td>
+                            <input type="number" min="0" max="100" value="<%=porcentaje[0].humano%>" name="humano" id="humano">
+                        </td>
+                        </tr>
 
-                    <tr>
-                    <th scope="row">CMMI</th>
-                    <%var tiempo_cmmi=tiempo3 * porcentaje[0].cmmi / 100%>
-                    <td>
-                        <input type="number" value="<%=tiempo_cmmi%>" name="tiempo_cmmi" id="tiempo_cmmi" disabled> 
-                    </td>
-                    <td>
-                        <input type="number" min="0" max="100" value="<%=porcentaje[0].cmmi%>" name="cmmi" id="cmmi">
-                    </td>
-                    </tr>
+                        <tr>
+                        <th scope="row">CMMI</th>
+                        <%var tiempo_cmmi=tiempo3 * porcentaje[0].cmmi / 100%>
+                        <td>
+                            <input type="number" value="<%=tiempo_cmmi%>" name="tiempo_cmmi" id="tiempo_cmmi" disabled> 
+                        </td>
+                        <td>
+                            <input type="number" min="0" max="100" value="<%=porcentaje[0].cmmi%>" name="cmmi" id="cmmi">
+                        </td>
+                        </tr>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+                <button class="btn btn-primary" type="submit">Guardar porcentajes</button>
+            </form>
 
-                <div class="line"></div>
-
+            <div class="line"></div>
+            <form action="/proyectos/<%= id %>/capacidad_de_equipo?_csrf=<%=csrfToken%>" method="POST">
                 <table class="table table-hover table-dark">
                     <thead>
                         <tr>
@@ -159,17 +162,21 @@
                         </tr>
                     </thead>
                     <% for (let user of users) { %>
+                        <input type="hidden" value="<%= user.id_usuario %>" name="id_usuario">
+                        <input type="hidden" value="<%= id %>" name="id_proyecto">
                         <tbody>
                             <td>
                                 <%= user.nombre_usuario %>
                             </td>
                             <td>
-                                <input type="number" min="0" max="100" value="<%=user.tiempo_por_semana%>" name="horario" id="horario" style="width: 15em;">
+                                <input type="number" min="0" max="100" value="<%=user.tiempo_por_semana%>" name="horario" id="<%= user.nombre_usuario %>" style="width: 15em;">
                             </td>
                         </tbody>
                     <% } %>
                     </tbody>
                 </table>
+                <button class="btn btn-primary" type="submit">Guardar horas por semana</button>
+            </form>
         </div>
 </main>
 
