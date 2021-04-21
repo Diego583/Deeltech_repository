@@ -27,6 +27,10 @@ router.get('/:id/agregar_practica', isAuth, isMiembro, proyectosController.getAg
 
 router.post('/:id/agregar_practica', isAuth, isMiembro, proyectosController.postAgregarPractica); // Agregar tarea de WBS
 
+router.post('/:id/modificar_practica/:id_fase/:nombre_fase/:id_tarea/:nombre_tarea/', isAuth, isMiembro, proyectosController.postModificarPractica);
+
+router.post('/:id/eliminar_practica/:id_fase/:id_tarea/:nombre_tarea/', isAuth, isMiembro, proyectosController.postEliminarPractica);
+
 router.get('/:id/capacidad_de_equipo', isAuth, isMiembro, proyectosController.getCapacidadEquipo);
 
 router.post('/:id/capacidad_de_equipo', isAuth, isMiembro, proyectosController.postCapacidadEquipo);

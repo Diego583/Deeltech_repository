@@ -148,6 +148,35 @@ exports.postAgregarPractica = (request, response, next) => { //NUEVO
     }
 };
 
+exports.postModificarPractica = (request, response, next) => { 
+
+    Proyecto.modTarea(request.params.id, request.params.id_fase, request.params.nombre_fase, request.params.id_tarea, request.params.nombre_tarea)
+    Proyecto.fetchPromedioWbs(request.params.id)
+    .then(([rows, fieldData]) => {
+        request.flash('success','Practica Modificada exitosamente.');
+        response.status(200).json(rows);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
+exports.postEliminarPractica = (request, response, next) => {
+    request.session.error = "";
+
+    Proyecto.deletePractica(request.params.id, request.params.id_fase, request.params.id_tarea);
+    Proyecto.fetchPromedioWbs(request.params.id)
+        .then(([rows, fieldData]) => {
+            //console.log(rows);
+            request.flash('success','Practica Eliminada exitosamente.');
+            response.status(200).json(rows);
+
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
 exports.getCapacidadEquipo = (request, response, next) => {
     Usuario.fetchSuma_Horas(request.params.id)
     .then(([rows1,fieldData])=>{
@@ -226,6 +255,7 @@ exports.getCasoUso = (request, response, next) => {
         response.render('CasoUso', {
             Casos: rows,
             id: request.params.id,
+            success: request.flash("success"),
             error: request.session.error,
             userRol: request.session.rol,
             titulo: 'Caso de Uso',
@@ -287,6 +317,7 @@ exports.postEliminarCaso = (request, response, next) => {
     Proyecto.fetchCasosDeUso(request.params.id)
         .then(([rows, fieldData]) => {
             //console.log(rows);
+            request.flash('success','Caso de uso eliminado exitosamente.');
             response.status(200).json(rows);
 
         })
@@ -374,6 +405,7 @@ exports.postModificarCaso = (request, response, next) => {
     Proyecto.updateCasoDeUso(request.params.id, request.params.id_caso, nombre_caso, iteracion, epic, valor)
     Proyecto.fetchCasosDeUso(request.params.id)
     .then(([rows, fieldData]) => {
+        request.flash('success','Caso de uso modificado exitosamente.');
         response.status(200).json(rows);
 
     })

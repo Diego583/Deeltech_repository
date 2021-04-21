@@ -20,43 +20,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a type="button" class="nav-link" data-toggle="modal" data-target="#AgregarPractica">
+                            <a type="button" class="nav-link text-white" data-toggle="modal" data-target="#AgregarPractica">
                                 Agregar Practica
                               </a>
-                              <!-- Modal -->
-                              <div class="modal fade" id="AgregarPractica" tabindex="-1" role="dialog" aria-labelledby="AgregarPracticaLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="AgregarPracticaLabel">Agregar Practica</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="/proyectos/<%= id %>/agregar_practica" method="POST">
-                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
-                                            <div class="mb-3">
-                                                <label for="nombre" class="form-label text-success">Nombre de Practica de trabajo:</label>
-                                                <input type="text" class="form-control" id="nombrePractica" name="nombrePractica">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="fase" class="form-label text-success">Fase:</label>
-                                                <select class="form-control" id="fase" name="fase" >
-                                                    <option selected class="font-weight-bold"> Choose... </option>
-                                                    <% for (let fase of fases) { %>
-                                                        <option value="<%= fase.id_fase%>"> <%= fase.nombre_fase %> </option>
-                                                    <% } %>
-                                                </select>
-                                            </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                      <button type="submit" class="btn btn-primary">Agregar</button>
-                                      </form>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-white" href="#">Ir arriba</a>
@@ -65,6 +31,41 @@
                 </div>
             </div>
         </nav>
+        <!-- Modal -->
+         <div class="modal fade" id="AgregarPractica" tabindex="-1" role="dialog" aria-labelledby="AgregarPracticaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="AgregarPracticaLabel">Agregar Practica</h5>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/proyectos/<%= id %>/agregar_practica" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+                            <div class="mb-3" id="addError" name="addError" style="color: red"></div>
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label text-success">Nombre de Practica de trabajo:</label>
+                                <input type="text" class="form-control" id="nombrePractica" name="nombrePractica">
+                            </div>
+                            <div class="mb-3">
+                                <label for="fase" class="form-label text-success">Fase:</label>
+                                <select class="form-control" id="fase" name="fase" >
+                                    <option selected class="font-weight-bold"> Choose... </option>
+                                <% for (let fase of fases) { %>
+                                    <option value="<%= fase.id_fase%>"> <%= fase.nombre_fase %> </option>
+                                <% } %>
+                            </select>
+                            </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Agregar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
         <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
 
@@ -87,12 +88,12 @@
         <% } %>
 
         <div class="table-responsive">
-            <table class="table table-dark">
+            <table class="table table-dark table-hover">
                 <thead class="thead-success">
                     <tr>
                         <th class = "text-center" scope="col">Fase</th>
-                        <th class = "text-center" scope="col">Edit</th>
                         <th class = "text-center" scope="col">Practica de trabajo</th>
+                        <th class = "text-center" scope="col">&nbsp</th>
                         <th class = "text-center" scope="col">AP 1</th>
                         <th class = "text-center" scope="col">AP 2</th>
                         <th class = "text-center" scope="col">AP 3</th>
@@ -108,20 +109,20 @@
                     <%if(tareasAnalisis.length < 1){%>
                         <th rowspan="2" class = "text-center">Analisis</th>  <!-- rowspan = N + 1  -->
                     
-                        <tr>
-                            <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
+                      <tr>
 
                             <td class = "text-center"> N/A </td>
+                            <td class="text-center">&nbsp</td>
 
                         
                             <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
                            
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap1_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap2_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap3_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap5_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap8_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap13_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap1_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap2_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap3_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap5_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap8_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap13_A"></td>
                         
                         </tr>
 
@@ -133,11 +134,19 @@
 
                         <% for (let tareasA of tareasAnalisis) { %>
                             <tr>
-                                <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
     
                                 <input type="hidden" id="<%= tareasA.id_tarea %>" value ="<%= tareasA.id_tarea %>">
     
                                 <td class = "text-center"><%= tareasA.nombre_tarea %> </td>
+
+                                <td class="text-center">
+                                    <a onMouseover="this.style.cursor='pointer'" role="button" title="Modificar" data-toggle="tooltip" data-placement="top" onclick="modificar_practica('<%=id%>', '<%=tareasA.id_fase%>', '<%=tareasA.nombre_fase%>', '<%=tareasA.id_tarea%>', '<%=tareasA.nombre_tarea%>')">
+                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
+                                    </a>&nbsp
+                                     <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_practica('<%=id%>', '<%=tareasA.id_fase%>', '<%=tareasA.id_tarea%>', '<%=tareasA.nombre_tarea%>')">
+                                            <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='red'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
+                                        </a>
+                                </td>
     
                             
                                 <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
@@ -148,6 +157,8 @@
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_5 %>" type="number" id="5<%= tareasA.id_tarea %>" name="ap5_A"></td>
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_8 %>" type="number" id="8<%= tareasA.id_tarea %>" name="ap8_A"></td>
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasA.id_tarea %>' , '<%=id%>')" value = "<%= tareasA.ap_13 %>" type="number" id="13<%= tareasA.id_tarea %>" name="ap13_A"></td>
+
+                                 
                             
                             </tr>
     
@@ -160,19 +171,19 @@
                         <th rowspan="2" class = "text-center">Diseño</th>  <!-- rowspan = N + 1  -->
                     
                         <tr>
-                            <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
 
                             <td class = "text-center"> N/A </td>
+                            <td class="text-center">&nbsp</td>
 
                         
                             <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
                            
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap1_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap2_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap3_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap5_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap8_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap13_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;" placeholder="N/A" value = "N/A" type="number" name="ap1_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap2_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap3_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap5_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap8_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap13_A"></td>
                         
                         </tr>
 
@@ -182,9 +193,19 @@
                         <th rowspan="<%= nD %>" class = "text-center">Diseño</th>  
                         <% for (let tareasD of tareasDiseño) { %>
                             <tr>
-                                <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
+                            
                                 <input type="hidden" id="<%= tareasD.id_tarea %>" value ="<%= tareasD.id_tarea %>">
                                 <td class = "text-center"> <%= tareasD.nombre_tarea %> </td>
+
+                                <td class="text-center">
+                                    <a onMouseover="this.style.cursor='pointer'" role="button" title="Modificar" data-toggle="tooltip" data-placement="top" onclick="modificar_practica('<%=id%>', '<%=tareasD.id_fase%>', '<%=tareasD.nombre_fase%>', '<%=tareasD.id_tarea%>', '<%=tareasD.nombre_tarea%>')">
+                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
+                                    </a>
+                                    &nbsp
+                                    <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_practica('<%=id%>', '<%=tareasD.id_fase%>', '<%=tareasD.id_tarea%>', '<%=tareasD.nombre_tarea%>')">
+                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='red'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
+                                    </a>                                    
+                                </td>
     
                                 <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
     
@@ -194,6 +215,7 @@
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_5 %>" type="number" id="5<%= tareasD.id_tarea %>" name="Ap5_D"></td>
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_8 %>" type="number" id="8<%= tareasD.id_tarea %>" name="Ap8_D"></td>
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasD.id_tarea %>' , '<%=id%>')" value = "<%= tareasD.ap_13 %>" type="number" id="13<%= tareasD.id_tarea %>" name="Ap13_D"></td>
+
     
                             </tr>
     
@@ -205,19 +227,19 @@
                         <th rowspan="2" class = "text-center">Implementacion</th>  <!-- rowspan = N + 1  -->
                     
                         <tr>
-                            <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
 
                             <td class = "text-center"> N/A </td>
+                            <td class="text-center">&nbsp</td>
 
                         
                             <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
                            
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap1_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap2_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap3_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap5_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap8_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap13_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap1_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap2_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap3_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap5_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap8_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap13_A"></td>
                         
                         </tr>
 
@@ -227,9 +249,19 @@
                         <th rowspan="<%= nI %>" class = "text-center">Implementacion</th>  
                         <% for (let tareasI of tareasImplementacion) { %>
                             <tr>
-                                <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
+                                
                                 <input type="hidden" id="<%= tareasI.id_tarea %>" value ="<%= tareasI.id_tarea %>">
                                 <td class = "text-center"> <%= tareasI.nombre_tarea %> </td>
+
+                                <td class="text-center">
+                                    <a onMouseover="this.style.cursor='pointer'" role="button" title="Modificar" data-toggle="tooltip" data-placement="top" onclick="modificar_practica('<%=id%>', '<%=tareasI.id_fase%>', '<%=tareasI.nombre_fase%>', '<%=tareasI.id_tarea%>', '<%=tareasI.nombre_tarea%>')">
+                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
+                                    </a>
+                                    &nbsp
+                                    <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_practica('<%=id%>', '<%=tareasI.id_fase%>', '<%=tareasI.id_tarea%>', '<%=tareasI.nombre_tarea%>')">
+                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='red'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
+                                    </a>          
+                                </td>
     
                                 <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
     
@@ -239,6 +271,7 @@
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_5 %>" type="number" id="5<%= tareasI.id_tarea %>" name="Ap5_I"></td>
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_8 %>" type="number" id="8<%= tareasI.id_tarea %>" name="Ap8_I"></td>
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasI.id_tarea %>' , '<%=id%>')" value = "<%= tareasI.ap_13 %>" type="number" id="13<%= tareasI.id_tarea %>" name="Ap13_I"></td>
+
     
                             </tr>
     
@@ -250,20 +283,20 @@
                     <%if(tareasPruebas.length < 1){%>
                         <th rowspan="2" class = "text-center">Pruebas</th>  <!-- rowspan = N + 1  -->
                     
-                        <tr>
-                            <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
+                         <tr>
 
                             <td class = "text-center"> N/A </td>
+                            <td class="text-center">&nbsp</td>
 
                         
                             <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
                            
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap1_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap2_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap3_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap5_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap8_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap13_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap1_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap2_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap3_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap5_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap8_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap13_A"></td>
                         
                         </tr>
 
@@ -273,9 +306,19 @@
                         <th rowspan="<%= nP %>" class = "text-center">Pruebas</th>  
                         <% for (let tareasP of tareasPruebas) { %>
                             <tr>
-                                <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
+                                
                                 <input type="hidden" id="<%= tareasP.id_tarea %>" value ="<%= tareasP.id_tarea %>">
                                 <td class = "text-center"> <%= tareasP.nombre_tarea %> </td>
+
+                                <td class="text-center">
+                                    <a onMouseover="this.style.cursor='pointer'" role="button" title="Modificar" data-toggle="tooltip" data-placement="top" onclick="modificar_practica('<%=id%>', '<%=tareasP.id_fase%>', '<%=tareasP.nombre_fase%>', '<%=tareasP.id_tarea%>', '<%=tareasP.nombre_tarea%>')">
+                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
+                                    </a>
+                                    &nbsp
+                                    <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_practica('<%=id%>', '<%=tareasP.id_fase%>', '<%=tareasP.id_tarea%>', '<%=tareasP.nombre_tarea%>')">
+                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='red'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
+                                    </a>          
+                                </td>
     
                                 <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
     
@@ -285,6 +328,7 @@
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_5 %>" type="number" id="5<%= tareasP.id_tarea %>" name="Ap5_P"></td>
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_8 %>" type="number" id="8<%= tareasP.id_tarea %>" name="Ap8_P"></td>
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasP.id_tarea %>' , '<%=id%>')" value = "<%= tareasP.ap_13 %>" type="number" id="13<%= tareasP.id_tarea %>" name="Ap13_P"></td>
+    
     
                             </tr>
     
@@ -296,20 +340,20 @@
                     <%if(tareasDespliegue.length < 1){%>
                         <th rowspan="2" class = "text-center">Despliegue</th>  <!-- rowspan = N + 1  -->
                     
-                        <tr>
-                            <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
+                         <tr>
 
                             <td class = "text-center"> N/A </td>
+                            <td class="text-center">&nbsp</td>
 
-                
+                        
                             <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
                            
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap1_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap2_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap3_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap5_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap8_A"></td>
-                            <td class = "text-center"><input class="form-control" style="width: 5em;"  value = "0.0" type="number" name="ap13_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap1_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap2_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap3_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap5_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap8_A"></td>
+                            <td class = "text-center"><input disabled class="form-control" style="width: 5em;"  placeholder="N/A" value = "N/A" type="number" name="ap13_A"></td>
                         
                         </tr>
 
@@ -319,9 +363,19 @@
                         <th rowspan="<%= nDes %>" class = "text-center">Despliegue</th>  
                         <% for (let tareasDes of tareasDespliegue) { %>
                             <tr>
-                                <td class="text-center"> <a href="/proyectos/<%= id %>/agregar_practica"> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class=" fas fa-edit"></i> </a> </td>
+                                
                                 <input type="hidden" id="<%= tareasDes.id_tarea %>" value ="<%= tareasDes.id_tarea %>">
                                 <td class = "text-center"> <%= tareasDes.nombre_tarea %> </td>
+
+                                <td class="text-center">
+                                    <a onMouseover="this.style.cursor='pointer'" role="button" title="Modificar" data-toggle="tooltip" data-placement="top" onclick="modificar_practica('<%=id%>', '<%=tareasDes.id_fase%>', '<%=tareasDes.nombre_fase%>', '<%=tareasDes.id_tarea%>', '<%=tareasDes.nombre_tarea%>')">
+                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
+                                    </a>
+                                    &nbsp
+                                    <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_practica('<%=id%>', '<%=tareasDes.id_fase%>', '<%=tareasDes.id_tarea%>', '<%=tareasDes.nombre_tarea%>')">
+                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='red'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
+                                    </a>      
+                                </td>
     
                                 <!--td> <i onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit"></i> </td-->
     
@@ -331,6 +385,7 @@
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_5 %>"  type="number" id="5<%= tareasDes.id_tarea %>" name="Ap5_Des"></td>
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_8 %>"  type="number" id="8<%= tareasDes.id_tarea %>" name="Ap8_Des"></td>
                                 <td class = "text-center"><input class="form-control" style="width: 5em;" oninput="tiempo('<%= tareasDes.id_tarea %>' , '<%=id%>')" value = "<%= tareasDes.ap_13 %>"  type="number" id="13<%= tareasDes.id_tarea %>" name="Ap13_Des"></td>
+    
     
                             </tr>
     
@@ -369,6 +424,59 @@
 
             </table>
 
+            <div class="modal fade" id="modificarPractica"  data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" >
+                    <div class="modal-content bg-dark text-white">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Modificar práctica de trabajo</h5>
+                        <button class="btn btn-danger" type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+
+                      <div class="modal-body">
+                        <input type="hidden" id= "d_csrf" name="d_csrf" value="<%= csrfToken %>" >
+                        <div class="mb-3" id="modError" style="color: red"></div>
+                        <div class="mb-3">
+                            <label for="mod_nombrePractica" class="form-label text-success">Nombre de Practica de trabajo:</label>
+                            <input type="text" class="form-control" id="mod_nombrePractica" name="mod_nombrePractica">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mod_fase" class="form-label text-success">Fase:</label>
+                            <select class="form-control" id="mod_fase" name="mod_fase" placeholder="Choose...">
+                                <% for (let fase of fases) { %>
+                                    <option value="<%= fase.nombre_fase%>"> <%= fase.nombre_fase %> </option>
+                                <% } %>
+                            </select>
+                        </div>
+
+                      <div class="modal-footer">
+                        <button id="mod_ingresar" type="button" class="btn btn-success">Ingresar</button>
+                      </div>
+                    </div>
+                  </div>                  
+            </div>
+        </div>
+
+        <div class="modal fade" id="eliminarPractica" tabindex="0" aria-hidden="true">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Eliminar Práctica de trabajo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div>¿Eliminar la siguiente Práctica de trabajo?
+                        <i><strong id="delNombrePractica"></strong></i>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button id="delete" type="button" class="btn btn-danger">Eliminar</button>
+                  </div>
+                </div>
+              </div>                      
         </div>
 
         <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fas fa-angle-up"></i></button>
@@ -386,9 +494,42 @@
 <!-- Script para busqueda-->
 <script src="/js/tiempo.js"></script>
 
+<script src="/js/modificar_practica.js"></script>
+
+<script src="/js/eliminar_practica.js"></script>
+
+
 <!-- Script para mensaje-->
 <script>
     $(document).ready(function(){
         $('.toast').toast('show'); 
     });
+</script>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+
+<script>
+    //Get the button
+    var mybutton = document.getElementById("myBtn");
+    
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+    
+    function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+    } else {
+        mybutton.style.display = "none";
+    }
+    }
+    
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    }
 </script>

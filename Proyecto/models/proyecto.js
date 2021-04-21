@@ -46,27 +46,27 @@ module.exports = class Proyecto{
     }
 
     static fetchProyectoTareasAnalisis(id_proyecto){ // NUEVO: Busqueda de tareas en fase Analisis
-        return db.execute('SELECT id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Analisis" AND proyecto.id_proyecto = ?', 
+        return db.execute('SELECT tareas.id_fase, fase.nombre_fase, id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Analisis" AND proyecto.id_proyecto = ?', 
         [id_proyecto]);
     }
 
     static fetchProyectoTareasDiseño(id_proyecto){ // NUEVO: Busqueda de tareas en fase Diseño
-        return db.execute('SELECT id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Diseño" AND proyecto.id_proyecto = ?', 
+        return db.execute('SELECT tareas.id_fase, fase.nombre_fase, id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Diseño" AND proyecto.id_proyecto = ?', 
         [id_proyecto]);
     }
 
     static fetchProyectoTareasImplementacion(id_proyecto){ // NUEVO: Busqueda de tareas en fase Implementacion
-        return db.execute('SELECT id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Implementacion" AND proyecto.id_proyecto = ?', 
+        return db.execute('SELECT tareas.id_fase, fase.nombre_fase, id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Implementacion" AND proyecto.id_proyecto = ?', 
         [id_proyecto]);
     }
 
     static fetchProyectoTareasPruebas(id_proyecto){ // NUEVO: Busqueda de tareas en fase Pruebas
-        return db.execute('SELECT id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Pruebas" AND proyecto.id_proyecto = ?', 
+        return db.execute('SELECT tareas.id_fase, fase.nombre_fase, id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Pruebas" AND proyecto.id_proyecto = ?', 
         [id_proyecto]);
     }
 
     static fetchProyectoTareasDespliegue (id_proyecto){ // NUEVO: Busqueda de tareas en fase Despliegue
-        return db.execute('SELECT id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Despliegue" AND proyecto.id_proyecto = ?', 
+        return db.execute('SELECT tareas.id_fase, fase.nombre_fase, id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13 FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND fase.nombre_fase = "Despliegue" AND proyecto.id_proyecto = ?', 
         [id_proyecto]);
     }
 
@@ -101,6 +101,16 @@ module.exports = class Proyecto{
 
     saveCapacidad_Equipo(nombre_proyecto, descripcion){
         return db.execute('Insert into capacidad_equipo (id_proyecto) values ((SELECT id_proyecto from proyecto where nombre_proyecto = ? and descripcion=?))', [nombre_proyecto, descripcion]);
+    }
+
+    static modTarea(idProyecto, idFase, nombreFase, idTarea, nombreTarea){
+        return db.execute('UPDATE tareas SET nombre_tarea = ?, id_fase = (SELECT id_fase FROM fase WHERE nombre_fase = ?) WHERE id_proyecto = ? AND id_fase = ? AND id_tarea = ?',
+            [nombreTarea, nombreFase, idProyecto, idFase, idTarea]);
+    }
+
+    static deletePractica(id_proyecto, id_fase, id_tarea){
+        return db.execute('DELETE FROM tareas WHERE id_proyecto = ? AND id_fase = ? AND id_tarea = ?',
+            [id_proyecto, id_fase, id_tarea]);
     }
 
 } 
