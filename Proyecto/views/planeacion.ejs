@@ -3,59 +3,153 @@
 <%- include('partials/sidebar.ejs') %>
 
 <main class="container">
-            <!-- Page Content  -->
-            <div id="content">
-    
-                <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-secondary">
-                    <div class="container-fluid">
-    
-                        <button type="button" id="sidebarCollapse" class="btn btn-light">
-                            <i class="fas fa-align-left"></i>
-                            <span>Toggle Sidebar</span>
-                        </button>
-                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <i class="fas fa-align-justify"></i>
-                        </button>
-    
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="nav navbar-nav ml-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link text-white" href="#">Page</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="#">Page</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="#">Page</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="#">Page</a>
-                                </li>
-                            </ul>
+    <!-- Page Content  -->
+    <div id="content">
+
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-secondary">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-light">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link text-white" href="#">Page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Page</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Page</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class= "text-white"><%= titulo %></h1>
+
+        <% if (success.length != 0) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Excelsior!</strong> <%= success %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlert()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <% } %>
+        
+        <% if (error.length != 0) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Holy natgas!</strong> <%= error %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlert()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <% } %>
+
+        <input type="hidden" id="_csrf" name="_csrf" value="<%= csrfToken %>" >
+
+        <div id="accordion">
+
+            <% for (let casoUso of casosUso){%>
+                <input type="hidden" id="<%= casoUso.id_caso_de_uso %>" value ="<%= casoUso.id_caso_de_uso %>">
+                <div class="card text-white bg-dark">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#c<%= casoUso.id_caso_de_uso %>" aria-expanded="false" aria-controls="collapseTwo">
+                                <%= casoUso.nombre_caso_de_uso %>                     
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="c<%= casoUso.id_caso_de_uso %>" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <input type="hidden" id="<%= casoUso.id_caso_de_uso %>" value ="<%= casoUso.id_caso_de_uso %>">
+                            <input type="hidden" id="p<%= casoUso.valor %>" value ="<%= casoUso.valor %>">
+
+                            <table class="table table-secondary">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Tarea</th>
+                                        <th scope="col">Fase</th>
+                                        <th scope="col">Tiempo</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="<%= casoUso.id_caso_de_uso %>registros">
+                                    <% let count = 1; %>
+                                    <% for (var i = 0; i < casosTareas.length; i++){%>
+                                        <% if (casoUso.nombre_caso_de_uso === casosTareas[i].nombre_caso_de_uso){%>
+                                            <tr>
+                                                <th scope="row"><%= count %></th>
+                                                <td><%= casosTareas[i].nombre_tarea %></td>
+                                                <td><%= casosTareas[i].nombre_fase %></td>
+                                                <% if (casosTareas[i].maximo == null){%>
+                                                    <td>0</td>
+                                                <%}
+                                                    else {%>
+                                                    <td><%= casosTareas[i].maximo %></td>
+                                                <%}%>
+                                            </tr>
+                                            <% count++; %>
+                                        <%}%>
+                                    <%}%>
+
+                                    <tr>
+                                        <td scope="row" colspan="4" class="text-center"><button class="btn btn-secondary" data-toggle="modal" data-target="#m<%= casoUso.id_caso_de_uso %>" id="<%= casoUso.id_caso_de_uso %>" onclick="incomingTareaCasoUso('<%= casoUso.id_caso_de_uso %>' , '<%=id%>')"> <i data-toggle="modal" data-target="#modificarCaso" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-plus"></i> </button> </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                                    <!--Modal-->
+                                    <div class="modal fade" id="m<%= casoUso.id_caso_de_uso %>" tabindex="-1" role="dialog" aria-labelledby="m<%= casoUso.id_caso_de_uso %>Label" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content bg-dark text-white">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="m<%= casoUso.id_caso_de_uso %>Label">Agregar Tarea a Caso de Uso</h5>
+                                                <button class="btn btn-danger" type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="m<%= casoUso.id_caso_de_uso %>Tarea" class="form-label text-success">Tareas:</label>
+                                                    <div id="<%= casoUso.id_caso_de_uso %>tareas"></div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addTareaCasoUso('<%= casoUso.id_caso_de_uso %>' , '<%=id%>', '<%= casoUso.valor %>')">Add Tarea</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                         </div>
                     </div>
-                </nav>
-    
-                <h2>Pestaña</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    
-                <div class="line"></div>
-    
-                <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    
-                <div class="line"></div>
-    
-                <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    
-                <div class="line"></div>
-    
-                <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
+                </div>
+            <%}%>
         </div>
+
+
+
+        
+    </div>
 </main>
 
 <%- include('partials/footer.ejs') %>
+
+<!-- Script para mostrar tareas-->
+<script src="/js/incomingTareaCasoUso.js"></script>
+<!-- Script para añadir tareas a caso de uso-->
+<script src="/js/addTareaCasoUso.js"></script>

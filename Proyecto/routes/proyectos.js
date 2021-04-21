@@ -19,6 +19,8 @@ router.get('/:id/reportes', isAuth, proyectosController.getReportes);
 
 router.get('/:id/planeacion', isAuth, isMiembro, proyectosController.getPlaneacion);
 
+router.post('/:id/planeacion', isAuth, isMiembro, proyectosController.postPlaneacion);
+
 router.get('/:id/wbs', isAuth, isMiembro, proyectosController.getWbs);
 
 router.post('/:id/wbs', isAuth, isMiembro, proyectosController.postWbs);
@@ -42,6 +44,10 @@ router.post('/:id/status', isAuth, isMiembro, proyectosController.postStatus);
 router.post('/:id/eliminar_caso/:id_caso', isAuth, isMiembro, proyectosController.postEliminarCaso);
 
 router.post('/:id/modificar_caso_de_uso/:id_caso/:nombre_caso/:iteracion/:epic/:valor/', isAuth, isMiembro, proyectosController.postModificarCaso);
+
+router.post('/:id/incomingTareaCasoUso', isAuth, isMiembro, proyectosController.postIncomingTareaCasoUso);
+
+router.post('/:id/addTareaCasoUso', isAuth, isMiembro, proyectosController.postAddTareaCasoUso);
 
 router.post('/nuevo_proyecto', isAuth, isMiembro, proyectosController.postNuevoProyecto);
 
