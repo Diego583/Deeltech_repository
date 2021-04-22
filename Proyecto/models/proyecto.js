@@ -133,4 +133,19 @@ module.exports = class Proyecto{
         return db.execute('SELECT * FROM tareas WHERE id_tarea = ? AND id_proyecto = ?',
         [id_tarea, id_proyecto]);
     }
-} 
+
+    static getTiempoReal(id_proyecto){ //Se muestran las sumas en minutos y horas de caso_de_uso_fase_tarea
+        return db.execute('SELECT round(SUM(maximo),2) as "SumaMinutos", round(SUM(maximo)/60,2) as "SumaHoras" FROM caso_de_uso_fase_tarea WHERE id_proyecto = ?',
+        [id_proyecto]);
+    }
+
+    static updateMultiplicador(multiplicador, id_proyecto){ //Se muestran los casos de uso fase tareas por nombre
+        return db.execute('UPDATE proyecto SET multiplicador = ? WHERE id_proyecto = ?',
+        [multiplicador, id_proyecto]);
+    }
+
+    static getmultiplicador(id_proyecto){ //Se muestran los casos de uso fase tareas por nombre
+        return db.execute('select multiplicador from proyecto WHERE id_proyecto = ?',
+        [id_proyecto]);
+    }
+}

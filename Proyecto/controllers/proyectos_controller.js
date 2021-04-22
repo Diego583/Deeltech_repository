@@ -33,25 +33,49 @@ exports.getPlaneacion = (request, response, next) => {
         .then(([rows1,fieldData]) => {
             Proyecto.fetchCasosDeUso(request.params.id)
             .then(([rows2,fieldData]) => {
-
-                response.render('planeacion', {
-                    casosTareas: rows,
-                    tareas: rows1,
-                    casosUso: rows2,
-                    id: request.params.id,
-                    csrfToken: request.csrfToken(),
-                    userRol: request.session.rol,
-                    error: request.flash("error"),
-                    success: request.flash("success"),
-                    titulo: 'Planeacion',
-                    isLoggedIn: request.session.isLoggedIn === true ? true : false
-                });
-    
+                Proyecto.getTiempoReal(request.params.id)
+                .then(([rows3,fieldData]) => {
+                    Usuario.fetchSuma_Horas(request.params.id)
+                    .then(([rows4,fieldData])=>{
+                        Usuario.fetchPorcentajes(request.params.id)
+                        .then(([rows5,fieldData]) => {
+                            Proyecto.getmultiplicador(request.params.id)
+                            .then(([rows6,fieldData]) => {
+                                response.render('planeacion', {
+                                    casosTareas: rows,
+                                    tareas: rows1,
+                                    casosUso: rows2,
+                                    tiempoReal: rows3,
+                                    tiempoUsuarios: rows4,
+                                    porcentajes: rows5,
+                                    multiplicador: rows6,
+                                    id: request.params.id,
+                                    csrfToken: request.csrfToken(),
+                                    userRol: request.session.rol,
+                                    error: request.flash("error"),
+                                    success: request.flash("success"),
+                                    titulo: 'Planeacion',
+                                    isLoggedIn: request.session.isLoggedIn === true ? true : false
+                                });
+                            }).catch(err => console.log(err)); 
+                        }).catch(err => console.log(err)); 
+                    }).catch(err => console.log(err));  
+                }).catch(err => console.log(err));
             }).catch(err => console.log(err));      
         }).catch(err => console.log(err));    
     }).catch(err => console.log(err));
 };
 
+exports.postMultiplicador = (request, response, next) => { //NUEVO
+    const multiplicador = request.body.multiplicador;
+    Proyecto.updateMultiplicador(multiplicador, request.params.id)
+    .then(([rows,fieldData]) => {
+        console.log("Multiplicador calculado");
+        //request.flash('success','Practica guardada exitosamente. 😁👍');
+        response.redirect('/proyectos/'+ request.params.id +'/planeacion');
+    }).catch(err => console.log(err));
+    
+};
 
 exports.postPlaneacion = (request, response, next) => { //NUEVO
     const nombre_caso_de_uso = request.body.CasoUso;

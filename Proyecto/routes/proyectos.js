@@ -21,6 +21,8 @@ router.get('/:id/planeacion', isAuth, isMiembro, proyectosController.getPlaneaci
 
 router.post('/:id/planeacion', isAuth, isMiembro, proyectosController.postPlaneacion);
 
+router.post('/:id/multiplicador', isAuth, isMiembro, proyectosController.postMultiplicador); // Se recive el multiplicador
+
 router.get('/:id/wbs', isAuth, isMiembro, proyectosController.getWbs);
 
 router.post('/:id/wbs', isAuth, isMiembro, proyectosController.postWbs);
