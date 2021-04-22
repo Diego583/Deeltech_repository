@@ -74,7 +74,7 @@
                             <% var tiempo3=tiempo2/4.28; %>
                             <% tiempo3=Number.parseFloat(tiempo3).toFixed(2); %>
                             <th>Total en meses</th>
-                            <td ><%=tiempo3%></td>
+                            <td ><input value="<%=tiempo3%>" id="tiempo3" name="tiempo3" type="number" class="form-control" style="width: 5em;" ></td>
                         </tr>
     
                         <tr>
@@ -87,8 +87,9 @@
                         </tr>
     
                         <tr>
+                            <%var colchon=multiplicador[0].multiplicador*tiempo3%>
                             <th>Total en meses con colchón</th>
-                            <td >Total en meses*Multiplicador</td>
+                            <td ><input type="number" value="<%=colchon%>" name="colchon" id="colchon" disabled> </td>
                         </tr>
                     </tbody>
                     
@@ -221,3 +222,5 @@
 <script src="/js/incomingTareaCasoUso.js"></script>
 <!-- Script para añadir tareas a caso de uso-->
 <script src="/js/addTareaCasoUso.js"></script>
+<!-- Script para ver cambios en multiplicador-->
+<script src="/js/multiplicador.js"></script>
