@@ -27,13 +27,94 @@ exports.getReportes = (request, response, next) => {
 };
 
 exports.getPlaneacion = (request, response, next) => {
-    response.render('planeacion', {
-        id: request.params.id,
-        userRol: request.session.rol,
-        titulo: 'Planeacion',
-        isLoggedIn: request.session.isLoggedIn === true ? true : false
-    });
+    Proyecto.fetchCasosDeUsoFaseTarea(request.params.id)
+    .then(([rows,fieldData]) => {
+        Proyecto.fetchTareasFases(request.params.id)
+        .then(([rows1,fieldData]) => {
+            Proyecto.fetchCasosDeUso(request.params.id)
+            .then(([rows2,fieldData]) => {
+                Proyecto.getTiempoReal(request.params.id)
+                .then(([rows3,fieldData]) => {
+                    Usuario.fetchSuma_Horas(request.params.id)
+                    .then(([rows4,fieldData])=>{
+                        Usuario.fetchPorcentajes(request.params.id)
+                        .then(([rows5,fieldData]) => {
+                            Proyecto.getmultiplicador(request.params.id)
+                            .then(([rows6,fieldData]) => {
+                                response.render('planeacion', {
+                                    casosTareas: rows,
+                                    tareas: rows1,
+                                    casosUso: rows2,
+                                    tiempoReal: rows3,
+                                    tiempoUsuarios: rows4,
+                                    porcentajes: rows5,
+                                    multiplicador: rows6,
+                                    id: request.params.id,
+                                    csrfToken: request.csrfToken(),
+                                    userRol: request.session.rol,
+                                    error: request.flash("error"),
+                                    success: request.flash("success"),
+                                    titulo: 'Planeacion',
+                                    isLoggedIn: request.session.isLoggedIn === true ? true : false
+                                });
+                            }).catch(err => console.log(err)); 
+                        }).catch(err => console.log(err)); 
+                    }).catch(err => console.log(err));  
+                }).catch(err => console.log(err));
+            }).catch(err => console.log(err));      
+        }).catch(err => console.log(err));    
+    }).catch(err => console.log(err));
 };
+
+exports.postMultiplicador = (request, response, next) => { //NUEVO
+    const multiplicador = request.body.multiplicador;
+    Proyecto.updateMultiplicador(multiplicador, request.params.id)
+    .then(([rows,fieldData]) => {
+        console.log("Multiplicador calculado");
+        //request.flash('success','Practica guardada exitosamente. 😁👍');
+        response.redirect('/proyectos/'+ request.params.id +'/planeacion');
+    }).catch(err => console.log(err));
+    
+};
+
+exports.postPlaneacion = (request, response, next) => { //NUEVO
+    const nombre_caso_de_uso = request.body.CasoUso;
+    const arrTareas = request.body.tarea
+    const id_proyecto = request.params.proyecto_id;
+    console.log(nombre_caso_de_uso);
+    console.log(arrTareas);
+    console.log(id_proyecto);
+
+    if (nombre_caso_de_uso.length == 0 && arrTareas == undefined){
+        request.flash('error','No se recibio ningun dato. 😢🙃');
+        response.redirect('/proyectos/'+ id_proyecto +'/planeacion');
+    }
+
+    else if (nombre_caso_de_uso.length == 0 || arrTareas == undefined){
+        request.flash('error','Te faltaron campos por llenar. 😢🙃');
+        response.redirect('/proyectos/'+ id_proyecto +'/planeacion');
+    }
+
+    else{
+        if (Array.isArray(arrTareas)){
+            //console.log("Este es un arreglo");
+            for (var i = 0; i < arrTareas.length; i++) {
+                console.log(arrTareas[i]);
+                Proyecto.saveCasosDeUsoFaseTarea(nombre_caso_de_uso, arrTareas[i], id_proyecto)
+            }
+            request.flash('success','Tareas agregadas a caso de uso correctamente. 😁👍');
+            response.redirect('/proyectos/'+ id_proyecto +'/planeacion');
+        }
+        else {
+            console.log(arrTareas);
+            Proyecto.saveCasosDeUsoFaseTarea(nombre_caso_de_uso, arrTareas, id_proyecto)
+            request.flash('success','Tarea agregadas a caso de uso correctamente. 😁👍');
+            response.redirect('/proyectos/'+ id_proyecto +'/planeacion');
+        }
+    }
+
+};
+
 
 exports.getWbs = (request, response, next) => { // NUEVO
     Proyecto.fetchProyectoTareasAnalisis(request.params.id)
@@ -86,7 +167,6 @@ exports.getWbs = (request, response, next) => { // NUEVO
 };
 
 exports.postWbs = (request, response, next) => { //NUEVO
-    request.session.error = "";
     const ap_1 = request.body.ap_1;
     const ap_2 = request.body.ap_2;
     const ap_3 = request.body.ap_3;
@@ -325,6 +405,89 @@ exports.postEliminarCaso = (request, response, next) => {
         .catch(err => {
             console.log(err);
         });
+
+}
+
+exports.postIncomingTareaCasoUso = (request, response, next) => {
+    const id = request.body.id;
+
+    Proyecto.incomingTareasCasoUso(id, request.params.id)
+        .then(([rows, fieldData]) => {
+            //console.log(rows);
+            response.status(200).json(rows);
+
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+}
+
+exports.postAddTareaCasoUso = (request, response, next) => {
+    const id = request.body.id;
+    const ap = "ap_" + request.body.ap;
+    const arrTareas = request.body.tareas;
+    var id_proyecto = request.params.id;
+    console.log(id);
+    console.log(ap);
+    console.log(arrTareas);
+    console.log(id_proyecto);
+
+    if (arrTareas.length < 1){
+        console.log("Entre 1");
+        request.flash('error','No se recibio ningun dato. 😢🙃');
+        response.redirect('/proyectos/'+ id_proyecto +'/planeacion');
+    }
+    
+    let tareas = [];
+    for (let tarea of arrTareas){
+        console.log("Entre 2");
+        tareas.push(tarea);
+    }
+    
+    console.log(tareas);
+    for (let tarea of tareas) {
+        Proyecto.getTiempoTarea(tarea, id_proyecto)
+        .then(async([rows, fieldData]) => {
+
+            for(let j = 0; j < fieldData.length; j++){
+                if(fieldData[j].name === ap){
+                    console.log(tarea);
+                    console.log(fieldData[j].name);
+                    console.log(rows[0][fieldData[j].name]);
+
+                    const tiempo = rows[0][fieldData[j].name];
+                    console.log(tiempo);
+                    
+                    console.log("Guardando");
+                    await Proyecto.saveCasosDeUsoFaseTarea(id, tarea, id_proyecto, tiempo);
+
+                }
+            }
+
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+
+    setTimeout(() => {
+
+        Proyecto.fetchTareasByCasoUso(id_proyecto, id)
+        .then(([rows, fieldData]) => {
+            console.log(rows);
+            request.flash('success','Tareas agregadas a caso de uso correctamente. 😁👍');
+            //console.log(rows);
+            return response.status(200).json(rows);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+        
+    }, 500);
+
+    
+
 
 }
 
