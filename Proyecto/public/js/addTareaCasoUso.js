@@ -41,6 +41,7 @@ function addTareaCasoUso(caso_id, proyecto_id, valor) {
         
         console.log(data);
         let count = 1;
+        let sum = 0;
 
         let html = '';
 
@@ -52,7 +53,14 @@ function addTareaCasoUso(caso_id, proyecto_id, valor) {
                         '<td>'+ tarea.maximo +'</td>' + 
                     '</tr>';
             count++;
+
+            sum = sum + parseInt(tarea.maximo, 10);
         }
+
+        html+= '<tr>' +
+        '<td  colspan="2" class="text-center">Total:</td>' + 
+        '<td  colspan="2" class="text-center">'+ sum +'</td>' +
+        '</tr>';
 
         html+= '<tr>' +
         '<td scope="row" colspan="4" class="text-center"><button class="btn btn-secondary" data-toggle="modal" data-target="#m' + caso_id + '" id="' + caso_id + '" onclick="incomingTareaCasoUso(' + caso_id + ' , ' + proyecto_id + ')"> <i data-toggle="modal" data-target="#modificarCaso" onMouseover="this.style.color="blue"" onMouseout="this.style.color="white"" class="fas fa-plus"></i> </button> </th>' +

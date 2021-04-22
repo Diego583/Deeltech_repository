@@ -156,6 +156,7 @@
 
                                 <tbody id="<%= casoUso.id_caso_de_uso %>registros">
                                     <% let count = 1; %>
+                                    <% var sum = 0; %>
                                     <% for (var i = 0; i < casosTareas.length; i++){%>
                                         <% if (casoUso.nombre_caso_de_uso === casosTareas[i].nombre_caso_de_uso){%>
                                             <tr>
@@ -167,6 +168,8 @@
                                                 <%}
                                                     else {%>
                                                     <td><%= casosTareas[i].maximo %></td>
+                                                    <% sum = sum + parseInt(casosTareas[i].maximo, 10); %>
+                                                    <% console.log(sum); %>
                                                 <%}%>
                                             </tr>
                                             <% count++; %>
@@ -174,7 +177,12 @@
                                     <%}%>
 
                                     <tr>
-                                        <td scope="row" colspan="4" class="text-center"><button class="btn btn-secondary" data-toggle="modal" data-target="#m<%= casoUso.id_caso_de_uso %>" id="<%= casoUso.id_caso_de_uso %>" onclick="incomingTareaCasoUso('<%= casoUso.id_caso_de_uso %>' , '<%=id%>')"> <i data-toggle="modal" data-target="#modificarCaso" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-plus"></i> </button> </th>
+                                        <td  colspan="2" class="text-center">Total:</td>
+                                        <td  colspan="2" class="text-center"><%= sum %></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" colspan="4" class="text-center"><button class="btn btn-secondary" data-toggle="modal" data-target="#m<%= casoUso.id_caso_de_uso %>" id="<%= casoUso.id_caso_de_uso %>" onclick="incomingTareaCasoUso('<%= casoUso.id_caso_de_uso %>' , '<%=id%>')"> <i data-toggle="modal" data-target="#modificarCaso" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-plus"></i> </button> </td>
                                     </tr>
                                 </tbody>
                             </table>
