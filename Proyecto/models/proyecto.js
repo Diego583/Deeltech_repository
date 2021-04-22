@@ -139,13 +139,18 @@ module.exports = class Proyecto{
         [id_proyecto]);
     }
 
-    static updateMultiplicador(multiplicador, id_proyecto){ //Se muestran los casos de uso fase tareas por nombre
+    static updateMultiplicador(multiplicador, id_proyecto){ //Se actualiza el multplicador
         return db.execute('UPDATE proyecto SET multiplicador = ? WHERE id_proyecto = ?',
         [multiplicador, id_proyecto]);
     }
 
-    static getmultiplicador(id_proyecto){ //Se muestran los casos de uso fase tareas por nombre
+    static getmultiplicador(id_proyecto){ //Se muestran el multiplicador 
         return db.execute('select multiplicador from proyecto WHERE id_proyecto = ?',
         [id_proyecto]);
+    }
+
+    static getSumaTareasByCasoUso(id_caso_de_uso, id_proyecto){ //Se muestra la suma de las tareas de un caso
+        return db.execute('SELECT SUM(maximo) as sumaTareas FROM caso_de_uso_fase_tarea WHERE id_caso_de_uso = ? and id_proyecto = ?',
+        [id_caso_de_uso, id_proyecto]);
     }
 }

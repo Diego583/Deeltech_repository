@@ -74,7 +74,7 @@
                             <% var tiempo3=tiempo2/4.28; %>
                             <% tiempo3=Number.parseFloat(tiempo3).toFixed(2); %>
                             <th>Total en meses</th>
-                            <td ><input value="<%=tiempo3%>" id="tiempo3" name="tiempo3" type="number" class="form-control" style="width: 5em;" ></td>
+                            <td ><input value="<%=tiempo3%>" id="tiempo3" name="tiempo3" type="number" style="width: 5em;" disabled></td>
                         </tr>
     
                         <tr>
@@ -82,14 +82,14 @@
                             <form action="/proyectos/<%= id %>/multiplicador?_csrf=<%=csrfToken%>" method="POST" >
                             <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
                             <td>
-                                <input value="<%=multiplicador[0].multiplicador%>" id="multiplicador" name="multiplicador" type="number" class="form-control" style="width: 5em;" >
+                                <input step="any" value="<%=multiplicador[0].multiplicador%>" id="multiplicador" name="multiplicador" type="number" class="form-control" style="width: 5em;" >
                             </td>
                         </tr>
     
                         <tr>
                             <%var colchon=multiplicador[0].multiplicador*tiempo3%>
                             <th>Total en meses con colchón</th>
-                            <td ><input type="number" value="<%=colchon%>" name="colchon" id="colchon" disabled> </td>
+                            <td ><input type="number" value="<%=colchon%>" name="colchon" id="colchon" style="width: 5em;" disabled> </td>
                         </tr>
                     </tbody>
                     

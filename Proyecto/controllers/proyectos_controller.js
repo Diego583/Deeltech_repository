@@ -441,7 +441,7 @@ exports.postAddTareaCasoUso = (request, response, next) => {
 
     setTimeout(() => {
 
-            Proyecto.fetchTareasByCasoUso(id_proyecto, id)
+        Proyecto.fetchTareasByCasoUso(id_proyecto, id)
         .then(([rows, fieldData]) => {
             console.log(rows);
             request.flash('success','Tareas agregadas a caso de uso correctamente. 😁👍');
