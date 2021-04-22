@@ -3,59 +3,223 @@
 <%- include('partials/sidebar.ejs') %>
 
 <main class="container">
-            <!-- Page Content  -->
-            <div id="content">
+    <!-- Page Content  -->
+    <div id="content">
+
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-secondary">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-light">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+            </div>
+        </nav>
+
+        <h1 class= "text-white text-center"><%= titulo %></h1>
+
+        <div class= row>
+
+            <div class="table-responsive col-md-5 align-self-center mx-auto">
+                <table id="tiempoReal" name="tiempoReal" class="table table-striped table-dark " >
+                
+                    <tbody>
+                        
+                        <tr>
+                            
+                            <th>Total de minutos</th>
+                            <td ><%=tiempoReal[0].SumaMinutos%></td>
+                        </tr>
     
-                <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-secondary">
-                    <div class="container-fluid">
+                        <tr>
+                            <th>Total de horas</th>
+                            <td ><%=tiempoReal[0].SumaHoras%></td>
+                        </tr>
     
-                        <button type="button" id="sidebarCollapse" class="btn btn-light">
-                            <i class="fas fa-align-left"></i>
-                            <span>Toggle Sidebar</span>
-                        </button>
-                        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <i class="fas fa-align-justify"></i>
-                        </button>
+                        <tr>
+                            <% var tiempo1=((tiempoUsuarios[0].tiempo*(100-porcentajes[0].tiempo_perdido-porcentajes[0].errores_registro)/100)*(100-porcentajes[0].overhead)/100)*porcentajes[0].productivas/100 %>
+                            <% tiempo1=Number.parseFloat(tiempo1).toFixed(2); %>
+                            <th>Horas semanales de capacidad</th>
+                            <td ><%=tiempo1%></td>
+                        </tr>
     
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="nav navbar-nav ml-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link text-white" href="#">Page</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="#">Page</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="#">Page</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="#">Page</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
+                        <tr>
+                            <% var tiempo2=tiempoReal[0].SumaHoras/tiempo1; %>
+                            <% tiempo2=Number.parseFloat(tiempo2).toFixed(2); %>
+                            <th>Total en semanas</th>
+                            <td><%=tiempo2%></td>
+                        </tr>
     
-                <h2>Pestaña</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <tr>
+                            <% var tiempo3=tiempo2/4.28; %>
+                            <% tiempo3=Number.parseFloat(tiempo3).toFixed(2); %>
+                            <th>Total en meses</th>
+                            <td ><input value="<%=tiempo3%>" id="tiempo3" name="tiempo3" type="number" style="width: 5em;" disabled></td>
+                        </tr>
     
-                <div class="line"></div>
+                        <tr>
+                            <th>Multiplicador</th>
+                            <form action="/proyectos/<%= id %>/multiplicador?_csrf=<%=csrfToken%>" method="POST" >
+                            <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
+                            <td>
+                                <input step="any" value="<%=multiplicador[0].multiplicador%>" id="multiplicador" name="multiplicador" type="number" class="form-control" style="width: 5em;" >
+                            </td>
+                        </tr>
     
-                <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    
-                <div class="line"></div>
-    
-                <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    
-                <div class="line"></div>
-    
-                <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <tr>
+                            <%var colchon=multiplicador[0].multiplicador*tiempo3%>
+                            <th>Total en meses con colchón</th>
+                            <td ><input type="number" value="<%=colchon%>" name="colchon" id="colchon" style="width: 5em;" disabled> </td>
+                        </tr>
+                    </tbody>
+                    
+                </table>
             </div>
         </div>
+
+            
+                <div class="col-md-3 align-self-center mx-auto">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-info">Actualizar resultados</button>
+                </div>
+                </form>
+                <div><br></div>
+                <form action="//login" method="POST">
+                    <div class="col-md-3 align-self-center mx-auto">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="submit" class="btn btn-secondary"> Enviar a airtable</button>
+                    </div>
+                </form>
+            
+
+
+
+        <p><br></p>
+        <% if (success.length != 0) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Excelsior!</strong> <%= success %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlert()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <% } %>
+        
+        <% if (error.length != 0) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Holy natgas!</strong> <%= error %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlert()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <% } %>
+
+        <input type="hidden" id="_csrf" name="_csrf" value="<%= csrfToken %>" >
+
+        <div id="accordion">
+
+            <% for (let casoUso of casosUso){%>
+                <input type="hidden" id="<%= casoUso.id_caso_de_uso %>" value ="<%= casoUso.id_caso_de_uso %>">
+                <div class="card text-white bg-dark">
+                    <div class="card-header" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#c<%= casoUso.id_caso_de_uso %>" aria-expanded="false" aria-controls="collapseTwo">
+                                <%= casoUso.nombre_caso_de_uso %>                     
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="c<%= casoUso.id_caso_de_uso %>" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                        <div class="card-body">
+                            <input type="hidden" id="<%= casoUso.id_caso_de_uso %>" value ="<%= casoUso.id_caso_de_uso %>">
+                            <input type="hidden" id="p<%= casoUso.valor %>" value ="<%= casoUso.valor %>">
+
+                            <table class="table table-secondary">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Tarea</th>
+                                        <th scope="col">Fase</th>
+                                        <th scope="col">Tiempo</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="<%= casoUso.id_caso_de_uso %>registros">
+                                    <% let count = 1; %>
+                                    <% var sum = 0; %>
+                                    <% for (var i = 0; i < casosTareas.length; i++){%>
+                                        <% if (casoUso.nombre_caso_de_uso === casosTareas[i].nombre_caso_de_uso){%>
+                                            <tr>
+                                                <th scope="row"><%= count %></th>
+                                                <td><%= casosTareas[i].nombre_tarea %></td>
+                                                <td><%= casosTareas[i].nombre_fase %></td>
+                                                <% if (casosTareas[i].maximo == null){%>
+                                                    <td>0</td>
+                                                <%}
+                                                    else {%>
+                                                    <td><%= casosTareas[i].maximo %></td>
+                                                    <% sum = sum + parseInt(casosTareas[i].maximo, 10); %>
+                                                    <% console.log(sum); %>
+                                                <%}%>
+                                            </tr>
+                                            <% count++; %>
+                                        <%}%>
+                                    <%}%>
+
+                                    <tr>
+                                        <td  colspan="2" class="text-center">Total:</td>
+                                        <td  colspan="2" class="text-center"><%= sum %></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td scope="row" colspan="4" class="text-center"><button class="btn btn-secondary" data-toggle="modal" data-target="#m<%= casoUso.id_caso_de_uso %>" id="<%= casoUso.id_caso_de_uso %>" onclick="incomingTareaCasoUso('<%= casoUso.id_caso_de_uso %>' , '<%=id%>')"> <i data-toggle="modal" data-target="#modificarCaso" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-plus"></i> </button> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                                    <!--Modal-->
+                                    <div class="modal fade" id="m<%= casoUso.id_caso_de_uso %>" tabindex="-1" role="dialog" aria-labelledby="m<%= casoUso.id_caso_de_uso %>Label" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content bg-dark text-white">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="m<%= casoUso.id_caso_de_uso %>Label">Agregar Tarea a Caso de Uso</h5>
+                                                <button class="btn btn-danger" type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="m<%= casoUso.id_caso_de_uso %>Tarea" class="form-label text-success">Tareas:</label>
+                                                    <div id="<%= casoUso.id_caso_de_uso %>tareas"></div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addTareaCasoUso('<%= casoUso.id_caso_de_uso %>' , '<%=id%>', '<%= casoUso.valor %>')">Add Tarea</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                        </div>
+                    </div>
+                </div>
+            <%}%>
+        </div>
+
+
+
+        
+    </div>
 </main>
 
 <%- include('partials/footer.ejs') %>
+
+<!-- Script para mostrar tareas-->
+<script src="/js/incomingTareaCasoUso.js"></script>
+<!-- Script para añadir tareas a caso de uso-->
+<script src="/js/addTareaCasoUso.js"></script>
+<!-- Script para ver cambios en multiplicador-->
+<script src="/js/multiplicador.js"></script>

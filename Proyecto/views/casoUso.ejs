@@ -27,6 +27,43 @@
                     </div>
                 </nav>
 
+
+                <div>
+                    <form action="/proyectos/<%= id %>/caso_de_uso" method="POST">
+                        <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
+                        <div class="mb-3">
+                            <label for="casoUso" class="form-label text-success">Caso de Uso:</label>
+                            <input type="text" class="form-control" id="casoUso" name="casoUso">
+                        </div>
+                        <div class="mb-3">
+                            <label for="epic" class="form-label text-success">Epic:</label>
+                            <input type="text" class="form-control" id="epic" name="epic">
+                        </div>
+                        <div class="mb-3">
+                            <label for="iteracion" class="form-label text-success">Iteración:</label>
+                            <input type="number" class="form-control" id="iteracion" name="iteracion">
+                        </div>
+                        <div class="mb-3">
+                            <label for="ap" class="form-label text-success">AP:</label>
+                            <select class="form-control" id="ap" name="ap">
+                                <option selected>Choose...</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>5</option>
+                                <option>8</option>
+                                <option>13</option>
+                            </select>
+                        </div>
+                        <% if (error) { %>
+                            <p style="color:red"><%= error %></p>
+                        <% } %>
+                        <button type="submit" class="btn btn-dark">Ingresar</button>
+                    </form>
+                </div>
+
+
+
                 <div id = "mensaje" name = "mensaje">
                     .
                 </div>
@@ -38,12 +75,11 @@
                             <tr>
                                 <th class = "text-center" scope="col">Caso de uso</th>
                                 <th class = "text-center" scope="col">Iteracion</th>
-                                <th class = "text-center"  scope="col">Epic</th>
-                                <th class = "text-center"  scope="col">Valor</th>
+                                <th class = "text-center" scope="col">Epic</th>
+                                <th class = "text-center" scope="col">Valor</th>
                                 <th class = "text-center" scope="col">Status</th>
-                                <th class = "text-center"  scope="col">&nbsp</th>
                                 <th class = "text-center" scope="col">&nbsp</th>
-                                
+                                <th class = "text-center" scope="col">&nbsp</th>
                             </tr>
                         </thead>
 
@@ -156,39 +192,7 @@
 
                 </div>
 
-                <div>
-                    <form action="/proyectos/<%= id %>/caso_de_uso" method="POST">
-                        <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
-                        <div class="mb-3">
-                            <label for="casoUso" class="form-label text-success">Caso de Uso:</label>
-                            <input type="text" class="form-control" id="casoUso" name="casoUso">
-                        </div>
-                        <div class="mb-3">
-                            <label for="epic" class="form-label text-success">Epic:</label>
-                            <input type="text" class="form-control" id="epic" name="epic">
-                        </div>
-                        <div class="mb-3">
-                            <label for="iteracion" class="form-label text-success">Iteración:</label>
-                            <input type="number" class="form-control" id="iteracion" name="iteracion">
-                        </div>
-                        <div class="mb-3">
-                            <label for="ap" class="form-label text-success">AP:</label>
-                            <select class="form-control" id="ap" name="ap">
-                                <option selected>Choose...</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>5</option>
-                                <option>8</option>
-                                <option>13</option>
-                            </select>
-                        </div>
-                        <% if (error) { %>
-                            <p style="color:red"><%= error %></p>
-                        <% } %>
-                        <button type="submit" class="btn btn-dark">Ingresar</button>
-                    </form>
-                </div>
+                
 
             </div>
         </div>

@@ -96,11 +96,66 @@ module.exports = class Proyecto{
 
     static deleteCasoDeUso(id_proyecto, id_caso){
         return db.execute('DELETE FROM caso_de_uso WHERE id_proyecto = ? AND id_caso_de_uso = ?',
-            [id_proyecto, id_caso]);
+        [id_proyecto, id_caso]);
     }
 
     saveCapacidad_Equipo(nombre_proyecto, descripcion){
-        return db.execute('Insert into capacidad_equipo (id_proyecto) values ((SELECT id_proyecto from proyecto where nombre_proyecto = ? and descripcion=?))', [nombre_proyecto, descripcion]);
+        return db.execute('Insert into capacidad_equipo (id_proyecto) values ((SELECT id_proyecto from proyecto where nombre_proyecto = ? and descripcion=?))', 
+        [nombre_proyecto, descripcion]);
     }
 
-} 
+    static fetchTareasFases(id_proyecto){ //Se muestran las tareas con las fases
+        return db.execute('SELECT id_tarea, nombre_tarea, ap_1, ap_2, ap_3, ap_5, ap_8, ap_13, fase.nombre_fase FROM tareas, proyecto, fase WHERE tareas.id_fase = fase.id_fase AND tareas.id_proyecto = proyecto.id_proyecto AND proyecto.id_proyecto = ?',
+            [id_proyecto]);
+    }
+
+    static fetchCasosDeUsoFaseTarea(id_proyecto){ //Se muestran los casos de uso fase tareas por nombre
+        return db.execute('SELECT caso_de_uso.id_caso_de_uso, caso_de_uso.nombre_caso_de_uso, fase.nombre_fase, tareas.nombre_tarea, caso_de_uso_fase_tarea.maximo, caso_de_uso_fase_tarea.tiempo_real FROM caso_de_uso_fase_tarea, caso_de_uso, fase, tareas, proyecto WHERE caso_de_uso_fase_tarea.id_proyecto = proyecto.id_proyecto AND caso_de_uso_fase_tarea.id_fase = fase.id_fase AND caso_de_uso_fase_tarea.id_tarea = tareas.id_tarea AND caso_de_uso_fase_tarea.id_caso_de_uso = caso_de_uso.id_caso_de_uso AND proyecto.id_proyecto = ?',
+        [id_proyecto]);
+    }
+
+    static saveCasosDeUsoFaseTarea(id_caso_de_uso, id_tarea, id_proyecto, maximo) {
+        return db.execute('INSERT INTO caso_de_uso_fase_tarea(id_caso_de_uso, id_fase, id_tarea, id_proyecto, maximo) VALUES (?, (SELECT fase.id_fase FROM fase, tareas WHERE fase.id_fase = tareas.id_fase and tareas.id_tarea = ?), ?, ?, ?)',
+        [id_caso_de_uso, id_tarea, id_tarea, id_proyecto, maximo]);
+    }
+
+    static fetchTareasYFasesCasos(nombre_caso_de_uso, id_proyecto){
+        return db.execute('SELECT DISTINCT caso_de_uso.nombre_caso_de_uso, fase.nombre_fase, tareas.nombre_tarea FROM proyecto, fase, tareas, caso_de_uso_fase_tarea, caso_de_uso WHERE caso_de_uso_fase_tarea.id_fase = fase.id_fase AND caso_de_uso_fase_tarea.id_tarea = tareas.id_tarea AND caso_de_uso.nombre_caso_de_uso = ? AND proyecto.id_proyecto = caso_de_uso_fase_tarea.id_proyecto AND proyecto.id_proyecto = ?',
+        [nombre_caso_de_uso, id_proyecto]);
+    }
+
+    static incomingTareasCasoUso(id_caso_de_uso, id_proyecto){
+        return db.execute('select t.nombre_tarea, t.id_tarea from tareas as t where id_tarea not in (select id_tarea from caso_de_uso_fase_tarea where id_caso_de_uso = ?) and id_proyecto = ?',
+        [id_caso_de_uso, id_proyecto]);
+    }
+
+    static fetchTareasByCasoUso(id_proyecto, id_caso_de_uso){ //Se muestran los casos de uso fase tareas por nombre
+        return db.execute('SELECT tareas.nombre_tarea, fase.nombre_fase, caso_de_uso_fase_tarea.maximo FROM caso_de_uso_fase_tarea, caso_de_uso, fase, tareas, proyecto WHERE caso_de_uso_fase_tarea.id_proyecto = proyecto.id_proyecto AND caso_de_uso_fase_tarea.id_fase = fase.id_fase AND caso_de_uso_fase_tarea.id_tarea = tareas.id_tarea AND caso_de_uso_fase_tarea.id_caso_de_uso = caso_de_uso.id_caso_de_uso AND proyecto.id_proyecto = ? AND caso_de_uso.id_caso_de_uso = ?',
+        [id_proyecto, id_caso_de_uso]);
+    }
+
+    static getTiempoTarea(id_tarea, id_proyecto){ //Se muestran los casos de uso fase tareas por nombre
+        return db.execute('SELECT * FROM tareas WHERE id_tarea = ? AND id_proyecto = ?',
+        [id_tarea, id_proyecto]);
+    }
+
+    static getTiempoReal(id_proyecto){ //Se muestran las sumas en minutos y horas de caso_de_uso_fase_tarea
+        return db.execute('SELECT round(SUM(maximo),2) as "SumaMinutos", round(SUM(maximo)/60,2) as "SumaHoras" FROM caso_de_uso_fase_tarea WHERE id_proyecto = ?',
+        [id_proyecto]);
+    }
+
+    static updateMultiplicador(multiplicador, id_proyecto){ //Se actualiza el multplicador
+        return db.execute('UPDATE proyecto SET multiplicador = ? WHERE id_proyecto = ?',
+        [multiplicador, id_proyecto]);
+    }
+
+    static getmultiplicador(id_proyecto){ //Se muestran el multiplicador 
+        return db.execute('select multiplicador from proyecto WHERE id_proyecto = ?',
+        [id_proyecto]);
+    }
+
+    static getSumaTareasByCasoUso(id_caso_de_uso, id_proyecto){ //Se muestra la suma de las tareas de un caso
+        return db.execute('SELECT SUM(maximo) as sumaTareas FROM caso_de_uso_fase_tarea WHERE id_caso_de_uso = ? and id_proyecto = ?',
+        [id_caso_de_uso, id_proyecto]);
+    }
+}
