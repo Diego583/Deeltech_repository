@@ -379,7 +379,7 @@ exports.postEliminarCaso = (request, response, next) => {
 exports.postIncomingTareaCasoUso = (request, response, next) => {
     const id = request.body.id;
 
-    Proyecto.incomingTareasCasoUso(id)
+    Proyecto.incomingTareasCasoUso(id, request.params.id)
         .then(([rows, fieldData]) => {
             //console.log(rows);
             response.status(200).json(rows);

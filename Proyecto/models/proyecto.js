@@ -119,9 +119,9 @@ module.exports = class Proyecto{
         [nombre_caso_de_uso, id_proyecto]);
     }
 
-    static incomingTareasCasoUso(id_caso_de_uso){
-        return db.execute('select t.nombre_tarea, t.id_tarea from tareas as t where id_tarea not in (select id_tarea from caso_de_uso_fase_tarea where id_caso_de_uso = ?)',
-        [id_caso_de_uso]);
+    static incomingTareasCasoUso(id_caso_de_uso, id_proyecto){
+        return db.execute('select t.nombre_tarea, t.id_tarea from tareas as t where id_tarea not in (select id_tarea from caso_de_uso_fase_tarea where id_caso_de_uso = ?) and id_proyecto = ?',
+        [id_caso_de_uso, id_proyecto]);
     }
 
     static fetchTareasByCasoUso(id_proyecto, id_caso_de_uso){ //Se muestran los casos de uso fase tareas por nombre
