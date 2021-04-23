@@ -1,0 +1,10 @@
+#imgauxiliar {
+    height: 180px;
+    flex-grow: 1;
+    object-fit:cover;
+}
+
+#scroll {
+    height: 150px;
+    overflow-y: auto;
+}
