@@ -285,6 +285,7 @@ exports.postCasoUso = (request, response, next) => {
         Proyecto.saveCasoDeUso(request.body.casoUso, request.body.iteracion, request.body.epic, request.body.ap, "Pendiente", request.params.id)
         .then(([rows,fieldData]) => {
             console.log("Guardando caso de uso...");
+            request.flash('success','Caso de uso agregado.');
             response.redirect('/proyectos/'+ request.params.id +'/caso_de_uso');
         }).catch(err => console.log(err));
     }
