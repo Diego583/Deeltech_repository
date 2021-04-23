@@ -29,42 +29,53 @@
                     </div>
                 </nav>
 
-
-                <div>
-                    <form action="/proyectos/<%= id %>/caso_de_uso" method="POST">
-                        <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
-                        <div class="mb-3">
-                            <label for="casoUso" class="form-label text-success">Caso de Uso:</label>
-                            <input type="text" class="form-control" id="casoUso" name="casoUso">
+                <div class="modal fade" id="AgregarCaso" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="AgregarPracticaLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content bg-dark text-white">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="AgregarPracticaLabel">Agregar Caso de Uso</h5>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/proyectos/<%= id %>/caso_de_uso" method="POST">
+                                    <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
+                                    <div class="mb-3">
+                                        <label for="casoUso" class="form-label text-success">Caso de Uso:</label>
+                                        <input type="text" class="form-control" id="casoUso" name="casoUso">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="epic" class="form-label text-success">Epic:</label>
+                                        <input type="text" class="form-control" id="epic" name="epic">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="iteracion" class="form-label text-success">Iteración:</label>
+                                        <input type="number" class="form-control" id="iteracion" name="iteracion">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ap" class="form-label text-success">AP:</label>
+                                        <select class="form-control" id="ap" name="ap">
+                                            <option selected>Choose...</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>5</option>
+                                            <option>8</option>
+                                            <option>13</option>
+                                        </select>
+                                    </div>
+                                    <% if (error) { %>
+                                        <p style="color:red"><%= error %></p>
+                                    <% } %>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success">Agregar</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="epic" class="form-label text-success">Epic:</label>
-                            <input type="text" class="form-control" id="epic" name="epic">
-                        </div>
-                        <div class="mb-3">
-                            <label for="iteracion" class="form-label text-success">Iteración:</label>
-                            <input type="number" class="form-control" id="iteracion" name="iteracion">
-                        </div>
-                        <div class="mb-3">
-                            <label for="ap" class="form-label text-success">AP:</label>
-                            <select class="form-control" id="ap" name="ap">
-                                <option selected>Choose...</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>5</option>
-                                <option>8</option>
-                                <option>13</option>
-                            </select>
-                        </div>
-                        <% if (error) { %>
-                            <p style="color:red"><%= error %></p>
-                        <% } %>
-                        <button type="submit" class="btn btn-dark">Ingresar</button>
-                    </form>
+                    </div>
                 </div>
-
-
 
                 <div id = "mensaje" name = "mensaje">
                     .
@@ -201,8 +212,6 @@
                     <p><br></p>
 
                 </div>
-
-                
 
             </div>
         </div>
