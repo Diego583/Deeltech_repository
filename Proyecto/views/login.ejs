@@ -19,18 +19,20 @@
       
           <!-- Icon -->
           <div class="fadeIn first">
+            <br>
             <img src="/media/logo.png" id="icon" alt="User Icon" />
+            <br><br>
           </div>
       
           <!-- Login Form -->
           <form action="/users/login" method="POST">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
-            <input type="text" id="login" class="fadeIn second" name="usuario" placeholder="usuario">
-            <input type="password" id="password" class="fadeIn third" name="contraseña" placeholder="contraseña">
+            <input type="text" id="login" class="fadeIn second" name="usuario" placeholder="Usuario">
+            <input type="password" id="password" class="fadeIn third" name="contraseña" placeholder="Contraseña">
             <% if (error) { %>
               <p style="color:red"><%= error %></p>
             <% } %>
-            <input type="submit" class="fadeIn btn btn-secondary" value="Iniciar Sesion">
+            <input type="submit" class="fadeIn btn btn-secondary" value="Iniciar Sesión">
           </form>
       
           <!-- Remind Passowrd -->
