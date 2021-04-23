@@ -17,6 +17,8 @@ router.use(express.static(path.join(__dirname,'..', 'uploads')));
 
 router.get('/:id/reportes', isAuth, proyectosController.getReportes);
 
+router.post('/:id/send_airtable', isAuth, isMiembro, proyectosController.postSendAirtable);
+
 router.get('/:id/planeacion', isAuth, isMiembro, proyectosController.getPlaneacion);
 
 router.post('/:id/planeacion', isAuth, isMiembro, proyectosController.postPlaneacion);

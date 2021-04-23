@@ -2,6 +2,7 @@ const filesystem = require('fs');
 const Usuario = require('../models/user');
 const Proyecto = require('../models/proyecto');
 const airtable = require('../util/airtable');
+const { Console } = require('console');
 
 exports.getReportes = (request, response, next) => {
     const tasksTable = airtable('Tasks');
@@ -24,6 +25,39 @@ exports.getReportes = (request, response, next) => {
     };
 
     getRecords();
+};
+
+exports.postSendAirtable = (request, response, next) => {
+    const tasksTable = airtable('Tasks');
+    const id_proyecto = request.params.id;
+    console.log(id_proyecto);
+
+    const createRecord = async (fields) => {
+        const createdRecord = await tasksTable.create(fields);
+        console.log(createdRecord);
+    }
+
+    Proyecto.getTareasForAirtable(id_proyecto)
+    .then(async([rows,fieldData]) => {
+        //console.log(rows);
+        let arrTareas = [];
+        for(let tareas of rows){
+            let Name = 'IT' + tareas.iteracion + '-' + tareas.id_caso_de_uso + ' - ' + tareas.nombre_caso_de_uso + ' - ' + tareas.nombre_tarea + ' (' + tareas.nombre_fase + ')';
+            let tarea = {Name: Name, Status: 'To Do', Estimation: parseInt(tareas.maximo, 10)};
+            arrTareas.push(tarea);
+            Proyecto.setAirtableTarea(tareas.id_caso_de_uso, tareas.id_fase, tareas.id_tarea, id_proyecto);
+        }
+        //console.log(arrTareas);
+
+        for(let fields of arrTareas){
+            console.log(fields);
+            await createRecord(fields);
+        }
+
+        request.flash('success','Tareas cargadas a airtable correctamente. 😁👍');
+        response.redirect('/proyectos/'+ id_proyecto +'/planeacion');
+    }).catch(err => console.log(err));
+
 };
 
 exports.getPlaneacion = (request, response, next) => {
@@ -460,7 +494,7 @@ exports.postAddTareaCasoUso = (request, response, next) => {
                     console.log(tiempo);
                     
                     console.log("Guardando");
-                    await Proyecto.saveCasosDeUsoFaseTarea(id, tarea, id_proyecto, tiempo);
+                    await Proyecto.saveCasosDeUsoFaseTarea(id, tarea, id_proyecto, tiempo, 0);
 
                 }
             }

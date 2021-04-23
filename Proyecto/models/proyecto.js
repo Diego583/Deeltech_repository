@@ -121,13 +121,13 @@ module.exports = class Proyecto{
     }
 
     static fetchCasosDeUsoFaseTarea(id_proyecto){ //Se muestran los casos de uso fase tareas por nombre
-        return db.execute('SELECT caso_de_uso.id_caso_de_uso, caso_de_uso.nombre_caso_de_uso, fase.nombre_fase, tareas.nombre_tarea, caso_de_uso_fase_tarea.maximo, caso_de_uso_fase_tarea.tiempo_real FROM caso_de_uso_fase_tarea, caso_de_uso, fase, tareas, proyecto WHERE caso_de_uso_fase_tarea.id_proyecto = proyecto.id_proyecto AND caso_de_uso_fase_tarea.id_fase = fase.id_fase AND caso_de_uso_fase_tarea.id_tarea = tareas.id_tarea AND caso_de_uso_fase_tarea.id_caso_de_uso = caso_de_uso.id_caso_de_uso AND proyecto.id_proyecto = ?',
+        return db.execute('SELECT caso_de_uso.id_caso_de_uso, caso_de_uso.nombre_caso_de_uso, fase.nombre_fase, tareas.nombre_tarea, caso_de_uso_fase_tarea.maximo FROM caso_de_uso_fase_tarea, caso_de_uso, fase, tareas, proyecto WHERE caso_de_uso_fase_tarea.id_proyecto = proyecto.id_proyecto AND caso_de_uso_fase_tarea.id_fase = fase.id_fase AND caso_de_uso_fase_tarea.id_tarea = tareas.id_tarea AND caso_de_uso_fase_tarea.id_caso_de_uso = caso_de_uso.id_caso_de_uso AND proyecto.id_proyecto = ?',
         [id_proyecto]);
     }
 
-    static saveCasosDeUsoFaseTarea(id_caso_de_uso, id_tarea, id_proyecto, maximo) {
-        return db.execute('INSERT INTO caso_de_uso_fase_tarea(id_caso_de_uso, id_fase, id_tarea, id_proyecto, maximo) VALUES (?, (SELECT fase.id_fase FROM fase, tareas WHERE fase.id_fase = tareas.id_fase and tareas.id_tarea = ?), ?, ?, ?)',
-        [id_caso_de_uso, id_tarea, id_tarea, id_proyecto, maximo]);
+    static saveCasosDeUsoFaseTarea(id_caso_de_uso, id_tarea, id_proyecto, maximo, airtable) {
+        return db.execute('INSERT INTO caso_de_uso_fase_tarea(id_caso_de_uso, id_fase, id_tarea, id_proyecto, maximo, airtable) VALUES (?, (SELECT fase.id_fase FROM fase, tareas WHERE fase.id_fase = tareas.id_fase and tareas.id_tarea = ?), ?, ?, ?, ?)',
+        [id_caso_de_uso, id_tarea, id_tarea, id_proyecto, maximo, airtable]);
     }
 
     static fetchTareasYFasesCasos(nombre_caso_de_uso, id_proyecto){
@@ -168,5 +168,15 @@ module.exports = class Proyecto{
     static getSumaTareasByCasoUso(id_caso_de_uso, id_proyecto){ //Se muestra la suma de las tareas de un caso
         return db.execute('SELECT SUM(maximo) as sumaTareas FROM caso_de_uso_fase_tarea WHERE id_caso_de_uso = ? and id_proyecto = ?',
         [id_caso_de_uso, id_proyecto]);
+    }
+
+    static getTareasForAirtable(id_proyecto){ //Se muestran el multiplicador 
+        return db.execute('SELECT CU.iteracion, CU.id_caso_de_uso, CU.nombre_caso_de_uso, T.id_tarea, T.nombre_tarea, F.id_fase, F.nombre_fase, X.maximo, X.airtable FROM caso_de_uso as CU, tareas as T, fase as F, caso_de_uso_fase_tarea as X WHERE X.id_proyecto = ? AND X.airtable = 0 AND CU.id_caso_de_uso = X.id_caso_de_uso AND T.id_tarea = X.id_tarea AND F.id_fase = X.id_fase',
+        [id_proyecto]);
+    }
+
+    static setAirtableTarea(id_caso_de_uso, id_fase, id_tarea, id_proyecto){ //Se muestra la suma de las tareas de un caso
+        return db.execute('UPDATE caso_de_uso_fase_tarea SET airtable = 1 WHERE id_caso_de_uso = ? AND id_fase = ? AND id_tarea = ? AND id_proyecto = ?',
+        [id_caso_de_uso, id_fase, id_tarea, id_proyecto]);
     }
 }
