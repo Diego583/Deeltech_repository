@@ -179,4 +179,9 @@ module.exports = class Proyecto{
         return db.execute('UPDATE caso_de_uso_fase_tarea SET airtable = 1 WHERE id_caso_de_uso = ? AND id_fase = ? AND id_tarea = ? AND id_proyecto = ?',
         [id_caso_de_uso, id_fase, id_tarea, id_proyecto]);
     }
+
+    static getIterations(id_proyecto){ //Saca las iteraciones
+        return db.execute('SELECT DISTINCT(iteracion) FROM caso_de_uso WHERE id_proyecto=?',
+        [id_proyecto]);
+    }
 }

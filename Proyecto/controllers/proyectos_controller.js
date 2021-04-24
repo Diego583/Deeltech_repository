@@ -3,28 +3,62 @@ const Usuario = require('../models/user');
 const Proyecto = require('../models/proyecto');
 const airtable = require('../util/airtable');
 const { Console } = require('console');
+const { table } = require('../util/airtable');
 
 exports.getReportes = (request, response, next) => {
-    const tasksTable = airtable('Tasks');
-    //const iterationsTable = airtable('Iterations');
+    var id_proyecto = request.params.id;
 
-    const getRecords = async() => {
-        const records = await tasksTable
-            .select({
-                view: "Global view",
-            })
-            .all();
-        
+    Proyecto.getIterations(id_proyecto)
+    .then(([rows,fieldData]) => {
+        //console.log(rows);
         response.render('reportes', {
             id: request.params.id,
-            Records: records,
+            iteraciones: rows,
             userRol: request.session.rol,
+            csrfToken: request.csrfToken(),
             titulo: 'Reportes',
             isLoggedIn: request.session.isLoggedIn === true ? true : false
         });
+    }).catch(err => console.log(err));
+
+};
+
+exports.postReportes = (request, response, next) => {
+    const tasksTable = airtable('Tasks');
+    //const iterationsTable = airtable('Iterations');
+
+    const iteracion = 'IT' + request.body.iteracion;
+    var proyectoActual = request.params.id;
+
+    console.log(iteracion);
+
+    //SACAR REGISTROS DE AIRTABLE
+    const getRecords = async(id_proyecto, iteracion) => {
+        const records = await tasksTable
+            .select({
+                view: "LiveProgress",
+            })
+            .all();
+
+        console.log(id_proyecto);
+        let estimacionTotal = 0;
+        let arrTareas = [];
+        for(let record of records){
+            //console.log(record.fields.id_proyecto);
+            console.log(record.fields.Iterations);
+            if ((parseInt(id_proyecto, 10) == record.fields.id_proyecto) && (iteracion == record.fields.Iterations)){
+                //console.log(record);
+                estimacionTotal += record.fields.Estimation;
+                let tarea = {Name: record.fields.Name, Status: record.fields.Status, Estimation: record.fields.Estimation, Duration: record.fields.Duration, FinishedDate: record.fields.FinishedDate};
+                arrTareas.push(tarea);  
+            }
+        }
+        console.log(arrTareas);
+        console.log(estimacionTotal);
+        response.status(200).json(arrTareas);
     };
 
-    getRecords();
+    getRecords(proyectoActual, iteracion);
 };
 
 exports.postSendAirtable = (request, response, next) => {
@@ -42,8 +76,9 @@ exports.postSendAirtable = (request, response, next) => {
         //console.log(rows);
         let arrTareas = [];
         for(let tareas of rows){
+            console.log(parseInt(id_proyecto, 10));
             let Name = 'IT' + tareas.iteracion + '-' + tareas.id_caso_de_uso + ' - ' + tareas.nombre_caso_de_uso + ' - ' + tareas.nombre_tarea + ' (' + tareas.nombre_fase + ')';
-            let tarea = {Name: Name, Status: 'To Do', Estimation: parseInt(tareas.maximo, 10)};
+            let tarea = {Name: Name, Status: 'To Do', Estimation: parseInt(tareas.maximo, 10), id_proyecto: parseInt(id_proyecto, 10)};
             arrTareas.push(tarea);
             Proyecto.setAirtableTarea(tareas.id_caso_de_uso, tareas.id_fase, tareas.id_tarea, id_proyecto);
         }
