@@ -45,12 +45,28 @@ exports.postReportes = (request, response, next) => {
         let arrTareas = [];
         for(let record of records){
             //console.log(record.fields.id_proyecto);
-            console.log(record.fields.Iterations);
+            //console.log(record.fields.Iterations);
+            let arrColaboradores = [];
             if ((parseInt(id_proyecto, 10) == record.fields.id_proyecto) && (iteracion == record.fields.Iterations)){
                 //console.log(record);
                 estimacionTotal += record.fields.Estimation;
-                let tarea = {Name: record.fields.Name, Status: record.fields.Status, Estimation: record.fields.Estimation, Duration: record.fields.Duration, FinishedDate: record.fields.FinishedDate};
+                //console.log(record.fields.Assigned);
+                if (record.fields.Assigned != undefined){
+                    for(let colaborador of record.fields.Assigned){
+                        //console.log(colaborador.name);
+                        arrColaboradores.push(colaborador.name);
+                    }
+                }
+                //console.log(arrColaboradores);
+                let tarea = {Name: record.fields.Name, Status: record.fields.Status, Estimation: record.fields.Estimation, Duration: record.fields.Duration, FinishedDate: record.fields.FinishedDate, Assigned: arrColaboradores};
                 arrTareas.push(tarea);  
+            }
+        }
+
+        for(tarea of arrTareas){
+            console.log(tarea.FinishedDate);    
+            if (tarea.status == "Done"){
+
             }
         }
         console.log(arrTareas);
@@ -78,7 +94,7 @@ exports.postSendAirtable = (request, response, next) => {
         for(let tareas of rows){
             console.log(parseInt(id_proyecto, 10));
             let Name = 'IT' + tareas.iteracion + '-' + tareas.id_caso_de_uso + ' - ' + tareas.nombre_caso_de_uso + ' - ' + tareas.nombre_tarea + ' (' + tareas.nombre_fase + ')';
-            let tarea = {Name: Name, Status: 'To Do', Estimation: parseInt(tareas.maximo, 10), id_proyecto: parseInt(id_proyecto, 10)};
+            let tarea = {Name: Name, Status: 'To Do', Estimation: parseFloat(tareas.maximo), id_proyecto: parseInt(id_proyecto, 10)};
             arrTareas.push(tarea);
             Proyecto.setAirtableTarea(tareas.id_caso_de_uso, tareas.id_fase, tareas.id_tarea, id_proyecto);
         }
