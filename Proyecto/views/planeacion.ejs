@@ -11,7 +11,7 @@
 
                 <button type="button" id="sidebarCollapse" class="btn btn-light">
                     <i class="fas fa-align-left"></i>
-                    <span>Toggle Sidebar</span>
+                    <!-- <span>Toggle Sidebar</span> -->
                 </button>
                 <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
@@ -196,8 +196,8 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addTareaCasoUso('<%= casoUso.id_caso_de_uso %>' , '<%=id%>', '<%= casoUso.valor %>')">Add Tarea</button>
+                                                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addTareaCasoUso('<%= casoUso.id_caso_de_uso %>' , '<%=id%>', '<%= casoUso.valor %>')">Añadir Tarea</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                             </div>
                                             </div>
                                         </div>
@@ -213,6 +213,7 @@
 
         
     </div>
+    <button onclick="topFunction()" id="myBtn2" title="Go to top"><i class="fas fa-angle-up"></i></button>
 </main>
 
 <%- include('partials/footer.ejs') %>
@@ -223,3 +224,26 @@
 <script src="/js/addTareaCasoUso.js"></script>
 <!-- Script para ver cambios en multiplicador-->
 <script src="/js/multiplicador.js"></script>
+
+<!-- Boton -->
+<script>
+    //Get the button
+    var mybutton = document.getElementById("myBtn2");
+    
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+    
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+    
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+</script>

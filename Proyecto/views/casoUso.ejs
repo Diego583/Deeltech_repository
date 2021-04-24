@@ -11,7 +11,7 @@
     
                         <button type="button" id="sidebarCollapse" class="btn btn-light">
                             <i class="fas fa-align-left"></i>
-                            <span>Toggle Sidebar</span>
+                            <!-- <span>Toggle Sidebar</span> -->
                         </button>
                         <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <i class="fas fa-align-justify"></i>
@@ -46,17 +46,17 @@
                                         <input type="text" class="form-control" id="casoUso" name="casoUso">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="epic" class="form-label text-success">Epic:</label>
-                                        <input type="text" class="form-control" id="epic" name="epic">
-                                    </div>
-                                    <div class="mb-3">
                                         <label for="iteracion" class="form-label text-success">Iteración:</label>
                                         <input type="number" class="form-control" id="iteracion" name="iteracion">
                                     </div>
                                     <div class="mb-3">
+                                        <label for="epic" class="form-label text-success">Epic:</label>
+                                        <input type="text" class="form-control" id="epic" name="epic">
+                                    </div>
+                                    <div class="mb-3">
                                         <label for="ap" class="form-label text-success">AP:</label>
                                         <select class="form-control" id="ap" name="ap">
-                                            <option selected>Choose...</option>
+                                            <option selected>Seleccionar AP...</option>
                                             <option>1</option>
                                             <option>2</option>
                                             <option>3</option>
@@ -94,7 +94,7 @@
                         <thead class="thead-success">
                             <tr>
                                 <th class = "text-center" scope="col">Caso de uso</th>
-                                <th class = "text-center" scope="col">Iteracion</th>
+                                <th class = "text-center" scope="col">Iteración</th>
                                 <th class = "text-center" scope="col">Epic</th>
                                 <th class = "text-center" scope="col">Valor</th>
                                 <th class = "text-center" scope="col">Status</th>
@@ -178,11 +178,11 @@
                               <div class="modal-body">
                                 <div class="mb-3" id="modError" style="color: red"></div>
                                 <div class="mb-3">
-                                    <div><p class="form-label text-success"><strong>Nombre:</strong></p></div>
+                                    <div><p class="form-label text-success"><strong>Caso de Uso:</strong></p></div>
                                     <input type="text" class="form-control" id="mod_nombre_caso" name="mod_nombre_caso" placeholder="nuevo nombre">
                                 </div>
                                 <div class="mb-3">
-                                    <div><p class="form-label text-success"><strong>Iteracion:</strong></p></div>
+                                    <div><p class="form-label text-success"><strong>Iteración:</strong></p></div>
                                     <input type="number" class="form-control" id="mod_iteracion" name="mod_iteracion" placeholder="nueva iteracion">
                                 </div>
                                 <div class="mb-3">
@@ -190,7 +190,7 @@
                                     <input type="text" class="form-control" id="mod_epic" name="mod_epic" placeholder="nuevo epic">
                                 </div>
                                 <div class="mb-3">
-                                    <div><p class="form-label text-success"><strong>Valor AP:</strong></p></div>
+                                    <div><p class="form-label text-success"><strong>AP:</strong></p></div>
                                     <select class="form-control" id="mod_ap" name="mod_ap" placeholder="Nuevo valor AP ...">
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -203,7 +203,7 @@
                               </div>
 
                               <div class="modal-footer">
-                                <button id="mod_ingresar" type="button" class="btn btn-success">Ingresar</button>
+                                <button id="mod_ingresar" type="button" class="btn btn-success">Guardar cambios</button>
                               </div>
                             </div>
                           </div>                  
