@@ -16,7 +16,7 @@ function eliminar_caso(id_proyecto, id_caso, nombre_Caso) {
 	        headers: {
 	            'csrf-token': csrf,
 	            'Content-Type': 'application/json'
-	          },
+	        },
 	    }).then(result => {
 	        return result.json(); 
 	    }).then(data => { 
@@ -26,4 +26,3 @@ function eliminar_caso(id_proyecto, id_caso, nombre_Caso) {
     	});
 	}
 }
-	 

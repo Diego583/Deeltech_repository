@@ -15,7 +15,7 @@ function eliminar_practica(id_proyecto, id_fase, id_tarea, nombre_tarea) {
 	        headers: {
 	            'csrf-token': csrf,
 	            'Content-Type': 'application/json'
-	          },
+	        },
 	    }).then(result => {
 	        return result.json(); 
 	    }).then(data => { 

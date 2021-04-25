@@ -28,7 +28,7 @@ function modificar_practica(id_proyecto, id_fase, nombre_fase, id_tarea, nombre_
 		        headers: {
 		            'csrf-token': csrf,
 		            'Content-Type': 'application/json'
-		          },
+		        },
 		    }).then(result => {
 		        return result.json(); 
 		    }).then(data => { 
