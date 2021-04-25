@@ -28,13 +28,18 @@
 
         <!--Peticion de despliegue de grafica-->
         <div>
+            <% for (let iteracion of iteraciones) { %>
+                <input type="hidden" id= "i<%= iteracion.id_iteracion %>" name="i<%= iteracion.id_iteracion %>" value="<%= iteracion.fechaInicio %>">
+                <input type="hidden" id= "f<%= iteracion.id_iteracion %>" name="f<%= iteracion.id_iteracion %>" value="<%= iteracion.fechaFin %>">
+                <input type="hidden" id= "n<%= iteracion.id_iteracion %>" name="n<%= iteracion.id_iteracion %>" value="<%= iteracion.nombre_iteracion %>">
+            <% } %>
             <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
             <div class="mb-3">
                 <label for="rol" class="form-label text-success">Selecciona una iteracion</label>
                 <select class="form-control" id="IT" name="IT">
                     <option selected>Choose...</option>
                     <% for (let iteracion of iteraciones) { %>
-                        <option value="<%= iteracion.iteracion  %>"> <%= iteracion.iteracion %> </option> 
+                        <option value="<%= iteracion.id_iteracion  %>"> <%= iteracion.nombre_iteracion %> </option> 
                     <% } %>
                 </select>
             </div>

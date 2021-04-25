@@ -1,13 +1,14 @@
-function totalCasesChart(ctx) {
+function totalCasesChart(ctx, data) {
     let arrData = [2,20,40,50];
-    let arrData1 = [3,30,44,65];
     let arrData2 = [4,40,23];
     let arrData3 = [5,50,24];
+
+    
 
     const chart = new Chart(ctx, {
         type: 'line',
         data:{
-            labels: [20,1,15,5],
+            labels: data[0],
             datasets: [
                 {
                     label: 'Valor Ganado Acumulado (VGA)',
@@ -21,7 +22,7 @@ function totalCasesChart(ctx) {
                 },
                 {
                     label: 'Valor Planeado Acumulado (VPA)',
-                    data: arrData1,
+                    data: data[1],
                     borderColor: [
                         'rgba(54, 162, 235, 1)'
                     ],
@@ -76,18 +77,21 @@ function totalCasesChart(ctx) {
     })
 }
 
-function renderCharts(){
+function renderCharts(data){
     const ctx = document.getElementById('chart').getContext('2d');
-    totalCasesChart(ctx);
+    totalCasesChart(ctx, data);
 }
 
 function fetchGrafica(proyecto_id) {
-    const iteracion = document.getElementById('IT').value;
+    const id_iteracion = document.getElementById('IT').value;
+    const fechaInicio = document.getElementById('i' + id_iteracion).value;
+    const fechaFin = document.getElementById('f' + id_iteracion).value;
+    const nombre_iteracion = document.getElementById('n' + id_iteracion).value;
+
     //El token de protección CSRF
     const csrf = document.getElementById('_csrf').value;
 
-    let data = {iteracion: iteracion};
-    console.log(iteracion);
+    let data = {nombre_iteracion: nombre_iteracion, fechaInicio: fechaInicio, fechaFin: fechaFin};
 
     //función que manda la petición asíncrona
     fetch('/proyectos/' + proyecto_id + '/reportes', {
@@ -101,7 +105,8 @@ function fetchGrafica(proyecto_id) {
         return result.json(); //Regresa otra promesa
     }).then(data => {
         //Modificamos el DOM de nuestra página de acuerdo a los datos de la segunda promesa
-        //console.log(data);
+        console.log(data);
+
         let html = '';
 
         html+= '<div class="chart-container" style="position: relative; height: 50%; width: 100%">'+ 
@@ -121,7 +126,7 @@ function fetchGrafica(proyecto_id) {
 
         document.getElementById("alerta").innerHTML = alertas;
 
-        renderCharts();
+        renderCharts(data);
 
     }).catch(err => {
         console.error(err);

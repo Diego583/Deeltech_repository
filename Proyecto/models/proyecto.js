@@ -19,7 +19,7 @@ module.exports = class Proyecto{
     }
 
     static saveCasoDeUso(nombre_caso_de_uso, iteracion, epic, valor, status, id_proyecto) {
-        return db.execute('INSERT INTO caso_de_uso (nombre_caso_de_uso, iteracion, epic, valor, status_caso, id_proyecto) VALUES (?, ?, ?, ?, ?, ?)',
+        return db.execute('INSERT INTO caso_de_uso (nombre_caso_de_uso, id_iteracion, epic, valor, status_caso, id_proyecto) VALUES (?, ?, ?, ?, ?, ?)',
         [nombre_caso_de_uso, iteracion, epic, valor, status, id_proyecto]);
 
     }
@@ -37,7 +37,7 @@ module.exports = class Proyecto{
     }
 
     static fetchCasosDeUso(id_proyecto){
-        return db.execute('SELECT * FROM caso_de_uso WHERE id_proyecto = ?',[id_proyecto]);
+        return db.execute('SELECT * FROM caso_de_uso as cdu, iteracion as i WHERE i.id_iteracion=cdu.id_iteracion and i.id_proyecto = ?',[id_proyecto]);
     }
 
     static updateStatusCaso(status, id_caso, id_proyecto){
@@ -90,7 +90,7 @@ module.exports = class Proyecto{
     }
 
     static updateCasoDeUso(idProyecto, idCaso, nuevoNombre, iteracion, epic, valor){
-        return db.execute('UPDATE caso_de_uso SET nombre_caso_de_uso = ?, iteracion = ?, epic = ?, valor = ? WHERE id_proyecto = ? AND id_caso_de_uso = ?',
+        return db.execute('UPDATE caso_de_uso SET nombre_caso_de_uso = ?, id_iteracion = ?, epic = ?, valor = ? WHERE id_proyecto = ? AND id_caso_de_uso = ?',
             [nuevoNombre, iteracion, epic, valor, idProyecto, idCaso]);
     }
 
@@ -171,7 +171,7 @@ module.exports = class Proyecto{
     }
 
     static getTareasForAirtable(id_proyecto){ //Se muestran el multiplicador 
-        return db.execute('SELECT CU.iteracion, CU.id_caso_de_uso, CU.nombre_caso_de_uso, T.id_tarea, T.nombre_tarea, F.id_fase, F.nombre_fase, X.maximo, X.airtable FROM caso_de_uso as CU, tareas as T, fase as F, caso_de_uso_fase_tarea as X WHERE X.id_proyecto = ? AND X.airtable = 0 AND CU.id_caso_de_uso = X.id_caso_de_uso AND T.id_tarea = X.id_tarea AND F.id_fase = X.id_fase',
+        return db.execute('SELECT it.nombre_iteracion, CU.id_caso_de_uso, CU.nombre_caso_de_uso, T.id_tarea, T.nombre_tarea, F.id_fase, F.nombre_fase, X.maximo, X.airtable FROM iteracion as it, caso_de_uso as CU, tareas as T, fase as F, caso_de_uso_fase_tarea as X WHERE X.id_proyecto = ? AND X.airtable = 0 AND CU.id_caso_de_uso = X.id_caso_de_uso AND T.id_tarea = X.id_tarea AND F.id_fase = X.id_fase and it.id_proyecto=cu.id_proyecto',
         [id_proyecto]);
     }
 
@@ -181,7 +181,17 @@ module.exports = class Proyecto{
     }
 
     static getIterations(id_proyecto){ //Saca las iteraciones
-        return db.execute('SELECT DISTINCT(iteracion) FROM caso_de_uso WHERE id_proyecto=?',
+        return db.execute('SELECT distinct(nombre_iteracion) FROM iteracion as i, caso_de_uso as cdu WHERE i.id_iteracion=cdu.id_iteracion and cdu.id_proyecto=?',
+        [id_proyecto]);
+    }
+
+    static setIteracion(fechaInicio, fechaFin, nombreIteracion, id_proyecto){ //Se muestra la suma de las tareas de un caso
+        return db.execute('Insert into  iteracion (fechaInicio, fechaFin, nombre_iteracion, id_proyecto) values (?,?,?,?) ',
+        [fechaInicio, fechaFin, nombreIteracion, id_proyecto]);
+    }
+
+    static getIteracion(id_proyecto){ //Se muestra la suma de las tareas de un caso
+        return db.execute('select * from iteracion where id_proyecto=?',
         [id_proyecto]);
     }
 }

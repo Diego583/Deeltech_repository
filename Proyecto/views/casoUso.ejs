@@ -26,8 +26,53 @@
                                 </li>
                             </ul>
                         </div>
+                        
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="nav navbar-nav ml-auto">
+                                <li class="nav-item">
+                                    <a type="button" class="nav-link text-white" data-toggle="modal" data-target="#AgregarIteracion">
+                                        Agregar Iteracion
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </nav>
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="AgregarIteracion" tabindex="-1" role="dialog" aria-labelledby="AgregarIteracionLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content bg-dark text-white">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="AgregarIteracionLabel">Agregar Iteracion</h5>
+                                                                    <button class="btn btn-danger" type="button" class="close" data-dismiss="modal" aria-label="Close" >
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form action="/proyectos/<%=id%>/iteracion" method="POST" class="mb-3">
+                                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
+                                                                    <div class="mb-3">
+                                                                        <label for="nombreIteracion" class="form-label">Nombre iteracion:</label>
+                                                                        <input type="text" class="form-control" id="nombreIteracion" name="nombreIteracion">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="fechaInicio" class="form-label">Fecha Inicio:</label>
+                                                                        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="fechaFin" class="form-label">Fecha Fin:</label>
+                                                                        <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
 
                 <div>
@@ -42,8 +87,13 @@
                             <input type="text" class="form-control" id="epic" name="epic">
                         </div>
                         <div class="mb-3">
-                            <label for="iteracion" class="form-label text-success">Iteración:</label>
-                            <input type="number" class="form-control" id="iteracion" name="iteracion">
+                            <label for="iteracion" class="form-label text-success">Selecciona una iteracion</label>
+                            <select class="form-control" id="iteracion" name="iteracion">
+                                <option selected>Choose...</option>
+                                <% for (let iteracion of iteraciones) { %>
+                                    <option value="<%= iteracion.id_iteracion  %>"> <%= iteracion.nombre_iteracion %> </option> 
+                                <% } %>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="ap" class="form-label text-success">AP:</label>
@@ -57,9 +107,6 @@
                                 <option>13</option>
                             </select>
                         </div>
-                        <% if (error) { %>
-                            <p style="color:red"><%= error %></p>
-                        <% } %>
                         <button type="submit" class="btn btn-dark">Ingresar</button>
                     </form>
                 </div>
@@ -73,6 +120,14 @@
             <% if (success.length != 0) { %>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>Excelsior!</strong> <%= success %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlert()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <% } %>
+            <% if (error.length != 0) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Holy natgas!</strong> <%= error %>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlert()">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -99,7 +154,7 @@
                                 <tr>
                                     
                                     <td class = "text-center" style="width: 15rem"> <%= CasoUso.nombre_caso_de_uso %> </td>
-                                    <td class = "text-center" style="width: 10rem"style="width: 10rem"> <%= CasoUso.iteracion %> </td>
+                                    <td class = "text-center" style="width: 10rem"style="width: 10rem"> <%= CasoUso.nombre_iteracion %> </td>
                                     <td class = "text-center" style="width: 10rem"> <%= CasoUso.epic %> </td>
                                     <td class = "text-center" style="width: 10rem"> <%= CasoUso.valor %> </td>
 
@@ -169,10 +224,15 @@
                                 <div class="mb-3">
                                     <div><p class="form-label text-success"><strong>Nombre:</strong></p></div>
                                     <input type="text" class="form-control" id="mod_nombre_caso" name="mod_nombre_caso" placeholder="nuevo nombre">
-                                </div>
+                                </div>                                
                                 <div class="mb-3">
-                                    <div><p class="form-label text-success"><strong>Iteracion:</strong></p></div>
-                                    <input type="number" class="form-control" id="mod_iteracion" name="mod_iteracion" placeholder="nueva iteracion">
+                                    <label for="iteracion" class="form-label text-success"><strong>Iteracion:</strong></label>
+                                    <select class="form-control" id="mod_iteracion" name="mod_iteracion">
+                                        <option selected>Choose...</option>
+                                        <% for (let iteracion of iteraciones) { %>
+                                            <option value="<%= iteracion.id_iteracion  %>"> <%= iteracion.nombre_iteracion %> </option> 
+                                        <% } %>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <div><p class="form-label text-success"><strong>Epic:</strong></p></div>
