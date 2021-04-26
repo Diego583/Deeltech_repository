@@ -3,41 +3,42 @@
             <!-- Sidebar  -->
             <nav id="sidebar" class="navbar-light bg-dark">
                 <div class="sidebar-header bg-dark">
-                    <h3>Project Manager</h3>
-                    <strong>PM</strong>
+                    <h3><img src="/media/icono.png" alt="" width="30" height="24"> Project Manager</h3>
+                    
+                    <strong><img src="/media/icono.png" alt="" width="50" height="44"></strong>
                 </div>
     
                 <ul class="list-unstyled components">
                     <% if (userRol == 78000) { %>
                     <li>
                         <a href="/proyectos/<%= id %>/caso_de_uso">
-                            <i class="fas fa-copy"></i>
-                            Caso de Uso
+                            <i class="fas fa-pencil-alt"></i>
+                            <span>Caso de Uso</span>
                         </a>
                     </li>
                     <li>
                         <a href="/proyectos/<%= id %>/capacidad_de_equipo">
-                            <i class="fas fa-copy"></i>
-                            Capacidad de Equipo
+                            <i class="fas fa-users"></i>
+                            <span>Capacidad de Equipo</span>
                         </a>
                     </li>
                     <li>
                         <a href="/proyectos/<%= id %>/wbs">
-                            <i class="fas fa-copy"></i>
-                            WBS
+                            <i class="fas fa-table"></i>
+                            <span>WBS</span>
                         </a>
                     </li>
                     <li>
                         <a href="/proyectos/<%= id %>/planeacion">
-                            <i class="fas fa-copy"></i>
-                            Planeacion
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>Planeación</span>
                         </a>
                     </li>
                     <% } %>
                     <li>
                         <a href='/proyectos/<%= id %>/reportes'>
-                            <i class="fas fa-copy"></i>
-                            Reportes
+                            <i class="fas fa-chart-line"></i>
+                            <span>Reportes</span>
                         </a>
                     </li>
                 </ul>
@@ -45,7 +46,7 @@
                 <ul class="list-unstyled CTAs">
                     <li>
                         <a href="/proyectos" class="btn btn-secondary">Cambiar de Proyecto</a>
-                        <a href="/users/logout" class="btn btn-secondary">Cerrar sesion</a>
+                        <a href="/users/logout" class="btn btn-secondary">Cerrar sesión</a>
                     </li>
                 </ul>
             </nav>

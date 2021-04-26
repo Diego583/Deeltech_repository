@@ -83,6 +83,10 @@ span {
     display: block;
 }
 
+#sidebar.active span {
+    display: none;
+}
+
 #sidebar ul li a {
     text-align: left;
 }

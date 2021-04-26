@@ -54,7 +54,7 @@ exports.getPlaneacion = (request, response, next) => {
                                     userRol: request.session.rol,
                                     error: request.flash("error"),
                                     success: request.flash("success"),
-                                    titulo: 'Planeacion',
+                                    titulo: 'Planeación',
                                     isLoggedIn: request.session.isLoggedIn === true ? true : false
                                 });
                             }).catch(err => console.log(err)); 
