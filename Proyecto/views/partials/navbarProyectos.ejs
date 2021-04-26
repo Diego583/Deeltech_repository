@@ -30,21 +30,21 @@
                           <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
                           <div class="mb-3">
                               <label for="nombre_proyecto" class="form-label">Nombre:</label>
-                              <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto">
+                              <input type="text" class="form-control" id="nombre_proyecto" name="nombre_proyecto" required>
                           </div>
                           <div class="mb-3">
                               <label for="descripcion" class="form-label">Descripción:</label>
-                              <input type="text" class="form-control" id="descripcion" name="descripcion">
+                              <input type="text" class="form-control" id="descripcion" name="descripcion" required>
                           </div>
                           <div class="mb-3">
                               <div class="form-group">
                                 <label for="imagen" class="form-label">Imagen:</label>
-                                <input type="file" class="form-control-file" id="imagen" name="imagen">
+                                <input type="file" class="form-control-file" id="imagen" name="imagen" required>
                               </div>
                           </div>
                           <div class="mb-3">
                               <label for="users" class="form-label">Involucrados:</label>
-                              <select class="form-control" id="users" name="users" multiple data-live-search="true">
+                              <select class="form-control" id="users" name="users" multiple data-live-search="true" required>
                                   <% for (let user of users) { %>
                                     <option value="<%= user.nombre_usuario %>"> <%= user.nombre_usuario %> </option>
                                   <% } %>
@@ -79,24 +79,23 @@
                           <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
                           <div class="mb-3">
                               <label for="nombre" class="form-label">Nombre completo:</label>
-                              <input type="text" class="form-control" id="nombre" name="nombre">
+                              <input type="text" class="form-control" id="nombre" name="nombre" required>
                           </div>
                           <div class="mb-3">
                               <label for="nombre_usuario" class="form-label">Nombre de usuario:</label>
-                              <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario">
+                              <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" required>
                           </div>
                           <div class="mb-3">
                               <label for="contraseña1" class="form-label">Contraseña:</label>
-                              <input type="password" class="form-control" id="contraseña1" name="contraseña1">
+                              <input type="password" class="form-control" id="contraseña1" name="contraseña1" required>
                           </div>
                           <div class="mb-3">
                               <label for="contraseña2" class="form-label">Confirmar contraseña:</label>
-                              <input type="password" class="form-control" id="contraseña2" name="contraseña2">
+                              <input type="password" class="form-control" id="contraseña2" name="contraseña2" required>
                           </div>
                           <div class="mb-3">
                               <label for="rol" class="form-label">Selecciona un rol</label>
-                              <select class="form-control" id="rol" name="rol">
-                                  <option selected>Choose...</option>
+                              <select class="form-control" id="rol" name="rol" data-live-search="true" required>
                                   <% for (let rol of roles) { %>
                                       <option value="<%= rol.id_rol %>"> <%= rol.nombre %> </option> 
                                   <% } %>
@@ -132,7 +131,7 @@
                           <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
                           <div class="mb-3">
                               <label for="nombre" class="form-label">Nombre completo:</label>
-                              <input type="text" class="form-control" id="nombre" name="nombre">
+                              <input type="text" class="form-control" id="nombre" name="nombre" required>
                           </div>
                           <div class="mb-3">
                               <label for="nombre_usuario_nuevo" class="form-label">Nombre de usuario:</label>
@@ -140,11 +139,11 @@
                           </div>
                           <div class="mb-3">
                               <label for="contraseña1" class="form-label">Contraseña:</label>
-                              <input type="password" class="form-control" id="contraseña1" name="contraseña1">
+                              <input type="password" class="form-control" id="contraseña1" name="contraseña1" required>
                           </div>
                           <div class="mb-3">
                               <label for="contraseña2" class="form-label">Confirmar Contraseña:</label>
-                              <input type="password" class="form-control" id="contraseña2" name="contraseña2">
+                              <input type="password" class="form-control" id="contraseña2" name="contraseña2" required>
                           </div>
                       </div>
                       <div class="modal-footer">

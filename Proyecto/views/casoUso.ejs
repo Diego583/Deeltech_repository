@@ -54,15 +54,15 @@
                                                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
                                                                     <div class="mb-3">
                                                                         <label for="nombreIteracion" class="form-label">Nombre de iteración:</label>
-                                                                        <input type="text" class="form-control" id="nombreIteracion" name="nombreIteracion">
+                                                                        <input type="text" class="form-control" id="nombreIteracion" name="nombreIteracion" required>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
-                                                                        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
+                                                                        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="fechaFin" class="form-label">Fecha de Fin:</label>
-                                                                        <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+                                                                        <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
@@ -87,12 +87,11 @@
                                                                         <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
                                                                         <div class="mb-3">
                                                                             <label for="casoUso" class="form-label text-success">Caso de Uso:</label>
-                                                                            <input type="text" class="form-control" id="casoUso" name="casoUso">
+                                                                            <input type="text" class="form-control" id="casoUso" name="casoUso" required>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="iteracion" class="form-label text-success">Iteración</label>
-                                                                            <select class="form-control" id="iteracion" name="iteracion">
-                                                                                <option selected>Seleccionar Iteración...</option>
+                                                                            <select class="form-control" id="iteracion" name="iteracion" required>
                                                                                 <% for (let iteracion of iteraciones) { %>
                                                                                     <option value="<%= iteracion.id_iteracion  %>"> <%= iteracion.nombre_iteracion %> </option> 
                                                                                 <% } %>
@@ -100,12 +99,11 @@
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="epic" class="form-label text-success">Epic:</label>
-                                                                            <input type="text" class="form-control" id="epic" name="epic">
+                                                                            <input type="text" class="form-control" id="epic" name="epic" required>
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="ap" class="form-label text-success">AP:</label>
-                                                                            <select class="form-control" id="ap" name="ap">
-                                                                                <option selected>Seleccionar AP...</option>
+                                                                            <select class="form-control" id="ap" name="ap" required>
                                                                                 <option>1</option>
                                                                                 <option>2</option>
                                                                                 <option>3</option>
@@ -242,9 +240,9 @@
                                     <input type="text" class="form-control" id="mod_nombre_caso" name="mod_nombre_caso" placeholder="nuevo nombre">
                                 </div>                                
                                 <div class="mb-3">
-                                    <label for="iteracion" class="form-label text-success"><strong>Iteracion:</strong></label>
+                                    <label for="iteracion" class="form-label text-success"><strong>Iteración:</strong></label>
                                     <select class="form-control" id="mod_iteracion" name="mod_iteracion">
-                                        <option selected>Choose...</option>
+                                        <option selected>Nueva Iteración...</option>
                                         <% for (let iteracion of iteraciones) { %>
                                             <option value="<%= iteracion.id_iteracion  %>"> <%= iteracion.nombre_iteracion %> </option> 
                                         <% } %>
