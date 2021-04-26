@@ -17,6 +17,10 @@ router.use(express.static(path.join(__dirname,'..', 'uploads')));
 
 router.get('/:id/reportes', isAuth, proyectosController.getReportes);
 
+router.post('/:id/reportes', isAuth, proyectosController.postReportes);
+
+router.post('/:id/send_airtable', isAuth, isMiembro, proyectosController.postSendAirtable);
+
 router.get('/:id/planeacion', isAuth, isMiembro, proyectosController.getPlaneacion);
 
 router.post('/:id/planeacion', isAuth, isMiembro, proyectosController.postPlaneacion);
@@ -44,6 +48,8 @@ router.post('/:id/porcentajes', isAuth, isMiembro, proyectosController.postporce
 router.get('/:id/caso_de_uso', isAuth, isMiembro, proyectosController.getCasoUso);
 
 router.post('/:id/caso_de_uso', isAuth, isMiembro, proyectosController.postCasoUso);
+
+router.post('/:id/iteracion', isAuth, isMiembro, proyectosController.postIteracion);
 
 router.post('/:id/status', isAuth, isMiembro, proyectosController.postStatus);
 

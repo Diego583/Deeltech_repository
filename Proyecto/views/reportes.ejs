@@ -6,6 +6,7 @@
     <!-- Page Content  -->
     <div id="content">
 
+        <!--NAVBAR-->
         <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
             <div class="container-fluid">
 
@@ -22,119 +23,37 @@
             </div>
         </nav>
 
-        <div class="chart-container" style="position: relative; height: 50%; width: 100%">
-            <canvas id="chart"></canvas>
+        <!--Alerta-->
+        <div id="alerta"></div>
+
+        <!--Peticion de despliegue de grafica-->
+        <div>
+            <% for (let iteracion of iteraciones) { %>
+                <input type="hidden" id= "i<%= iteracion.id_iteracion %>" name="i<%= iteracion.id_iteracion %>" value="<%= iteracion.fechaInicio %>">
+                <input type="hidden" id= "f<%= iteracion.id_iteracion %>" name="f<%= iteracion.id_iteracion %>" value="<%= iteracion.fechaFin %>">
+                <input type="hidden" id= "n<%= iteracion.id_iteracion %>" name="n<%= iteracion.id_iteracion %>" value="<%= iteracion.nombre_iteracion %>">
+            <% } %>
+            <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
+            <div class="mb-3">
+                <label for="rol" class="form-label text-success">Selecciona una iteracion</label>
+                <select class="form-control" id="IT" name="IT">
+                    <option selected>Choose...</option>
+                    <% for (let iteracion of iteraciones) { %>
+                        <option value="<%= iteracion.id_iteracion  %>"> <%= iteracion.nombre_iteracion %> </option> 
+                    <% } %>
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="fetchGrafica('<%= id %>')">Ingresar</button>
         </div>
 
-        <h2>Work item List</h2>
-        <div>
-            <table class="table table-dark">
-                <thead class="thead-success">
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Estimation</th>
-                    <th scope="col">Duration</th>
-                    <th scope="col">Finished Date</th>
-                </tr>
-                </thead>
-                <tbody>
-                <% for (let Record of Records) { %>
-                <tr>
-                    <td><%= Record.fields.Name %></td>
-                    <td><%= Record.fields.Status %></td>
-                    <td><%= Record.fields.Estimation %></td>
-                    <td><%= Record.fields.Duration %></td>
-                    <td><%= Record.fields.FinishedDate %></td>
-                </tr>
-                <% } %>
-                </tbody>
-            </table>
-        </div>
+        //GRAFICA DE ITERACION
+        <div id="grafica"></div>
+
 </main>
 
 <%- include('partials/footer.ejs') %>
 
-<!-- Script para grafica-->
-<!--script src="/js/grafica.js"></script-->
-<script>
-//console.log("Entre");
-function totalCasesChart(ctx) {
-    const chart = new Chart(ctx, {
-        type: 'line',
-        data:{
-            labels: [1, 20],
-            datasets: [
-                {
-                    label: 'Valor Ganado Acumulado (VGA)',
-                    data: [2,20],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)'
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 2)'
-                    ]
-                },
-                {
-                    label: 'Valor Planeado Acumulado (VPA)',
-                    data: [3,30],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)'
-                    ],
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 2)'
-                    ]
-                },
-                {
-                    label: 'Costo Real Acumulado (CRA)',
-                    data: [4,40],
-                    borderColor: [
-                        'rgba(255, 206, 86, 1)'
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 206, 86, 2)'
-                    ]
-                },
-                {
-                    label: 'Valor Planeado Ajustado',
-                    data: [5,50],
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)'
-                    ],
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 2)'
-                    ]
-                }
-            ]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Costo',
-                    padding: 10,
-                    color: 'rgba(255, 255, 255)',
-                    font: {
-                        size: 30
-                    }
-                },
-                legend: {
-                    labels: {
-                        // This more specific font property overrides the global property
-                        font: {
-                            size: 14
-                        },
-                        color: 'rgba(255, 255, 255)'
-                    }
-                }
-            }
-        }
-    })
-}
+<!-- Script para busqueda-->
+<script src="/js/fetchGrafica.js"></script>
 
-function renderCharts(){
-    const ctx = document.getElementById('chart').getContext('2d');
-    totalCasesChart(ctx);
-}
-renderCharts();
-</script>
+<!-- Script para grafica-->

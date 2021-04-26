@@ -2,28 +2,132 @@ const filesystem = require('fs');
 const Usuario = require('../models/user');
 const Proyecto = require('../models/proyecto');
 const airtable = require('../util/airtable');
+const { Console } = require('console');
+const { table } = require('../util/airtable');
 
 exports.getReportes = (request, response, next) => {
-    const tasksTable = airtable('Tasks');
-    //const iterationsTable = airtable('Iterations');
+    var id_proyecto = request.params.id;
 
-    const getRecords = async() => {
-        const records = await tasksTable
-            .select({
-                view: "Global view",
-            })
-            .all();
-        
+    Proyecto.getIteracion(id_proyecto)
+    .then(([rows,fieldData]) => {
+        //console.log(rows);
         response.render('reportes', {
             id: request.params.id,
-            Records: records,
+            iteraciones: rows,
             userRol: request.session.rol,
+            csrfToken: request.csrfToken(),
             titulo: 'Reportes',
             isLoggedIn: request.session.isLoggedIn === true ? true : false
         });
+    }).catch(err => console.log(err));
+
+};
+
+exports.postReportes = (request, response, next) => {
+    const tasksTable = airtable('Tasks');
+    //const iterationsTable = airtable('Iterations');
+
+    const iteracion = request.body.nombre_iteracion;
+    const fechaInicio = Date.parse(request.body.fechaInicio);
+    const fechaFin = Date.parse(request.body.fechaFin);
+    var proyectoActual = request.params.id;
+
+    console.log(iteracion);
+    /*console.log(fechaInicio);
+    console.log(fechaFin);*/
+
+    const dias = Math.round((fechaFin - fechaInicio)/(1000 * 3600 *24));
+    console.log(dias);
+
+    //SACAR REGISTROS DE AIRTABLE
+    const getRecords = async(id_proyecto, iteracion) => {
+        const records = await tasksTable
+            .select({
+                view: "LiveProgress",
+            })
+            .all();
+
+        console.log(id_proyecto);
+        let estimacionTotal = 0;
+        let arrTareas = [];
+        for(let record of records){
+            //console.log(record.fields.id_proyecto);
+            //console.log(record.fields.Iterations);
+            let arrColaboradores = [];
+            if ((parseInt(id_proyecto, 10) == record.fields.id_proyecto) && (iteracion == record.fields.Iterations)){
+                //console.log(record);
+                estimacionTotal += record.fields.Estimation;
+                //console.log(record.fields.Assigned);
+                if (record.fields.Assigned != undefined){
+                    for(let colaborador of record.fields.Assigned){
+                        //console.log(colaborador.name);
+                        arrColaboradores.push(colaborador.name);
+                    }
+                }
+                //console.log(arrColaboradores);
+                let tarea = {Name: record.fields.Name, Status: record.fields.Status, Estimation: record.fields.Estimation, Duration: record.fields.Duration, FinishedDate: record.fields.FinishedDate, Assigned: arrColaboradores};
+                arrTareas.push(tarea);  
+            }
+        }
+
+        let arrDias = [];
+        let arrVPA = [];
+        let arrData = [];
+
+        let velocidadPlaneada = estimacionTotal/dias;
+        console.log(velocidadPlaneada);
+
+        let aux = velocidadPlaneada;
+        for(let i = 1; i <= dias; i++){
+            arrDias.push(i);
+            arrVPA.push(velocidadPlaneada);
+            velocidadPlaneada += aux;
+        }
+
+        arrData.push(arrDias);
+        arrData.push(arrVPA);
+
+        console.log(arrData);
+        //console.log(arrTareas);
+        //console.log(estimacionTotal);
+        response.status(200).json(arrData);
     };
 
-    getRecords();
+    getRecords(proyectoActual, iteracion);
+};
+
+exports.postSendAirtable = (request, response, next) => {
+    const tasksTable = airtable('Tasks');
+    const id_proyecto = request.params.id;
+    console.log(id_proyecto);
+
+    const createRecord = async (fields) => {
+        const createdRecord = await tasksTable.create(fields);
+        console.log(createdRecord);
+    }
+
+    Proyecto.getTareasForAirtable(id_proyecto)
+    .then(async([rows,fieldData]) => {
+        //console.log(rows);
+        let arrTareas = [];
+        for(let tareas of rows){
+            console.log(parseInt(id_proyecto, 10));
+            let Name = tareas.nombre_iteracion + '-' + tareas.id_caso_de_uso + ' - ' + tareas.nombre_caso_de_uso + ' - ' + tareas.nombre_tarea + ' (' + tareas.nombre_fase + ')';
+            let tarea = {Name: Name, Status: 'To Do', Estimation: parseFloat(tareas.maximo), id_proyecto: parseInt(id_proyecto, 10), Iterations: tareas.nombre_iteracion};
+            arrTareas.push(tarea);
+            Proyecto.setAirtableTarea(tareas.id_caso_de_uso, tareas.id_fase, tareas.id_tarea, id_proyecto);
+        }
+        //console.log(arrTareas);
+
+        for(let fields of arrTareas){
+            console.log(fields);
+            await createRecord(fields);
+        }
+
+        request.flash('success','Tareas cargadas a airtable correctamente. 😁👍');
+        response.redirect('/proyectos/'+ id_proyecto +'/planeacion');
+    }).catch(err => console.log(err));
+
 };
 
 exports.getPlaneacion = (request, response, next) => {
@@ -332,36 +436,55 @@ exports.getCasoUso = (request, response, next) => {
 
     Proyecto.fetchCasosDeUso(request.params.id)
     .then(([rows,fieldData]) => {
-        response.render('CasoUso', {
-            Casos: rows,
-            id: request.params.id,
-            success: request.flash("success"),
-            error: request.session.error,
-            userRol: request.session.rol,
-            titulo: 'Caso de Uso',
-            csrfToken: request.csrfToken(),
-            isLoggedIn: request.session.isLoggedIn === true ? true : false
-        });
+        Proyecto.getIteracion(request.params.id)
+        .then(([rows2,fieldData]) => {
+            response.render('CasoUso', {
+                Casos: rows,
+                id: request.params.id,
+                iteraciones: rows2,
+                success: request.flash("success"),
+                error: request.flash("error"),
+                userRol: request.session.rol,
+                titulo: 'Caso de Uso',
+                csrfToken: request.csrfToken(),
+                isLoggedIn: request.session.isLoggedIn === true ? true : false
+            });
+        }).catch(err => console.log(err));
     }).catch(err => console.log(err));
 
 };
 
+exports.postIteracion = (request, response, next) => {
+    if((request.body.fechaInicio).length < 1 || (request.body.fechaFin).length < 1 || (request.body.nombreIteracion).length < 1){
+        request.flash('error','Te faltan campos por llenar');
+        response.redirect('/proyectos/'+ request.params.id +'/caso_de_uso');
+    }
+    else{
+        Proyecto.setIteracion(request.body.fechaInicio, request.body.fechaFin, request.body.nombreIteracion, request.params.id)
+        .then(([rows,fieldData]) => {
+            console.log("Guardando iteracion...");
+            request.flash('success','Nueva iteración agregada.');
+            response.redirect('/proyectos/'+ request.params.id +'/caso_de_uso');
+        }).catch(err => console.log(err));
+    }
+}
+
 exports.postCasoUso = (request, response, next) => {
-    request.session.error = "";
     const casoUso = request.body.casoUso;
     const iteracion = request.body.iteracion;
     const epic = request.body.epic;
     const ap = request.body.ap;
 
-    if(casoUso.length < 1 || iteracion.length < 1 || epic.length < 1 || ap.length < 1){
-        request.session.error = "Te faltan campos por llenar";
+    if(casoUso.length < 1 || iteracion < 0 || epic.length < 1 || ap.length < 1){
+        request.flash('error','Te faltan campos por llenar');
         response.redirect('/proyectos/'+ request.params.id +'/caso_de_uso');
     }
     else if(ap == "Choose..."){
-        request.session.error = "Te faltó escoger el punto ágil";
+        request.flash('error','Te faltó escoger el punto ágil');
         response.redirect('/proyectos/'+ request.params.id +'/caso_de_uso');
     }
     else{
+        console.log(request.body);
         Proyecto.saveCasoDeUso(request.body.casoUso, request.body.iteracion, request.body.epic, request.body.ap, "Pendiente", request.params.id)
         .then(([rows,fieldData]) => {
             console.log("Guardando caso de uso...");
@@ -460,7 +583,7 @@ exports.postAddTareaCasoUso = (request, response, next) => {
                     console.log(tiempo);
                     
                     console.log("Guardando");
-                    await Proyecto.saveCasosDeUsoFaseTarea(id, tarea, id_proyecto, tiempo);
+                    await Proyecto.saveCasosDeUsoFaseTarea(id, tarea, id_proyecto, tiempo, 0);
 
                 }
             }

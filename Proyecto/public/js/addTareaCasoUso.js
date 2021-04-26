@@ -66,9 +66,18 @@ function addTareaCasoUso(caso_id, proyecto_id, valor) {
         '<td scope="row" colspan="4" class="text-center"><button class="btn btn-secondary" data-toggle="modal" data-target="#m' + caso_id + '" id="' + caso_id + '" onclick="incomingTareaCasoUso(' + caso_id + ' , ' + proyecto_id + ')"> <i data-toggle="modal" data-target="#modificarCaso" onMouseover="this.style.color="blue"" onMouseout="this.style.color="white"" class="fas fa-plus"></i> </button> </th>' +
         '</tr>';
 
-        console.log(html);
-        console.log(id + "registros");
+        let alertas = '';
+
+        alertas+= '<div class="alert alert-success alert-dismissible fade show" role="alert">'+ 
+        '<strong>Excelsior!</strong> Tareas agregadas a caso de uso exitosamente. 😁👍'+ 
+        '<button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closeAlert()">' +
+            '<span aria-hidden="true">&times;</span>' +
+        '</button>' +
+        '</div>';
+
         document.getElementById(id + "registros").innerHTML = html;
+
+        document.getElementById("alerta").innerHTML = alertas;
         
     }).catch(err => {
         console.error(err);

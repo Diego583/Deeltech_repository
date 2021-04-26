@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-04-2021 a las 07:07:44
--- Versión del servidor: 10.4.14-MariaDB
--- Versión de PHP: 7.4.10
+-- Tiempo de generación: 26-04-2021 a las 01:35:16
+-- Versión del servidor: 10.4.17-MariaDB
+-- Versión de PHP: 8.0.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `proyecto`
+-- Base de datos: `proyectoo`
 --
 
 -- --------------------------------------------------------
@@ -39,6 +39,13 @@ CREATE TABLE `capacidad_equipo` (
   `cmmi` decimal(6,1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `capacidad_equipo`
+--
+
+INSERT INTO `capacidad_equipo` (`id_capacidad_equipo`, `id_proyecto`, `tiempo_perdido`, `errores_registro`, `overhead`, `productivas`, `operativos`, `humano`, `cmmi`) VALUES
+(4, 20005, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -48,7 +55,7 @@ CREATE TABLE `capacidad_equipo` (
 CREATE TABLE `caso_de_uso` (
   `id_caso_de_uso` int(11) NOT NULL,
   `nombre_caso_de_uso` varchar(200) DEFAULT NULL,
-  `iteracion` decimal(10,0) DEFAULT NULL,
+  `id_iteracion` int(11) NOT NULL,
   `epic` varchar(200) DEFAULT NULL,
   `valor` decimal(10,0) DEFAULT NULL,
   `status_caso` varchar(30) DEFAULT NULL,
@@ -59,9 +66,10 @@ CREATE TABLE `caso_de_uso` (
 -- Volcado de datos para la tabla `caso_de_uso`
 --
 
-INSERT INTO `caso_de_uso` (`id_caso_de_uso`, `nombre_caso_de_uso`, `iteracion`, `epic`, `valor`, `status_caso`, `id_proyecto`) VALUES
-(1, 'caso de uso prueba 1', '1', 'Epic prueba 1', '3', 'Terminado', 20000),
-(2, 'caso de uso prueba 2', '12', 'caso de uso prueba 2', '5', 'Pendiente', 20000);
+INSERT INTO `caso_de_uso` (`id_caso_de_uso`, `nombre_caso_de_uso`, `id_iteracion`, `epic`, `valor`, `status_caso`, `id_proyecto`) VALUES
+(40, 'diseño web', 1, 'diseño web', '1', 'Terminado', 20005),
+(41, 'cola', 1, 'cola', '1', 'Pendiente', 20005),
+(42, 'perritos', 2, 'perritos', '2', 'Pendiente', 20005);
 
 -- --------------------------------------------------------
 
@@ -73,9 +81,22 @@ CREATE TABLE `caso_de_uso_fase_tarea` (
   `id_caso_de_uso` int(11) NOT NULL,
   `id_fase` int(11) NOT NULL,
   `id_tarea` int(11) NOT NULL,
+  `id_proyecto` int(11) NOT NULL,
   `maximo` decimal(6,2) DEFAULT NULL,
-  `tiempo_real` decimal(6,2) DEFAULT NULL
+  `airtable` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `caso_de_uso_fase_tarea`
+--
+
+INSERT INTO `caso_de_uso_fase_tarea` (`id_caso_de_uso`, `id_fase`, `id_tarea`, `id_proyecto`, `maximo`, `airtable`) VALUES
+(40, 58001, 40034, 20005, '0.00', 1),
+(40, 58001, 40035, 20005, '14.50', 1),
+(41, 58001, 40034, 20005, '25.00', 1),
+(41, 58001, 40035, 20005, '14.50', 1),
+(42, 58001, 40034, 20005, '0.00', 1),
+(42, 58004, 40036, 20005, '12.00', 1);
 
 -- --------------------------------------------------------
 
@@ -102,6 +123,28 @@ INSERT INTO `fase` (`id_fase`, `nombre_fase`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `iteracion`
+--
+
+CREATE TABLE `iteracion` (
+  `id_iteracion` int(11) NOT NULL,
+  `nombre_iteracion` varchar(30) NOT NULL,
+  `id_proyecto` int(11) NOT NULL,
+  `fechaInicio` date NOT NULL,
+  `fechaFin` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `iteracion`
+--
+
+INSERT INTO `iteracion` (`id_iteracion`, `nombre_iteracion`, `id_proyecto`, `fechaInicio`, `fechaFin`) VALUES
+(1, 'IT1', 20005, '2021-04-01', '2021-04-24'),
+(2, 'IT2', 20005, '2021-03-01', '2021-04-17');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `privilegio`
 --
 
@@ -121,16 +164,16 @@ CREATE TABLE `proyecto` (
   `nombre_proyecto` varchar(100) DEFAULT NULL,
   `descripcion` varchar(500) DEFAULT NULL,
   `imagen` varchar(800) DEFAULT NULL,
-  `fecha` timestamp NULL DEFAULT current_timestamp()
+  `fecha` timestamp NULL DEFAULT current_timestamp(),
+  `multiplicador` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `proyecto`
 --
 
-INSERT INTO `proyecto` (`id_proyecto`, `nombre_proyecto`, `descripcion`, `imagen`, `fecha`) VALUES
-(20000, 'Super smash bros', 'Juego de peleas con cualquier personaje', '2021-04-10T05-28-46.294Z-samus_smash.jpg', '2021-04-10 05:28:46'),
-(20001, 'David', 'asdfga', '2021-04-10T05-29-01.748Z-mario_smash.jpg', '2021-04-10 05:29:01');
+INSERT INTO `proyecto` (`id_proyecto`, `nombre_proyecto`, `descripcion`, `imagen`, `fecha`, `multiplicador`) VALUES
+(20005, 'prueba', 'prueba', '2021-04-25T00-05-25.257Z-por-que-tener-una-pagina-web.png', '2021-04-25 00:05:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -140,16 +183,16 @@ INSERT INTO `proyecto` (`id_proyecto`, `nombre_proyecto`, `descripcion`, `imagen
 
 CREATE TABLE `proyecto_usuario` (
   `id_usuario` int(11) NOT NULL,
-  `id_proyecto` int(11) NOT NULL
+  `id_proyecto` int(11) NOT NULL,
+  `tiempo_por_semana` decimal(6,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `proyecto_usuario`
 --
 
-INSERT INTO `proyecto_usuario` (`id_usuario`, `id_proyecto`) VALUES
-(10001, 20000),
-(10001, 20001);
+INSERT INTO `proyecto_usuario` (`id_usuario`, `id_proyecto`, `tiempo_por_semana`) VALUES
+(10000, 20005, NULL);
 
 -- --------------------------------------------------------
 
@@ -167,8 +210,8 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id_rol`, `nombre`) VALUES
-(7001, 'miembro'),
-(7002, 'externo');
+(78000, 'miembro'),
+(78001, 'externo');
 
 -- --------------------------------------------------------
 
@@ -192,12 +235,12 @@ CREATE TABLE `tareas` (
   `id_fase` int(11) NOT NULL,
   `id_proyecto` int(11) NOT NULL,
   `nombre_tarea` varchar(300) DEFAULT NULL,
-  `ap_1` decimal(5,1) DEFAULT NULL,
-  `ap_2` decimal(5,1) DEFAULT NULL,
-  `ap_3` decimal(5,1) DEFAULT NULL,
-  `ap_5` decimal(5,1) DEFAULT NULL,
-  `ap_8` decimal(5,1) DEFAULT NULL,
-  `ap_13` decimal(5,1) DEFAULT NULL
+  `ap_1` decimal(5,2) DEFAULT NULL,
+  `ap_2` decimal(5,2) DEFAULT NULL,
+  `ap_3` decimal(5,2) DEFAULT NULL,
+  `ap_5` decimal(5,2) DEFAULT NULL,
+  `ap_8` decimal(5,2) DEFAULT NULL,
+  `ap_13` decimal(5,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -205,21 +248,9 @@ CREATE TABLE `tareas` (
 --
 
 INSERT INTO `tareas` (`id_tarea`, `id_fase`, `id_proyecto`, `nombre_tarea`, `ap_1`, `ap_2`, `ap_3`, `ap_5`, `ap_8`, `ap_13`) VALUES
-(40000, 58000, 20000, 'Test Cases', '57.9', '0.0', '25.1', '0.0', '0.0', '0.0'),
-(40001, 58001, 20000, 'Verificacion', '0.0', '12.5', '0.0', '0.0', '0.0', '0.0'),
-(40002, 58002, 20000, 'Wireframes', '89.0', '71.9', '0.0', '0.0', '0.0', '135.0'),
-(40003, 58003, 20000, 'Algorítmo', '1.5', '0.0', '45.0', '115.5', '0.0', '0.0'),
-(40004, 58004, 20000, 'Diagrama de componentes', '12.0', '0.0', '124.7', '0.0', '0.0', '0.0'),
-(40005, 58000, 20000, 'Planteamiento', '0.0', '0.0', '0.0', '0.0', '0.0', '0.0'),
-(40006, 58003, 20000, 'Seleccion Caso', '12.0', '17.0', '14.0', '0.0', '0.0', '0.0'),
-(40014, 58004, 20000, 'Pagina de inicio', '45.2', '12.5', '23.5', '12.5', '89.0', '78.0'),
-(40023, 58002, 20000, 'Practica de trabajo', '14.0', '0.0', '1.3', '0.0', '0.0', '0.0'),
-(40024, 58000, 20001, 'Pagina de inicio', '0.0', '0.0', '0.0', '0.0', '0.0', '0.0'),
-(40025, 58003, 20001, 'Practica de trabajo', '0.0', '0.0', '0.0', '0.0', '0.0', '0.0'),
-(40026, 58001, 20001, 'actualizar', '0.0', '0.0', '0.0', '0.0', '0.0', '0.0'),
-(40027, 58002, 20001, 'darle a todo', '0.0', '0.0', '0.0', '0.0', '0.0', '0.0'),
-(40028, 58004, 20001, 'vamos', '0.0', '0.0', '0.0', '0.0', '0.0', '0.0'),
-(40029, 58001, 20000, 'Interfaz', '0.0', '8.0', '0.0', '0.0', '0.0', '0.0');
+(40034, 58001, 20005, 'arriba amlo', '25.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(40035, 58001, 20005, 'mamahuevo', '14.50', '0.00', '0.00', '0.00', '0.00', '0.00'),
+(40036, 58004, 20005, 'emilio', '0.00', '12.00', '0.00', '0.00', '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -231,16 +262,15 @@ CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
   `nombre_usuario` varchar(100) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `contraseña` varchar(200) NOT NULL,
-  `tiempo_por_semana` decimal(6,2) DEFAULT NULL
+  `contraseña` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `nombre`, `contraseña`, `tiempo_por_semana`) VALUES
-(10001, 'admin', 'admin', '$2a$12$9ilxx6g/OMxpCmzJdfaxNObwrdTUa5OQcmGrDpGC0Ro9NhIESCwkq', NULL);
+INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `nombre`, `contraseña`) VALUES
+(10000, 'admin', 'admin', '$2a$12$CFjij1JVmD1ZAuj19KnMWuxDZvB1NClbyyD5Y50FfkHF.qA3QIhoC');
 
 -- --------------------------------------------------------
 
@@ -258,7 +288,7 @@ CREATE TABLE `usuario_rol` (
 --
 
 INSERT INTO `usuario_rol` (`id_usuario`, `id_rol`) VALUES
-(10001, 7001);
+(10000, 78000);
 
 -- --------------------------------------------------------
 
@@ -292,21 +322,30 @@ ALTER TABLE `capacidad_equipo`
 --
 ALTER TABLE `caso_de_uso`
   ADD PRIMARY KEY (`id_caso_de_uso`),
-  ADD KEY `id_proyecto` (`id_proyecto`);
+  ADD KEY `id_proyecto` (`id_proyecto`),
+  ADD KEY `caso_de_uso_ibfk_2` (`id_iteracion`);
 
 --
 -- Indices de la tabla `caso_de_uso_fase_tarea`
 --
 ALTER TABLE `caso_de_uso_fase_tarea`
-  ADD PRIMARY KEY (`id_caso_de_uso`,`id_fase`,`id_tarea`),
+  ADD PRIMARY KEY (`id_caso_de_uso`,`id_fase`,`id_tarea`,`id_proyecto`),
   ADD KEY `id_fase` (`id_fase`),
-  ADD KEY `id_tarea` (`id_tarea`);
+  ADD KEY `id_tarea` (`id_tarea`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
 
 --
 -- Indices de la tabla `fase`
 --
 ALTER TABLE `fase`
   ADD PRIMARY KEY (`id_fase`);
+
+--
+-- Indices de la tabla `iteracion`
+--
+ALTER TABLE `iteracion`
+  ADD PRIMARY KEY (`id_iteracion`),
+  ADD KEY `id_proyecto` (`id_proyecto`);
 
 --
 -- Indices de la tabla `privilegio`
@@ -376,19 +415,25 @@ ALTER TABLE `work_item_list`
 -- AUTO_INCREMENT de la tabla `capacidad_equipo`
 --
 ALTER TABLE `capacidad_equipo`
-  MODIFY `id_capacidad_equipo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_capacidad_equipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `caso_de_uso`
 --
 ALTER TABLE `caso_de_uso`
-  MODIFY `id_caso_de_uso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_caso_de_uso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT de la tabla `fase`
 --
 ALTER TABLE `fase`
   MODIFY `id_fase` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58005;
+
+--
+-- AUTO_INCREMENT de la tabla `iteracion`
+--
+ALTER TABLE `iteracion`
+  MODIFY `id_iteracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `privilegio`
@@ -400,19 +445,19 @@ ALTER TABLE `privilegio`
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `id_proyecto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20002;
+  MODIFY `id_proyecto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20006;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78000;
+  MODIFY `id_rol` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78002;
 
 --
 -- AUTO_INCREMENT de la tabla `tareas`
 --
 ALTER TABLE `tareas`
-  MODIFY `id_tarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40030;
+  MODIFY `id_tarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40037;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -440,7 +485,8 @@ ALTER TABLE `capacidad_equipo`
 -- Filtros para la tabla `caso_de_uso`
 --
 ALTER TABLE `caso_de_uso`
-  ADD CONSTRAINT `caso_de_uso_ibfk_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id_proyecto`);
+  ADD CONSTRAINT `caso_de_uso_ibfk_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id_proyecto`),
+  ADD CONSTRAINT `caso_de_uso_ibfk_2` FOREIGN KEY (`id_iteracion`) REFERENCES `iteracion` (`id_iteracion`);
 
 --
 -- Filtros para la tabla `caso_de_uso_fase_tarea`
@@ -448,7 +494,14 @@ ALTER TABLE `caso_de_uso`
 ALTER TABLE `caso_de_uso_fase_tarea`
   ADD CONSTRAINT `caso_de_uso_fase_tarea_ibfk_1` FOREIGN KEY (`id_caso_de_uso`) REFERENCES `caso_de_uso` (`id_caso_de_uso`),
   ADD CONSTRAINT `caso_de_uso_fase_tarea_ibfk_2` FOREIGN KEY (`id_fase`) REFERENCES `fase` (`id_fase`),
-  ADD CONSTRAINT `caso_de_uso_fase_tarea_ibfk_3` FOREIGN KEY (`id_tarea`) REFERENCES `tareas` (`id_tarea`);
+  ADD CONSTRAINT `caso_de_uso_fase_tarea_ibfk_3` FOREIGN KEY (`id_tarea`) REFERENCES `tareas` (`id_tarea`),
+  ADD CONSTRAINT `caso_de_uso_fase_tarea_ibfk_4` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id_proyecto`);
+
+--
+-- Filtros para la tabla `iteracion`
+--
+ALTER TABLE `iteracion`
+  ADD CONSTRAINT `iteracion_ibfk_1` FOREIGN KEY (`id_proyecto`) REFERENCES `proyecto` (`id_proyecto`);
 
 --
 -- Filtros para la tabla `proyecto_usuario`

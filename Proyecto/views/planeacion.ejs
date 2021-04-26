@@ -87,10 +87,11 @@
                 </div>
                 </form>
                 <div><br></div>
-                <form action="//login" method="POST">
+                <form action="/proyectos/<%= id %>/send_airtable" method="POST">
+                    <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
                     <div class="col-md-3 align-self-center mx-auto">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="submit" class="btn btn-secondary"> Enviar a airtable</button>
+                        <button type="submit" class="btn btn-primary"> Enviar a airtable</button>
                     </div>
                 </form>
             
@@ -98,6 +99,8 @@
 
 
         <p><br></p>
+        <!--Alerta-->
+        <div id="alerta"></div>
         <% if (success.length != 0) { %>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>Excelsior!</strong> <%= success %>
