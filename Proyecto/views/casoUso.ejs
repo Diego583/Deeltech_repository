@@ -31,7 +31,7 @@
                             <ul class="nav navbar-nav ml-auto">
                                 <li class="nav-item">
                                     <a type="button" class="nav-link text-white" data-toggle="modal" data-target="#AgregarIteracion">
-                                        Agregar Iteracion
+                                        Agregar Iteración
                                     </a>
                                 </li>
                             </ul>
@@ -44,7 +44,7 @@
                                                         <div class="modal-dialog" role="document">
                                                             <div class="modal-content bg-dark text-white">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="AgregarIteracionLabel">Agregar Iteracion</h5>
+                                                                    <h5 class="modal-title" id="AgregarIteracionLabel">Agregar Iteración</h5>
                                                                     <button class="btn btn-danger" type="button" class="close" data-dismiss="modal" aria-label="Close" >
                                                                     <span aria-hidden="true">&times;</span>
                                                                     </button>
@@ -53,21 +53,21 @@
                                                                     <form action="/proyectos/<%=id%>/iteracion" method="POST" class="mb-3">
                                                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
                                                                     <div class="mb-3">
-                                                                        <label for="nombreIteracion" class="form-label">Nombre iteracion:</label>
+                                                                        <label for="nombreIteracion" class="form-label">Nombre de iteración:</label>
                                                                         <input type="text" class="form-control" id="nombreIteracion" name="nombreIteracion">
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="fechaInicio" class="form-label">Fecha Inicio:</label>
+                                                                        <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
                                                                         <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
                                                                     </div>
                                                                     <div class="mb-3">
-                                                                        <label for="fechaFin" class="form-label">Fecha Fin:</label>
+                                                                        <label for="fechaFin" class="form-label">Fecha de Fin:</label>
                                                                         <input type="date" class="form-control" id="fechaFin" name="fechaFin">
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                                                                    <button type="submit" class="btn btn-success">Agregar</button>
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                                                     </form>
                                                                 </div>
                                                             </div>
@@ -90,9 +90,9 @@
                                                                             <input type="text" class="form-control" id="casoUso" name="casoUso">
                                                                         </div>
                                                                         <div class="mb-3">
-                                                                            <label for="iteracion" class="form-label text-success">Selecciona una iteracion</label>
+                                                                            <label for="iteracion" class="form-label text-success">Iteración</label>
                                                                             <select class="form-control" id="iteracion" name="iteracion">
-                                                                                <option selected>Choose...</option>
+                                                                                <option selected>Seleccionar Iteración...</option>
                                                                                 <% for (let iteracion of iteraciones) { %>
                                                                                     <option value="<%= iteracion.id_iteracion  %>"> <%= iteracion.nombre_iteracion %> </option> 
                                                                                 <% } %>
@@ -156,7 +156,7 @@
                                 <th class = "text-center" scope="col">Caso de uso</th>
                                 <th class = "text-center" scope="col">Iteración</th>
                                 <th class = "text-center" scope="col">Epic</th>
-                                <th class = "text-center" scope="col">Valor</th>
+                                <th class = "text-center" scope="col">AP</th>
                                 <th class = "text-center" scope="col">Status</th>
                                 <th class = "text-center" scope="col">&nbsp</th>
                                 <th class = "text-center" scope="col">&nbsp</th>
