@@ -191,7 +191,7 @@ module.exports = class Proyecto{
     }
 
     static getIteracion(id_proyecto){ //Se muestra la suma de las tareas de un caso
-        return db.execute('select * from iteracion where id_proyecto=?',
+        return db.execute('select * from iteracion where id_proyecto=? order by id_iteracion desc',
         [id_proyecto]);
     }
 }

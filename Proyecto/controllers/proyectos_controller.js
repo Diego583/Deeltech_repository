@@ -84,8 +84,45 @@ exports.postReportes = (request, response, next) => {
             velocidadPlaneada += aux;
         }
 
+        let valorGanado = [];
+        let valorReal = [];
+        for(let i = 0 ; i<dias;i++){
+            valorGanado[i]=0;
+            valorReal[i]=0;
+        }
+        for(let tarea of arrTareas){
+            let fechaFinTarea = Date.parse(tarea.FinishedDate);
+            let diasTranscurridos = Math.round((fechaFinTarea - fechaInicio)/(1000 * 3600 *24));
+            let aux=0, aux2=0;
+            for(let t of arrTareas){
+                
+                let fechaFinTareas = Date.parse(t.FinishedDate); 
+                if(fechaFinTarea==fechaFinTareas && t.Status=="Done"){
+                    aux += t.Estimation;
+                }
+                if(fechaFinTarea==fechaFinTareas){
+                    aux2 += (t.Duration*t.Assigned.length);
+                }
+                valorGanado[diasTranscurridos]=aux;
+                valorReal[diasTranscurridos]=aux2;
+            } 
+        }
+        let acum=0;
+        let acum2=0;
+        for(let i = 0 ; i<dias;i++){
+            acum += valorGanado[i];
+            valorGanado[i]=acum;
+        }
+        for(let i = 0 ; i<dias;i++){
+            acum2 += valorReal[i];
+            valorReal[i]=acum2;
+        }
+
+
         arrData.push(arrDias);
         arrData.push(arrVPA);
+        arrData.push(valorGanado);
+        arrData.push(valorReal);
 
         console.log(arrData);
         //console.log(arrTareas);

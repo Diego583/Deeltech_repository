@@ -12,7 +12,7 @@ function totalCasesChart(ctx, data) {
             datasets: [
                 {
                     label: 'Valor Ganado Acumulado (VGA)',
-                    data: arrData,
+                    data: data[2],
                     borderColor: [
                         'rgba(255, 99, 132, 1)'
                     ],
@@ -32,7 +32,7 @@ function totalCasesChart(ctx, data) {
                 },
                 {
                     label: 'Costo Real Acumulado (CRA)',
-                    data: arrData2,
+                    data: data[3],
                     borderColor: [
                         'rgba(255, 206, 86, 1)'
                     ],
@@ -40,16 +40,6 @@ function totalCasesChart(ctx, data) {
                         'rgba(255, 206, 86, 2)'
                     ]
                 },
-                {
-                    label: 'Valor Planeado Ajustado',
-                    data: arrData3,
-                    borderColor: [
-                        'rgba(75, 192, 192, 1)'
-                    ],
-                    backgroundColor: [
-                        'rgba(75, 192, 192, 2)'
-                    ]
-                }
             ]
         },
         options: {

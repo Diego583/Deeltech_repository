@@ -36,17 +36,16 @@
             <input type="hidden" id= "_csrf" name="_csrf" value="<%= csrfToken %>" >
             <div class="mb-3">
                 <label for="rol" class="form-label text-success">Selecciona una iteracion</label>
-                <select class="form-control" id="IT" name="IT">
+                <select class="form-control" id="IT" name="IT" onchange="fetchGrafica('<%= id %>')">
                     <option selected>Choose...</option>
                     <% for (let iteracion of iteraciones) { %>
                         <option value="<%= iteracion.id_iteracion  %>"> <%= iteracion.nombre_iteracion %> </option> 
                     <% } %>
                 </select>
             </div>
-            <button type="button" class="btn btn-primary" onclick="fetchGrafica('<%= id %>')">Ingresar</button>
         </div>
 
-        //GRAFICA DE ITERACION
+        
         <div id="grafica"></div>
 
 </main>
