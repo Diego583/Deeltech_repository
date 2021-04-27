@@ -26,6 +26,7 @@ function status(caso_id, proyecto_id) {
         //alert("hola")
         
         console.log(data);
+
         let html = '';
         //html += '<div style="color: rgb(16, 204, 16);" class="content" id = "mensaje">Actualizado correctamente</div>';
         //document.getElementById("mensaje").innerHTML = html;
@@ -48,6 +49,45 @@ function status(caso_id, proyecto_id) {
                 '<br>';
 
         document.getElementById("mensaje").innerHTML = html;
+
+
+        let tabla = '';
+        for (let iteracion of data[1]) {
+            let i = new Date(iteracion.fechaInicio);
+            let inicio = i.getDate() + '/' + (i.getMonth() + 1) + '/' + i.getFullYear();
+            let f = new Date(iteracion.fechaFin);
+            let fin = f.getDate() + '/' + (f.getMonth() + 1) + '/' + f.getFullYear();
+
+            let totalCasos = 0;
+            let totalTerminados = 0;
+            for (let CasoUso of data[0]) {
+                if(CasoUso.nombre_iteracion == iteracion.nombre_iteracion){
+                    totalCasos++;
+                    if(CasoUso.status_caso == "Terminado"){
+                        totalTerminados++;
+                    }
+                }
+            }
+
+            if(totalCasos == 0 && totalTerminados == 0){
+                var progreso = 0;
+            }
+            else{
+                var progreso = (totalTerminados / totalCasos)*100;
+            }
+
+            tabla += '<tr>' + 
+                        '<td class = "text-center" style="width: 15rem"> '+ iteracion.nombre_iteracion +' </td>' + 
+                        '<td class = "text-center" style="width: 10rem"style="width: 10rem"> '+ inicio +' </td>' + 
+                        '<td class = "text-center" style="width: 10rem"> '+ fin +' </td>' + 
+                        '<td class = "text-center" style="width: 10rem">' + 
+                            '<div class="progress">' + 
+                                '<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="'+ progreso +'" aria-valuemin="0" aria-valuemax="100" style="width: '+ progreso +'%">'+ progreso +'%</div>' + 
+                            '</div>' + 
+                        '</td>' + 
+                    '</tr>';
+        }
+        document.getElementById("tablaIteraciones").innerHTML = tabla;
         
         $(document).ready(function(){
             $('.toast').toast('show'); 

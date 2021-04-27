@@ -112,9 +112,6 @@
                                                                                 <option>13</option>
                                                                             </select>
                                                                         </div>
-                                                                        <% if (error) { %>
-                                                                            <p style="color:red"><%= error %></p>
-                                                                        <% } %>
                                                                         <div class="modal-footer">
                                                                             <button type="submit" class="btn btn-success">Agregar</button>
                                                                         </div>
@@ -270,6 +267,65 @@
                               </div>
                             </div>
                           </div>                  
+                    </div>
+
+                    <div><br><br></div>
+
+                    <div>
+                        <table class="table  table-hover table-dark table-striped">
+                            <thead class="thead-success">
+                                <tr>
+                                    <th class = "text-center" scope="col">Iteración</th>
+                                    <th class = "text-center" scope="col">Fecha de inicio</th>
+                                    <th class = "text-center" scope="col">Fecha de FIn</th>
+                                    <th class = "text-center" scope="col">Progreso</th>
+                                </tr>
+                            </thead>
+    
+                            <tbody id="tablaIteraciones">
+                                
+    
+                                <% for (let iteracion of iteraciones) { %>
+                                    <% let i = new Date(iteracion.fechaInicio); %>
+                                    <% let inicio = i.getDate() + '/' + (i.getMonth() + 1) + '/' + i.getFullYear(); %>
+                                    <% let f = new Date(iteracion.fechaFin); %>
+                                    <% let fin = f.getDate() + '/' + (f.getMonth() + 1) + '/' + f.getFullYear(); %>
+                                    <tr>
+                                        
+                                        <td class = "text-center" style="width: 15rem"> <%= iteracion.nombre_iteracion %> </td>
+                                        <td class = "text-center" style="width: 10rem"style="width: 10rem"> <%= inicio %> </td>
+                                        <td class = "text-center" style="width: 10rem"> <%= fin %> </td>
+                                        <% let totalCasos = 0; %>
+                                        <% let totalTerminados = 0; %>
+                                        <% for (let CasoUso of Casos) { %>
+                                            <% if(CasoUso.nombre_iteracion == iteracion.nombre_iteracion){ %>
+                                                <% totalCasos++; %>
+                                                <% if(CasoUso.status_caso == "Terminado"){ %>
+                                                    <% totalTerminados++; %>
+                                                <% } %>
+                                            <% } %>
+                                        <% } %>
+
+                                        <% if(totalCasos == 0 && totalTerminados == 0){ %>
+                                            <% var progreso = 0; %>
+                                        <% }
+                                        else{ %>
+                                            <% var progreso = (totalTerminados / totalCasos)*100; %>
+                                        <% } %>
+
+                                        <td class = "text-center" style="width: 10rem">
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="<%= progreso %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= progreso %>%"><%= progreso %>%</div>
+                                            </div>
+                                        </td>
+    
+                                    </tr>
+    
+                                <% } %>  
+    
+                            </tbody>
+    
+                        </table>
                     </div>
 
                     <p><br></p>
