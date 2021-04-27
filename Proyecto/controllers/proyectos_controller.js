@@ -25,7 +25,6 @@ exports.getReportes = (request, response, next) => {
 
 exports.postReportes = (request, response, next) => {
     const tasksTable = airtable('Tasks');
-    //const iterationsTable = airtable('Iterations');
 
     const iteracion = request.body.nombre_iteracion;
     const fechaInicio = Date.parse(request.body.fechaInicio);
@@ -470,7 +469,6 @@ exports.postBuscar = (request, response, next) => {
 };
 
 exports.getCasoUso = (request, response, next) => {
-
     Proyecto.fetchCasosDeUso(request.params.id)
     .then(([rows,fieldData]) => {
         Proyecto.getIteracion(request.params.id)
@@ -492,13 +490,22 @@ exports.getCasoUso = (request, response, next) => {
 };
 
 exports.postIteracion = (request, response, next) => {
+    const tasksIterations = airtable('Iterations');
+
+    const createRecord = async (fields) => {
+        const createdRecord = await tasksIterations.create(fields);
+        console.log(createdRecord);
+    }
+
     if((request.body.fechaInicio).length < 1 || (request.body.fechaFin).length < 1 || (request.body.nombreIteracion).length < 1){
         request.flash('error','Te faltan campos por llenar');
         response.redirect('/proyectos/'+ request.params.id +'/caso_de_uso');
     }
     else{
+        let iteracion = {IT: request.body.nombreIteracion, Status: 'Planning', id_proyecto: parseInt(request.params.id, 10)};
         Proyecto.setIteracion(request.body.fechaInicio, request.body.fechaFin, request.body.nombreIteracion, request.params.id)
         .then(([rows,fieldData]) => {
+            createRecord(iteracion);
             console.log("Guardando iteracion...");
             request.flash('success','Nueva iteración agregada.');
             response.redirect('/proyectos/'+ request.params.id +'/caso_de_uso');
@@ -536,16 +543,19 @@ exports.postStatus = (request, response, next) => {
     const status = request.body.status;
     const id = request.body.id;
 
-    Proyecto.updateStatusCaso(status, id, request.params.id);
-    Proyecto.fetchCasosDeUso(request.params.id)
-        .then(([rows, fieldData]) => {
-            //console.log(rows);
-            response.status(200).json(rows);
-
-        })
-        .catch(err => {
-            console.log(err);
-        });
+    Proyecto.updateStatusCaso(status, id, request.params.id)
+        .then(() => {
+            Proyecto.fetchCasosDeUso(request.params.id)
+                .then(([rows,fieldData]) => {
+                    Proyecto.getIteracion(request.params.id)
+                        .then(([rows2,fieldData]) => {
+                            let arr = [];
+                            arr.push(rows);
+                            arr.push(rows2);
+                            response.status(200).json(arr);
+                        }).catch(err => console.log(err));
+                }).catch(err => console.log(err));
+        }).catch(err => console.log(err));
 
 }
 
