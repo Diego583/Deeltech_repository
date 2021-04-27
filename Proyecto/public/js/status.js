@@ -73,7 +73,7 @@ function status(caso_id, proyecto_id) {
                 var progreso = 0;
             }
             else{
-                var progreso = (totalTerminados / totalCasos)*100;
+                var progreso = Math.round((totalTerminados / totalCasos)*100,2);
             }
 
             tabla += '<tr>' + 

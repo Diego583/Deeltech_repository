@@ -310,7 +310,7 @@
                                             <% var progreso = 0; %>
                                         <% }
                                         else{ %>
-                                            <% var progreso = (totalTerminados / totalCasos)*100; %>
+                                            <% var progreso = Math.round((totalTerminados / totalCasos)*100,2); %>
                                         <% } %>
 
                                         <td class = "text-center" style="width: 10rem">
