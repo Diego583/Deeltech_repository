@@ -100,42 +100,34 @@ exports.postRegister = (request, response, next) => {
 
 exports.postUpdate = (request, response, next) => {
     const nombre = request.body.nombre;
-    const nombreUsuario = request.body.nombre_usuario_nuevo;
     const contraseña1 = request.body.contraseña1;
     const contraseña2 = request.body.contraseña2;
 
-    Usuario.fetchOne(nombreUsuario)
-    .then(([rows,fieldData]) => {
-        if (nombreUsuario.length == 0 && nombre.length == 0 && contraseña1.length == 0 && contraseña2.length == 0){
-            request.flash('error','No se recibio ningun dato. 😢🙃');
-            response.redirect('/');
-        }
+    if (nombre.length == 0 && contraseña1.length == 0 && contraseña2.length == 0){
+        request.flash('error','No se recibio ningun dato. 😢🙃');
+        response.redirect('/');
+    }
 
-        else if (nombreUsuario.length == 0 || nombre.length == 0|| contraseña1.length == 0 || contraseña2.length == 0){
-            request.flash('error','Te faltaron campos por llenar. 😢🙃');
-            response.redirect('/');
-        }
+    else if (nombre.length == 0|| contraseña1.length == 0 || contraseña2.length == 0){
+        request.flash('error','Te faltaron campos por llenar. 😢🙃');
+        response.redirect('/');
+    }
 
-        else if (contraseña1 != contraseña2){
-            request.flash('error','Las contraseñas no coinciden 😢🙃');
-            response.redirect('/');
-        }
+    else if (contraseña1 != contraseña2){
+        request.flash('error','Las contraseñas no coinciden 😢🙃');
+        response.redirect('/');
+    }
 
-        else if(rows.length > 0){
-            request.flash('error','El usuario ya está en uso. 😢🙃');
-            response.redirect('/');
-        }
+    else{
+        console.log("mamadas");
+        Usuario.updateUser(nombre, contraseña1, request.session.usuario)
+        .then(() => {
+            request.session.isLoggedIn = true;
+            return request.session.save(err => {
+                request.flash('success', 'Tu datos han sido actualizados. 😁👍');
+                response.redirect('/');
+            });
+        }).catch(err => console.log(err));
+    }
 
-        else{
-            Usuario.updateUser(nombreUsuario, nombre, contraseña1, request.session.usuario)
-            .then(() => {
-                request.session.isLoggedIn = true;
-                request.session.usuario = nombreUsuario;
-                return request.session.save(err => {
-                    request.flash('success', 'Tu datos han sido actualizados. 😁👍');
-                    response.redirect('/');
-                });
-            }).catch(err => console.log(err));
-        }
-    }).catch(err => console.log(err));
 };

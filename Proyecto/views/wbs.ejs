@@ -3,37 +3,37 @@
 <%- include('partials/sidebar.ejs') %>
 
 <main class="container">
-        <!-- Page Content  -->
-        <div id="content">
-            
-            <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-secondary">
-                <div class="container-fluid">
+    <!-- Page Content  -->
+    <div id="content">
+        
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-secondary">
+            <div class="container-fluid">
 
-                    <button type="button" id="sidebarCollapse" class="btn btn-light">
-                        <i class="fas fa-align-left"></i>
-                        <!-- <span>Toggle Sidebar</span> -->
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
+                <button type="button" id="sidebarCollapse" class="btn btn-light">
+                    <i class="fas fa-align-left"></i>
+                    <span>Toggle Sidebar</span>
+                </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-align-justify"></i>
+                </button>
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item">
-                                <a type="button" class="nav-link text-white" data-toggle="modal" data-target="#AgregarPractica">
-                                    Agregar Práctica
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a type="button" class="nav-link text-white" data-toggle="modal" data-target="#AgregarPractica">
+                                Agregar Practica
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-            </nav>
+            </div>
+        </nav>
         <!-- Modal -->
         <div class="modal fade" id="AgregarPractica" tabindex="-1" role="dialog" aria-labelledby="AgregarPracticaLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content bg-dark text-white">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="AgregarPracticaLabel">Agregar Práctica</h5>
+                        <h5 class="modal-title" id="AgregarPracticaLabel">Agregar Practica</h5>
                         <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -43,13 +43,13 @@
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
                             <div class="mb-3" id="addError" name="addError" style="color: red"></div>
                             <div class="mb-3">
-                                <label for="nombre" class="form-label text-success">Nombre de Práctica de trabajo:</label>
-                                <input type="text" class="form-control" id="nombrePractica" name="nombrePractica" required>
+                                <label for="nombre" class="form-label text-success">Nombre de Practica de trabajo:</label>
+                                <input type="text" class="form-control" id="nombrePractica" name="nombrePractica">
                             </div>
                             <div class="mb-3">
                                 <label for="fase" class="form-label text-success">Fase:</label>
                                 <select class="form-control" id="fase" name="fase" >
-                                    <option selected class="font-weight-bold"> Seleccionar fase... </option>
+                                    <option selected class="font-weight-bold"> Choose... </option>
                                 <% for (let fase of fases) { %>
                                     <option value="<%= fase.id_fase%>"> <%= fase.nombre_fase %> </option>
                                 <% } %>
@@ -89,7 +89,7 @@
                 <thead class="thead-success">
                     <tr>
                         <th class = "text-center" scope="col">Fase</th>
-                        <th class = "text-center" scope="col">Práctica de trabajo</th>
+                        <th class = "text-center" scope="col">Practica de trabajo</th>
                         <th class = "text-center" scope="col">&nbsp</th>
                         <th class = "text-center" scope="col">AP 1</th>
                         <th class = "text-center" scope="col">AP 2</th>
@@ -104,7 +104,7 @@
 
 
                     <%if(tareasAnalisis.length < 1){%>
-                        <th rowspan="2" class = "text-center">Análisis</th>  <!-- rowspan = N + 1  -->
+                        <th rowspan="2" class = "text-center">Analisis</th>  <!-- rowspan = N + 1  -->
                     
                         <tr>
 
@@ -127,7 +127,7 @@
 
                     else{ %>
 
-                        <th rowspan="<%= nA %>" class = "text-center">Análisis</th>  <!-- rowspan = N + 1  -->
+                        <th rowspan="<%= nA %>" class = "text-center">Analisis</th>  <!-- rowspan = N + 1  -->
 
                         <% for (let tareasA of tareasAnalisis) { %>
                             <tr>
@@ -221,7 +221,7 @@
                     <% } %>   
 
                     <%if(tareasImplementacion.length < 1){%>
-                        <th rowspan="2" class = "text-center">Implementación</th>  <!-- rowspan = N + 1  -->
+                        <th rowspan="2" class = "text-center">Implementacion</th>  <!-- rowspan = N + 1  -->
                     
                         <tr>
 
@@ -243,7 +243,7 @@
                     <% }
                     else{ %>
 
-                        <th rowspan="<%= nI %>" class = "text-center">Implementación</th>  
+                        <th rowspan="<%= nI %>" class = "text-center">Implementacion</th>  
                         <% for (let tareasI of tareasImplementacion) { %>
                             <tr>
                                 
@@ -435,7 +435,7 @@
                         <input type="hidden" id= "d_csrf" name="d_csrf" value="<%= csrfToken %>" >
                         <div class="mb-3" id="modError" style="color: red"></div>
                         <div class="mb-3">
-                            <label for="mod_nombrePractica" class="form-label text-success">Nombre de Práctica de trabajo:</label>
+                            <label for="mod_nombrePractica" class="form-label text-success">Nombre de Practica de trabajo:</label>
                             <input type="text" class="form-control" id="mod_nombrePractica" name="mod_nombrePractica">
                         </div>
                         <div class="mb-3">
@@ -448,7 +448,7 @@
                         </div>
 
                         <div class="modal-footer">
-                            <button id="mod_ingresar" type="button" class="btn btn-success">Guardar cambios</button>
+                            <button id="mod_ingresar" type="button" class="btn btn-success">Ingresar</button>
                         </div>
                     </div>
                 </div>                  

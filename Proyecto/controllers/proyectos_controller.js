@@ -755,19 +755,26 @@ exports.get = (request, response, next) => {
         request.session.rol = rows[0].id_rol;
         console.log(request.session.usuario);
         console.log(request.session.rol);
+        console.log(request.session);
+        console.log("username: " + request.session.usuario)
         Proyecto.fetchProyectosUsuario(request.session.usuario)
         .then(([rows,fieldData]) => {
-            response.render('proyectos', {
-                csrfToken: request.csrfToken(),
-                roles: request.session.roles,
-                users: request.session.usuarios,
-                proyectos: rows,
-                userRol: request.session.rol,
-                error: request.flash("error"),
-                success: request.flash("success"),
-                titulo: 'Proyectos',
-                isLoggedIn: request.session.isLoggedIn === true ? true : false
-            });
+            Usuario.fetchOne(request.session.usuario)
+            .then(([rows2,fieldData]) => {
+                response.render('proyectos', {
+                    csrfToken: request.csrfToken(),
+                    roles: request.session.roles,
+                    users: request.session.usuarios,
+                    username: request.session.usuario,
+                    proyectos: rows,
+                    nombre: rows2,
+                    userRol: request.session.rol,
+                    error: request.flash("error"),
+                    success: request.flash("success"),
+                    titulo: 'Proyectos',
+                    isLoggedIn: request.session.isLoggedIn === true ? true : false
+                });
+            }).catch(err => console.log(err));
         }).catch(err => console.log(err));
     }).catch(err => console.log(err));
 };

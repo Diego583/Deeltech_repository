@@ -131,11 +131,11 @@
                           <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
                           <div class="mb-3">
                               <label for="nombre" class="form-label">Nombre completo:</label>
-                              <input type="text" class="form-control" id="nombre" name="nombre" required>
+                              <input type="text" placeholder="<%= nombre[0].nombre %>" class="form-control" id="nombre" name="nombre" required>
                           </div>
                           <div class="mb-3">
                               <label for="nombre_usuario_nuevo" class="form-label">Nombre de usuario:</label>
-                              <input type="text" class="form-control" id="nombre_usuario_nuevo" name="nombre_usuario_nuevo">
+                              <input disabled type="text" class="form-control" value="<%= username %>" placeholder="<%= username %>" id="nombre_usuario_nuevo" name="nombre_usuario_nuevo">
                           </div>
                           <div class="mb-3">
                               <label for="contraseña1" class="form-label">Contraseña:</label>
