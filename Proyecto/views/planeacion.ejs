@@ -165,6 +165,11 @@
                                                     <% sum = sum + parseInt(casosTareas[i].maximo, 10); %>
                                                     <% console.log(sum); %>
                                                 <%}%>
+                                                <td class="text-center">
+                                                    <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_practica('<%=id%>', '<%=casosTareas[i].id_fase%>', '<%=casosTareas[i].id_tarea%>', '<%=casosTareas[i].nombre_tarea%>', '<%= casosTareas[i].id_caso_de_uso %>')">
+                                                        <i data-toggle="modal" data-target="#confirmDelete" onMouseover="this.style.color='red'" onMouseout="this.style.color='black'" class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                </td>
                                             </tr>
                                             <% count++; %>
                                         <%}%>
@@ -180,8 +185,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-
-
                                     <!--Modal-->
                                     <div class="modal fade" id="m<%= casoUso.id_caso_de_uso %>" tabindex="-1" role="dialog" aria-labelledby="m<%= casoUso.id_caso_de_uso %>Label" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -211,7 +214,26 @@
                 </div>
             <%}%>
         </div>
-
+        <div class="modal fade" id="confirmDelete" tabindex="0" aria-hidden="true">
+            <div class="modal-dialog" >
+                <div class="modal-content" style="color: black;">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Eliminar tarea de caso de uso</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div>¿Deseas eliminar la siguiente tarea?
+                        <i><strong id="delNombrePractica"></strong></i>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button id="delete" type="button" class="btn btn-danger">Eliminar</button>
+                  </div>
+                </div>
+              </div>                      
+        </div>
 
 
         
@@ -228,6 +250,8 @@
 <script src="/js/addTareaCasoUso.js"></script>
 <!-- Script para ver cambios en multiplicador-->
 <script src="/js/multiplicador.js"></script>
+
+<script src="/js/eliminar_practica_planeacion.js"></script>
 
 <!-- Boton -->
 <script>

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-04-2021 a las 01:35:16
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 8.0.2
+-- Tiempo de generación: 29-04-2021 a las 17:44:32
+-- Versión del servidor: 10.4.14-MariaDB
+-- Versión de PHP: 7.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,23 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `proyectoo`
 --
+
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteProyecto` (IN `uid_proyecto` INT(11))  BEGIN
+DELETE from capacidad_equipo where id_proyecto = uid_proyecto;
+ DELETE from caso_de_uso_fase_tarea where id_proyecto = uid_proyecto;
+ DELETE from caso_de_uso where id_proyecto = uid_proyecto;
+ DELETE from tareas where id_proyecto = uid_proyecto;
+ DELETE from work_item_list where id_proyecto = uid_proyecto;
+ DELETE from proyecto_usuario where id_proyecto = uid_proyecto;
+ DELETE from iteracion where id_proyecto = uid_proyecto;
+ DELETE from proyecto where id_proyecto = uid_proyecto;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -44,7 +61,7 @@ CREATE TABLE `capacidad_equipo` (
 --
 
 INSERT INTO `capacidad_equipo` (`id_capacidad_equipo`, `id_proyecto`, `tiempo_perdido`, `errores_registro`, `overhead`, `productivas`, `operativos`, `humano`, `cmmi`) VALUES
-(4, 20005, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(19, 20020, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -67,9 +84,7 @@ CREATE TABLE `caso_de_uso` (
 --
 
 INSERT INTO `caso_de_uso` (`id_caso_de_uso`, `nombre_caso_de_uso`, `id_iteracion`, `epic`, `valor`, `status_caso`, `id_proyecto`) VALUES
-(40, 'diseño web', 1, 'diseño web', '1', 'Terminado', 20005),
-(41, 'cola', 1, 'cola', '1', 'Pendiente', 20005),
-(42, 'perritos', 2, 'perritos', '2', 'Pendiente', 20005);
+(54, 'CU2', 9, 'epic cdu', '3', 'Pendiente', 20020);
 
 -- --------------------------------------------------------
 
@@ -91,12 +106,7 @@ CREATE TABLE `caso_de_uso_fase_tarea` (
 --
 
 INSERT INTO `caso_de_uso_fase_tarea` (`id_caso_de_uso`, `id_fase`, `id_tarea`, `id_proyecto`, `maximo`, `airtable`) VALUES
-(40, 58001, 40034, 20005, '0.00', 1),
-(40, 58001, 40035, 20005, '14.50', 1),
-(41, 58001, 40034, 20005, '25.00', 1),
-(41, 58001, 40035, 20005, '14.50', 1),
-(42, 58001, 40034, 20005, '0.00', 1),
-(42, 58004, 40036, 20005, '12.00', 1);
+(54, 58001, 40051, 20020, '0.00', 0);
 
 -- --------------------------------------------------------
 
@@ -139,8 +149,7 @@ CREATE TABLE `iteracion` (
 --
 
 INSERT INTO `iteracion` (`id_iteracion`, `nombre_iteracion`, `id_proyecto`, `fechaInicio`, `fechaFin`) VALUES
-(1, 'IT1', 20005, '2021-04-01', '2021-04-24'),
-(2, 'IT2', 20005, '2021-03-01', '2021-04-17');
+(9, 'IT1', 20020, '2021-04-29', '2021-05-01');
 
 -- --------------------------------------------------------
 
@@ -173,7 +182,7 @@ CREATE TABLE `proyecto` (
 --
 
 INSERT INTO `proyecto` (`id_proyecto`, `nombre_proyecto`, `descripcion`, `imagen`, `fecha`, `multiplicador`) VALUES
-(20005, 'prueba', 'prueba', '2021-04-25T00-05-25.257Z-por-que-tener-una-pagina-web.png', '2021-04-25 00:05:25', NULL);
+(20020, '20020 ', 'delete proyecto ', '2021-04-29T15-02-08.989Z-cjgrovest.jpeg', '2021-04-29 15:02:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -192,7 +201,10 @@ CREATE TABLE `proyecto_usuario` (
 --
 
 INSERT INTO `proyecto_usuario` (`id_usuario`, `id_proyecto`, `tiempo_por_semana`) VALUES
-(10000, 20005, NULL);
+(10000, 20020, NULL),
+(10004, 20020, NULL),
+(10005, 20020, NULL),
+(10006, 20020, NULL);
 
 -- --------------------------------------------------------
 
@@ -248,9 +260,7 @@ CREATE TABLE `tareas` (
 --
 
 INSERT INTO `tareas` (`id_tarea`, `id_fase`, `id_proyecto`, `nombre_tarea`, `ap_1`, `ap_2`, `ap_3`, `ap_5`, `ap_8`, `ap_13`) VALUES
-(40034, 58001, 20005, 'arriba amlo', '25.00', '0.00', '0.00', '0.00', '0.00', '0.00'),
-(40035, 58001, 20005, 'mamahuevo', '14.50', '0.00', '0.00', '0.00', '0.00', '0.00'),
-(40036, 58004, 20005, 'emilio', '0.00', '12.00', '0.00', '0.00', '0.00', '0.00');
+(40051, 58001, 20020, 'practica', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00');
 
 -- --------------------------------------------------------
 
@@ -270,7 +280,12 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nombre_usuario`, `nombre`, `contraseña`) VALUES
-(10000, 'admin', 'admin', '$2a$12$CFjij1JVmD1ZAuj19KnMWuxDZvB1NClbyyD5Y50FfkHF.qA3QIhoC');
+(10000, 'admin', 'admin', '$2a$12$CFjij1JVmD1ZAuj19KnMWuxDZvB1NClbyyD5Y50FfkHF.qA3QIhoC'),
+(10002, 'diego', 'Diego', '$2a$12$bIZ9Dds2xNntfnPTM3H.nuNrCfa04papACdQb88RL8ZlK/V0K7wKe'),
+(10003, 'david', 'david', '$2a$12$voTNjKuj7scJ2STLNcPb0ex1oLhhB9geoZHPAoyOSlJHzoa95wTH.'),
+(10004, 'enrique', 'enrique', '$2a$12$eWylBbsiT8PC4tQI5yHnCOiQ/T57FuLZHeZWfpjTpy8Mf9.mL6OuO'),
+(10005, 'leo', 'leo', '$2a$12$sg241.V7o9mNyXWAmWGUre04Bj.gUPQs1T3mQ/Y/PDpFTOziIfKJe'),
+(10006, 'emilio', 'emilio', '$2a$12$vp9A1i2aIfQU52eLeHNZ1.OH2SNIzLkovB0U2QiRyBLv0KMr.jdCa');
 
 -- --------------------------------------------------------
 
@@ -288,7 +303,12 @@ CREATE TABLE `usuario_rol` (
 --
 
 INSERT INTO `usuario_rol` (`id_usuario`, `id_rol`) VALUES
-(10000, 78000);
+(10000, 78000),
+(10002, 78000),
+(10003, 78000),
+(10004, 78000),
+(10005, 78000),
+(10006, 78000);
 
 -- --------------------------------------------------------
 
@@ -415,13 +435,13 @@ ALTER TABLE `work_item_list`
 -- AUTO_INCREMENT de la tabla `capacidad_equipo`
 --
 ALTER TABLE `capacidad_equipo`
-  MODIFY `id_capacidad_equipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_capacidad_equipo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `caso_de_uso`
 --
 ALTER TABLE `caso_de_uso`
-  MODIFY `id_caso_de_uso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_caso_de_uso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT de la tabla `fase`
@@ -433,7 +453,7 @@ ALTER TABLE `fase`
 -- AUTO_INCREMENT de la tabla `iteracion`
 --
 ALTER TABLE `iteracion`
-  MODIFY `id_iteracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_iteracion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `privilegio`
@@ -445,7 +465,7 @@ ALTER TABLE `privilegio`
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `id_proyecto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20006;
+  MODIFY `id_proyecto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20022;
 
 --
 -- AUTO_INCREMENT de la tabla `roles`
@@ -457,13 +477,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT de la tabla `tareas`
 --
 ALTER TABLE `tareas`
-  MODIFY `id_tarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40037;
+  MODIFY `id_tarea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40052;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10002;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10007;
 
 --
 -- AUTO_INCREMENT de la tabla `work_item_list`

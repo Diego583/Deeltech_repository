@@ -37,7 +37,11 @@ router.post('/:id/agregar_practica', isAuth, isMiembro, proyectosController.post
 
 router.post('/:id/modificar_practica/:id_fase/:nombre_fase/:id_tarea/:nombre_tarea/', isAuth, isMiembro, proyectosController.postModificarPractica);
 
+router.post('/:id/eliminar_practica_planeacion/:id_fase/:id_tarea/:nombre_tarea/:id_caso/', isAuth, isMiembro, proyectosController.postEliminarPracticaPlaneacion);
+
 router.post('/:id/eliminar_practica/:id_fase/:id_tarea/:nombre_tarea/', isAuth, isMiembro, proyectosController.postEliminarPractica);
+
+router.post('/:id/modificar_proyecto/:nombre/:desc/:users/', isAuth, isMiembro, proyectosController.postModificarProyecto);
 
 router.get('/:id/capacidad_de_equipo', isAuth, isMiembro, proyectosController.getCapacidadEquipo);
 
@@ -62,6 +66,10 @@ router.post('/:id/incomingTareaCasoUso', isAuth, isMiembro, proyectosController.
 router.post('/:id/addTareaCasoUso', isAuth, isMiembro, proyectosController.postAddTareaCasoUso);
 
 router.post('/nuevo_proyecto', isAuth, isMiembro, proyectosController.postNuevoProyecto);
+
+router.post('/:id/eliminar_proyecto/', isAuth, isMiembro, proyectosController.postEliminarProyecto);
+
+router.post('/:id/incomingUsuarios', isAuth, isMiembro, proyectosController.postIncomingUsuarios);
 
 router.get('/', isAuth, proyectosController.get);
 

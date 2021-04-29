@@ -1,24 +1,43 @@
-function buscar() {
-    const valor_busqueda = document.getElementById('buscar').value;
-    //El token de protección CSRF
-    const csrf = document.getElementById('_csrf').value;
+function modificar_proyecto(id_proyecto, nombre_proyecto, descripcion) {
 
-    let data = {valor_busqueda: valor_busqueda};
-    //console.log(valor_busqueda);
-    //función que manda la petición asíncrona
-    fetch('/proyectos/buscar', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'csrf-token': csrf,
-            'Content-Type': 'application/json'
-          },
-    }).then(result => {
-        return result.json(); //Regresa otra promesa
-    }).then(data => {
-        //Modificamos el DOM de nuestra página de acuerdo a los datos de la segunda promesa
-        //console.log(data);
-        let html = '';
+	const mod_nombre_proyecto = document.getElementById('mod_nombre_proyecto'+id_proyecto);
+	mod_nombre_proyecto.setAttribute('value', nombre_proyecto);
+	const mod_descripcion = document.getElementById('mod_descripcion'+id_proyecto);
+	mod_descripcion.setAttribute('value', descripcion);
+    
+	const modError = document.getElementById('modError'+id_proyecto);
+	const csrf = document.getElementById('_csrf').value;
+	const mod_ingresar = document.getElementById('mod_ingresar'+id_proyecto);
+
+	mod_ingresar.onclick = () => {
+        const selectUsuarios = document.getElementById('s'+id_proyecto);
+        const vec_u = [];
+        for(let i = 0; i < selectUsuarios.length; i++){
+            if(selectUsuarios.options[i].selected){
+                vec_u.push(selectUsuarios.options[i].value);
+            }
+        }   
+        let s_img;
+		if (mod_nombre_proyecto.value.length < 1 || mod_descripcion.value.length < 1) {
+			let html = '<strong>Llena los campos.</strong>'
+			modError.innerHTML = html;
+		} else {
+			let data = {id_proyecto: id_proyecto, nombre_proyecto: mod_nombre_proyecto.value, 
+            descripcion: mod_descripcion.value, usuarios: vec_u};
+	    
+		    fetch('/proyectos/' + id_proyecto + '/modificar_proyecto' + '/' + 
+                mod_nombre_proyecto.value + '/' + mod_descripcion.value + '/' + 
+		    	vec_u + '/', {
+		        method: 'POST',
+		        body: JSON.stringify(data),
+		        headers: {
+		            'csrf-token': csrf,
+		            'Content-Type': 'application/json'
+		        },
+		    }).then(result => {
+		        return result.json(); 
+		    }).then(data => { 
+			    let html = '';
         for (let proyecto of data) {
           html += '<div class="col-sm-12 col-md-6 col-lg-4">' + 
                     '<div><br></div>' + 
@@ -55,9 +74,11 @@ function buscar() {
                   '<div class="modal-footer"><button id="mod_ingresar' + proyecto.id_proyecto + '" type="button" class="btn btn-success">Guardar cambios</button></div>'+
                   '</div></div></div></div>';
         }
+        $('#mod' + id_proyecto).modal('hide');
         document.getElementById("resultados").innerHTML = html;
-
-    }).catch(err => {
-        console.error(err);
-    });
+	    	}).catch(err => {
+	        	console.error(err);
+	    	});
+		}
+	}
 }

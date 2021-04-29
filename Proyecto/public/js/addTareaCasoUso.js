@@ -51,6 +51,8 @@ function addTareaCasoUso(caso_id, proyecto_id, valor) {
                         '<td>'+ tarea.nombre_tarea +'</td>' + 
                         '<td>'+ tarea.nombre_fase +'</td>' + 
                         '<td>'+ tarea.maximo +'</td>' + 
+                        '<td class = "text-center">' + '<a onMouseover=' + "this.style.cursor='pointer'" + ' role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_practica('+ "'" + id_proyecto + "'" + ',' + "'" + tarea.id_fase + "'" + ',' + "'" + tarea.id_tarea + "'" + ',' + "'" + tarea.nombre_tarea + "'" + ',' + "'" + tarea.id_caso_de_uso + "'" + ')">' + 
+                        '<i data-toggle="modal" data-target="#confirmDelete"' + " onMouseover=" + "this.style.color='red'" + " onMouseout=" + "this.style.color='black'" + ' class="fas fa-trash-alt"></i>' + " </a></td>" +
                     '</tr>';
             count++;
 

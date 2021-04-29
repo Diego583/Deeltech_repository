@@ -381,9 +381,76 @@ exports.postModificarPractica = (request, response, next) => {
     });
 }
 
+exports.postEliminarProyecto = (request, response, next) => {
+    request.session.error = "";
+
+    Proyecto.deleteProyecto(request.params.id)
+    .then(() => {
+         Proyecto.fetchProyectosUsuario(request.session.usuario)
+        .then(([rows, fieldData]) => {
+            request.flash('success','Proyecto eliminado correctamente.');
+            response.status(200).json(rows)})
+    }).catch(err => {
+        console.log(err);
+    });
+}
+
+exports.postModificarProyecto = (request, response, next) => {
+    request.session.error = "";
+    const id_proyecto = request.params.id;
+    const users = request.params.users;
+
+    Proyecto.deleteProyectoUsuario(id_proyecto)
+    .then(() => { 
+        let u = '', count = 0;
+        for(let user of users) {
+            count++;
+            if (user== ','){
+                Proyecto.modProyectoUsuario(id_proyecto, u)
+                .catch(err => {
+                    console.log(err);
+                });
+                u = '';
+            } else {
+                u += user;
+            }
+        }
+        Proyecto.modProyectoUsuario(id_proyecto, u)
+        .catch(err => {
+            console.log(err);
+        });
+    }).then(() => { 
+        Proyecto.modProyecto(id_proyecto, request.params.nombre, request.params.desc)
+        .then(() => {
+            Proyecto.fetchProyectosUsuario(request.session.usuario)
+           .then(([rows, fieldData]) => {
+               request.flash('success','Proyecto modificado correctamente.');
+               response.status(200).json(rows)})
+       }).catch(err => {
+           console.log(err);
+       });
+    }).catch(err => {
+        console.log(err);
+    });
+    
+    /*Proyecto.deletePracticaCFT(request.params.id, request.params.id_fase, request.params.id_tarea);
+    Proyecto.deletePractica(request.params.id, request.params.id_fase, request.params.id_tarea);
+    Proyecto.fetchPromedioWbs(request.params.id)
+        .then(([rows, fieldData]) => {
+            //console.log(rows);
+            request.flash('success','Practica Eliminada exitosamente.');
+            response.status(200).json(rows);
+
+        })
+        .catch(err => {
+            console.log(err);
+        });*/
+}
+
 exports.postEliminarPractica = (request, response, next) => {
     request.session.error = "";
 
+    Proyecto.deletePracticaCFT(request.params.id, request.params.id_fase, request.params.id_tarea);
     Proyecto.deletePractica(request.params.id, request.params.id_fase, request.params.id_tarea);
     Proyecto.fetchPromedioWbs(request.params.id)
         .then(([rows, fieldData]) => {
@@ -395,6 +462,20 @@ exports.postEliminarPractica = (request, response, next) => {
         .catch(err => {
             console.log(err);
         });
+}
+
+exports.postEliminarPracticaPlaneacion = (request, response, next) => {
+    request.session.error = "";
+
+    Proyecto.deletePracticaCFTplaneacion(request.params.id, request.params.id_fase, request.params.id_tarea, request.params.id_caso)
+    .then(() => {
+        Proyecto.fetchTareasByCasoUso(request.params.id, request.params.id_caso)
+        .then(([rows, fieldData]) => {
+        console.log(rows);
+        return response.status(200).json(rows)});
+    }).catch(err => {
+        console.log(err);
+    });
 }
 
 exports.getCapacidadEquipo = (request, response, next) => {
@@ -564,6 +645,7 @@ exports.postEliminarCaso = (request, response, next) => {
     const id_proyecto = request.params.id;
     const id_caso = request.params.id_caso;
 
+    Proyecto.deleteCasoDeUsoFaseTarea(id_proyecto, id_caso);
     Proyecto.deleteCasoDeUso(id_proyecto, id_caso);
     Proyecto.fetchCasosDeUso(request.params.id)
         .then(([rows, fieldData]) => {
@@ -582,6 +664,20 @@ exports.postIncomingTareaCasoUso = (request, response, next) => {
     const id = request.body.id;
 
     Proyecto.incomingTareasCasoUso(id, request.params.id)
+        .then(([rows, fieldData]) => {
+            //console.log(rows);
+            response.status(200).json(rows);
+
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+}
+
+exports.postIncomingUsuarios = (request, response, next) => {
+
+    Proyecto.incomingUsuarios(request.params.id)
         .then(([rows, fieldData]) => {
             //console.log(rows);
             response.status(200).json(rows);

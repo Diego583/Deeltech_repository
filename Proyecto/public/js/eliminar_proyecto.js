@@ -1,24 +1,24 @@
-function buscar() {
-    const valor_busqueda = document.getElementById('buscar').value;
-    //El token de protección CSRF
-    const csrf = document.getElementById('_csrf').value;
+function eliminar_proyecto(id_proyecto, nombre_proyecto) {
 
-    let data = {valor_busqueda: valor_busqueda};
-    //console.log(valor_busqueda);
-    //función que manda la petición asíncrona
-    fetch('/proyectos/buscar', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'csrf-token': csrf,
-            'Content-Type': 'application/json'
-          },
-    }).then(result => {
-        return result.json(); //Regresa otra promesa
-    }).then(data => {
-        //Modificamos el DOM de nuestra página de acuerdo a los datos de la segunda promesa
-        //console.log(data);
-        let html = '';
+	document.getElementById('delProyecto').innerHTML = nombre_proyecto;
+
+	const csrf = document.getElementById('_csrf').value;
+	const deleteButton = document.getElementById('delete');
+
+	deleteButton.onclick = () => {
+		let data = {id_proyecto: id_proyecto, nombre_proyecto: nombre_proyecto};
+	    
+	    fetch('/proyectos/' + id_proyecto + '/eliminar_proyecto' + '/', {
+	        method: 'POST',
+	        body: JSON.stringify(data),
+	        headers: {
+	            'csrf-token': csrf,
+	            'Content-Type': 'application/json'
+	        },
+	    }).then(result => {
+	        return result.json(); 
+	    }).then(data => { 
+		    let html = '';
         for (let proyecto of data) {
           html += '<div class="col-sm-12 col-md-6 col-lg-4">' + 
                     '<div><br></div>' + 
@@ -55,9 +55,10 @@ function buscar() {
                   '<div class="modal-footer"><button id="mod_ingresar' + proyecto.id_proyecto + '" type="button" class="btn btn-success">Guardar cambios</button></div>'+
                   '</div></div></div></div>';
         }
-        document.getElementById("resultados").innerHTML = html;
-
-    }).catch(err => {
-        console.error(err);
-    });
+            $('#eliminarProyecto').modal('hide');
+            document.getElementById("resultados").innerHTML = html;
+    	}).catch(err => {
+        	console.error(err);
+    	});
+	}
 }
