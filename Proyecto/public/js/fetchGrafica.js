@@ -43,6 +43,7 @@ function totalCasesChart(ctx, data) {
             ]
         },
         options: {
+            maintainAspectRatio: false,
             plugins: {
                 title: {
                     display: true,
@@ -99,7 +100,7 @@ function fetchGrafica(proyecto_id) {
 
         let html = '';
 
-        html+= '<div class="chart-container" style="position: relative; height: 50%; width: 100%">'+ 
+        html+= '<div class="chart-container">'+ 
                     '<canvas id="chart"></canvas>'+ 
                 '</div>';
 

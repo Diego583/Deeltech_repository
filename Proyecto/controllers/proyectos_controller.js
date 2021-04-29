@@ -35,7 +35,7 @@ exports.postReportes = (request, response, next) => {
     /*console.log(fechaInicio);
     console.log(fechaFin);*/
 
-    const dias = Math.round((fechaFin - fechaInicio)/(1000 * 3600 *24));
+    const dias = Math.round(((fechaFin - fechaInicio)/(1000 * 3600 *24))+1);
     console.log(dias);
 
     //SACAR REGISTROS DE AIRTABLE
@@ -148,7 +148,7 @@ exports.postSendAirtable = (request, response, next) => {
         let arrTareas = [];
         for(let tareas of rows){
             console.log(parseInt(id_proyecto, 10));
-            let Name = tareas.nombre_iteracion + '-' + tareas.id_caso_de_uso + ' - ' + tareas.nombre_caso_de_uso + ' - ' + tareas.nombre_tarea + ' (' + tareas.nombre_fase + ')';
+            let Name = tareas.nombre_iteracion + ' - ' + tareas.nombre_caso_de_uso + ' - ' + tareas.nombre_tarea + ' (' + tareas.nombre_fase + ')';
             let tarea = {Name: Name, Status: 'To Do', Estimation: parseFloat(tareas.maximo), id_proyecto: parseInt(id_proyecto, 10), Iterations: tareas.nombre_iteracion};
             arrTareas.push(tarea);
             Proyecto.setAirtableTarea(tareas.id_caso_de_uso, tareas.id_fase, tareas.id_tarea, id_proyecto);
@@ -832,7 +832,7 @@ exports.postModificarCaso = (request, response, next) => {
     const epic = request.params.epic;
     const valor = request.params.valor;
 
-    Proyecto.updateCasoDeUso(request.params.id, request.params.id_caso, nombre_caso, iteracion, epic, valor)
+    Proyecto.updateCasoDeUso(request.params.id, request.params.id_caso, nombre_caso, iteracion, epic, valor);
     Proyecto.fetchCasosDeUso(request.params.id)
     .then(([rows, fieldData]) => {
         request.flash('success','Caso de uso modificado exitosamente.');

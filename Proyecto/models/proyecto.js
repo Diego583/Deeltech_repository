@@ -37,7 +37,7 @@ module.exports = class Proyecto{
     }
 
     static fetchCasosDeUso(id_proyecto){
-        return db.execute('SELECT * FROM caso_de_uso as cdu, iteracion as i WHERE i.id_iteracion=cdu.id_iteracion and i.id_proyecto = ?',[id_proyecto]);
+        return db.execute('SELECT * FROM caso_de_uso as cdu, iteracion as i WHERE i.id_iteracion=cdu.id_iteracion and i.id_proyecto = ? ORDER BY i.id_iteracion DESC',[id_proyecto]);
     }
 
     static updateStatusCaso(status, id_caso, id_proyecto){
@@ -211,7 +211,7 @@ module.exports = class Proyecto{
     }
 
     static getTareasForAirtable(id_proyecto){ //Se muestran el multiplicador 
-        return db.execute('SELECT it.nombre_iteracion, CU.id_caso_de_uso, CU.nombre_caso_de_uso, T.id_tarea, T.nombre_tarea, F.id_fase, F.nombre_fase, X.maximo, X.airtable FROM iteracion as it, caso_de_uso as CU, tareas as T, fase as F, caso_de_uso_fase_tarea as X WHERE X.id_proyecto = ? AND X.airtable = 0 AND CU.id_caso_de_uso = X.id_caso_de_uso AND T.id_tarea = X.id_tarea AND F.id_fase = X.id_fase and it.id_proyecto=cu.id_proyecto',
+        return db.execute('SELECT caso_de_uso.id_caso_de_uso, caso_de_uso.nombre_caso_de_uso, tareas.nombre_tarea, fase.nombre_fase, caso_de_uso_fase_tarea.maximo, fase.id_fase, tareas.id_tarea, iteracion.nombre_iteracion FROM caso_de_uso_fase_tarea, caso_de_uso, fase, tareas, proyecto, iteracion WHERE caso_de_uso_fase_tarea.id_proyecto = proyecto.id_proyecto AND caso_de_uso_fase_tarea.id_fase = fase.id_fase AND caso_de_uso_fase_tarea.id_tarea = tareas.id_tarea AND caso_de_uso_fase_tarea.id_caso_de_uso = caso_de_uso.id_caso_de_uso AND proyecto.id_proyecto = ? and iteracion.id_iteracion=caso_de_uso.id_iteracion',
         [id_proyecto]);
     }
 

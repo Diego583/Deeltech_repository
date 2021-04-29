@@ -234,12 +234,11 @@
                                 <div class="mb-3" id="modError" style="color: red"></div>
                                 <div class="mb-3">
                                     <div><p class="form-label text-success"><strong>Caso de Uso:</strong></p></div>
-                                    <input type="text" class="form-control" id="mod_nombre_caso" name="mod_nombre_caso" placeholder="nuevo nombre">
+                                    <input type="text" class="form-control" id="mod_nombre_caso" name="mod_nombre_caso" required>
                                 </div>                                
                                 <div class="mb-3">
                                     <label for="iteracion" class="form-label text-success"><strong>Iteración:</strong></label>
-                                    <select class="form-control" id="mod_iteracion" name="mod_iteracion">
-                                        <option selected>Nueva Iteración...</option>
+                                    <select class="form-control" id="mod_iteracion" name="mod_iteracion" required>
                                         <% for (let iteracion of iteraciones) { %>
                                             <option value="<%= iteracion.id_iteracion  %>"> <%= iteracion.nombre_iteracion %> </option> 
                                         <% } %>
@@ -247,11 +246,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <div><p class="form-label text-success"><strong>Epic:</strong></p></div>
-                                    <input type="text" class="form-control" id="mod_epic" name="mod_epic" placeholder="nuevo epic">
+                                    <input type="text" class="form-control" id="mod_epic" name="mod_epic" required>
                                 </div>
                                 <div class="mb-3">
                                     <div><p class="form-label text-success"><strong>AP:</strong></p></div>
-                                    <select class="form-control" id="mod_ap" name="mod_ap" placeholder="Nuevo valor AP ...">
+                                    <select class="form-control" id="mod_ap" name="mod_ap" required>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>

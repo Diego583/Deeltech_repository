@@ -33,3 +33,14 @@
 #myBtn:hover {
   background-color: #555;
 }
+
+canvas {
+  border: 2px solid green;
+}
+
+.chart-container {
+  position: relative;
+  margin: auto;
+  height: 80vh;
+  width: 56vw;
+}
