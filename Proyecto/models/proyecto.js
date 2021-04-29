@@ -94,9 +94,24 @@ module.exports = class Proyecto{
             [nuevoNombre, iteracion, epic, valor, idProyecto, idCaso]);
     }
 
+    static deleteCasoDeUsoFaseTarea(id_proyecto, id_caso){
+        return db.execute('DELETE FROM caso_de_uso_fase_tarea WHERE id_proyecto = ? AND id_caso_de_uso = ?',
+        [id_proyecto, id_caso]);
+    }
+
     static deleteCasoDeUso(id_proyecto, id_caso){
         return db.execute('DELETE FROM caso_de_uso WHERE id_proyecto = ? AND id_caso_de_uso = ?',
         [id_proyecto, id_caso]);
+    }
+
+    static deleteProyecto(id_proyecto){
+        return db.execute('CALL `deleteProyecto`(?)',
+        [id_proyecto]);
+    }
+
+    static incomingUsuarios(id_proyecto){
+        return db.execute('SELECT U.id_usuario, nombre_usuario, id_proyecto FROM usuario U, proyecto_usuario P WHERE U.id_usuario = P.id_usuario',
+        [id_proyecto]);
     }
 
     saveCapacidad_Equipo(nombre_proyecto, descripcion){
@@ -107,6 +122,31 @@ module.exports = class Proyecto{
     static modTarea(idProyecto, idFase, nombreFase, idTarea, nombreTarea){
         return db.execute('UPDATE tareas SET nombre_tarea = ?, id_fase = (SELECT id_fase FROM fase WHERE nombre_fase = ?) WHERE id_proyecto = ? AND id_fase = ? AND id_tarea = ?',
             [nombreTarea, nombreFase, idProyecto, idFase, idTarea]);
+    }
+
+    static modProyectoUsuario(idProyecto, id_usuario){
+        return db.execute('INSERT INTO proyecto_usuario (id_usuario, id_proyecto) VALUES ((SELECT id_usuario from usuario where id_usuario = ?), (SELECT id_proyecto from proyecto where id_proyecto = ?))',
+            [id_usuario, idProyecto]);
+    }
+
+    static modProyecto(idProyecto, nombre_proyecto, descripcion){
+        return db.execute('UPDATE proyecto SET nombre_proyecto = ?, descripcion = ? WHERE id_proyecto = ?',
+            [nombre_proyecto, descripcion, idProyecto]);
+    }
+
+    static deleteProyectoUsuario(id_proyecto){
+        return db.execute('DELETE FROM proyecto_usuario WHERE id_proyecto = ?',
+            [id_proyecto]);
+    }
+
+    static deletePracticaCFT(id_proyecto, id_fase, id_tarea){
+        return db.execute('DELETE FROM caso_de_uso_fase_tarea WHERE id_proyecto = ? AND id_fase = ? AND id_tarea = ?',
+            [id_proyecto, id_fase, id_tarea]);
+    }
+
+    static deletePracticaCFTplaneacion(id_proyecto, id_fase, id_tarea, id_caso){
+        return db.execute('DELETE FROM caso_de_uso_fase_tarea WHERE id_proyecto = ? AND id_fase = ? AND id_tarea = ? AND id_caso_de_uso = ?',
+            [id_proyecto, id_fase, id_tarea, id_caso]);
     }
 
     static deletePractica(id_proyecto, id_fase, id_tarea){
@@ -121,7 +161,7 @@ module.exports = class Proyecto{
     }
 
     static fetchCasosDeUsoFaseTarea(id_proyecto){ //Se muestran los casos de uso fase tareas por nombre
-        return db.execute('SELECT caso_de_uso.id_caso_de_uso, caso_de_uso.nombre_caso_de_uso, fase.nombre_fase, tareas.nombre_tarea, caso_de_uso_fase_tarea.maximo FROM caso_de_uso_fase_tarea, caso_de_uso, fase, tareas, proyecto WHERE caso_de_uso_fase_tarea.id_proyecto = proyecto.id_proyecto AND caso_de_uso_fase_tarea.id_fase = fase.id_fase AND caso_de_uso_fase_tarea.id_tarea = tareas.id_tarea AND caso_de_uso_fase_tarea.id_caso_de_uso = caso_de_uso.id_caso_de_uso AND proyecto.id_proyecto = ?',
+        return db.execute('SELECT caso_de_uso.id_caso_de_uso, caso_de_uso.nombre_caso_de_uso, fase.id_fase, fase.nombre_fase, tareas.id_tarea, tareas.nombre_tarea, caso_de_uso_fase_tarea.maximo FROM caso_de_uso_fase_tarea, caso_de_uso, fase, tareas, proyecto WHERE caso_de_uso_fase_tarea.id_proyecto = proyecto.id_proyecto AND caso_de_uso_fase_tarea.id_fase = fase.id_fase AND caso_de_uso_fase_tarea.id_tarea = tareas.id_tarea AND caso_de_uso_fase_tarea.id_caso_de_uso = caso_de_uso.id_caso_de_uso AND proyecto.id_proyecto = ?',
         [id_proyecto]);
     }
 
@@ -141,7 +181,7 @@ module.exports = class Proyecto{
     }
 
     static fetchTareasByCasoUso(id_proyecto, id_caso_de_uso){ //Se muestran los casos de uso fase tareas por nombre
-        return db.execute('SELECT tareas.nombre_tarea, fase.nombre_fase, caso_de_uso_fase_tarea.maximo FROM caso_de_uso_fase_tarea, caso_de_uso, fase, tareas, proyecto WHERE caso_de_uso_fase_tarea.id_proyecto = proyecto.id_proyecto AND caso_de_uso_fase_tarea.id_fase = fase.id_fase AND caso_de_uso_fase_tarea.id_tarea = tareas.id_tarea AND caso_de_uso_fase_tarea.id_caso_de_uso = caso_de_uso.id_caso_de_uso AND proyecto.id_proyecto = ? AND caso_de_uso.id_caso_de_uso = ?',
+        return db.execute('SELECT caso_de_uso.id_caso_de_uso, tareas.id_tarea, tareas.nombre_tarea, fase.id_fase, fase.nombre_fase, caso_de_uso_fase_tarea.maximo FROM caso_de_uso_fase_tarea, caso_de_uso, fase, tareas, proyecto WHERE caso_de_uso_fase_tarea.id_proyecto = proyecto.id_proyecto AND caso_de_uso_fase_tarea.id_fase = fase.id_fase AND caso_de_uso_fase_tarea.id_tarea = tareas.id_tarea AND caso_de_uso_fase_tarea.id_caso_de_uso = caso_de_uso.id_caso_de_uso AND proyecto.id_proyecto = ? AND caso_de_uso.id_caso_de_uso = ?',
         [id_proyecto, id_caso_de_uso]);
     }
 
