@@ -31,17 +31,17 @@
             <div class="card bg-dark border-secondary" style="height: 30rem; width: 20rem;">
                 <img src="<%= proyecto.imagen %>" class="card-img-top" alt="<%= proyecto.imagen %>" id = "imgauxiliar">
                 <div class="card-body">
-                    <h5 class="card-title text-success"><%= proyecto.nombre_proyecto %></h5>
+                    <h5 class="card-title text-success" id = "scrollt"><%= proyecto.nombre_proyecto %></h5>
                     <p class="card-text" id = "scroll"><%= proyecto.descripcion %></p>
                     <div>
-                        <a href="/proyectos/<%= proyecto.id_proyecto %>/reportes" class="btn btn-secondary">Ir a proyecto</a>
+                        <a href="/proyectos/<%= proyecto.id_proyecto %>/reportes" class="btn btn-success">Ir a proyecto</a>
                         &nbsp&nbsp
                         <a onMouseover="this.style.cursor='pointer'" role="button" title="Modificar" data-toggle="tooltip" data-placement="top" onclick="incomingUsuarios('<%= proyecto.id_proyecto %>'), modificar_proyecto('<%= proyecto.id_proyecto %>', '<%= proyecto.nombre_proyecto %>', '<%= proyecto.descripcion %>')">
-                            <i style="color: white;" data-toggle="modal" data-target="#mod<%= proyecto.id_proyecto %>" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
+                            <i style="color: white;" data-toggle="modal" data-target="#mod<%= proyecto.id_proyecto %>" onMouseover="this.style.color='#3dc8f2'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
                         </a>
                         &nbsp
                         <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_proyecto('<%= proyecto.id_proyecto %>', '<%= proyecto.nombre_proyecto %>')">
-                            <i style="color: white;" data-toggle="modal" data-target="#eliminarProyecto" onMouseover="this.style.color='red'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
+                            <i style="color: white;" data-toggle="modal" data-target="#eliminarProyecto" onMouseover="this.style.color='#ff425f'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
                         </a>     
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                             <label for="mod_descripcion<%= proyecto.id_proyecto %>" class="form-label text-success">Descripción:</label>
                             <input type="text" class="form-control" id="mod_descripcion<%= proyecto.id_proyecto %>" name="mod_descripcion">          
                         </div>
-                        <label class="form-label text-success" for="users<%= proyecto.id_proyecto %>">Usuarios:</label>
+                        <label class="form-label text-success" for="users<%= proyecto.id_proyecto %>">Involucrados:</label>
                         <div class="mb-3" id="iusuarios<%= proyecto.id_proyecto %>""></div>
                         <div class="modal-footer">
                             <button id="mod_ingresar<%= proyecto.id_proyecto %>" type="button" class="btn btn-success">Guardar cambios</button>

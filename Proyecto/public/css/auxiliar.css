@@ -8,3 +8,8 @@
     height: 150px;
     overflow-y: auto;
 }
+
+#scrollt {
+    height: 43px;
+    overflow-y: auto;
+}

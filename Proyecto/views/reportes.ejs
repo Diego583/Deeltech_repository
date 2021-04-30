@@ -37,7 +37,7 @@
             <div class="mb-3">
                 <label for="rol" class="form-label text-success">Selecciona una iteracion</label>
                 <select class="form-control" id="IT" name="IT" onchange="fetchGrafica('<%= id %>')">
-                    <option selected>Choose...</option>
+                    <option selected>Iteración...</option>
                     <% for (let iteracion of iteraciones) { %>
                         <option value="<%= iteracion.id_iteracion  %>"> <%= iteracion.nombre_iteracion %> </option> 
                     <% } %>

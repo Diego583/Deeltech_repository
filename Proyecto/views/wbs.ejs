@@ -21,7 +21,7 @@
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item">
                             <a type="button" class="nav-link text-white" data-toggle="modal" data-target="#AgregarPractica">
-                                Agregar Practica
+                                Agregar Práctica
                             </a>
                         </li>
                     </ul>
@@ -33,7 +33,7 @@
             <div class="modal-dialog">
                 <div class="modal-content bg-dark text-white">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="AgregarPracticaLabel">Agregar Practica</h5>
+                        <h5 class="modal-title" id="AgregarPracticaLabel">Agregar Práctica</h5>
                         <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -43,13 +43,13 @@
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>" >
                             <div class="mb-3" id="addError" name="addError" style="color: red"></div>
                             <div class="mb-3">
-                                <label for="nombre" class="form-label text-success">Nombre de Practica de trabajo:</label>
+                                <label for="nombre" class="form-label text-success">Nombre de Práctica de trabajo:</label>
                                 <input type="text" class="form-control" id="nombrePractica" name="nombrePractica">
                             </div>
                             <div class="mb-3">
                                 <label for="fase" class="form-label text-success">Fase:</label>
                                 <select class="form-control" id="fase" name="fase" >
-                                    <option selected class="font-weight-bold"> Choose... </option>
+                                    <option selected class="font-weight-bold"> Seleccionar fase... </option>
                                 <% for (let fase of fases) { %>
                                     <option value="<%= fase.id_fase%>"> <%= fase.nombre_fase %> </option>
                                 <% } %>
@@ -89,7 +89,7 @@
                 <thead class="thead-success">
                     <tr>
                         <th class = "text-center" scope="col">Fase</th>
-                        <th class = "text-center" scope="col">Practica de trabajo</th>
+                        <th class = "text-center" scope="col">Práctica de trabajo</th>
                         <th class = "text-center" scope="col">&nbsp</th>
                         <th class = "text-center" scope="col">AP 1</th>
                         <th class = "text-center" scope="col">AP 2</th>
@@ -104,7 +104,7 @@
 
 
                     <%if(tareasAnalisis.length < 1){%>
-                        <th rowspan="2" class = "text-center">Analisis</th>  <!-- rowspan = N + 1  -->
+                        <th rowspan="2" class = "text-center">Análisis</th>  <!-- rowspan = N + 1  -->
                     
                         <tr>
 
@@ -127,7 +127,7 @@
 
                     else{ %>
 
-                        <th rowspan="<%= nA %>" class = "text-center">Analisis</th>  <!-- rowspan = N + 1  -->
+                        <th rowspan="<%= nA %>" class = "text-center">Análisis</th>  <!-- rowspan = N + 1  -->
 
                         <% for (let tareasA of tareasAnalisis) { %>
                             <tr>
@@ -138,10 +138,10 @@
 
                                 <td class="text-center" style="width: 5rem;">
                                     <a onMouseover="this.style.cursor='pointer'" role="button" title="Modificar" data-toggle="tooltip" data-placement="top" onclick="modificar_practica('<%=id%>', '<%=tareasA.id_fase%>', '<%=tareasA.nombre_fase%>', '<%=tareasA.id_tarea%>', '<%=tareasA.nombre_tarea%>')">
-                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
+                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='#3dc8f2'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
                                     </a>&nbsp
                                     <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_practica('<%=id%>', '<%=tareasA.id_fase%>', '<%=tareasA.id_tarea%>', '<%=tareasA.nombre_tarea%>')">
-                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='red'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
+                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='#ff425f'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
     
@@ -196,11 +196,11 @@
 
                                 <td class="text-center"  style="width: 5rem;">
                                     <a onMouseover="this.style.cursor='pointer'" role="button" title="Modificar" data-toggle="tooltip" data-placement="top" onclick="modificar_practica('<%=id%>', '<%=tareasD.id_fase%>', '<%=tareasD.nombre_fase%>', '<%=tareasD.id_tarea%>', '<%=tareasD.nombre_tarea%>')">
-                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
+                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='#3dc8f2'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
                                     </a>
                                     &nbsp
                                     <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_practica('<%=id%>', '<%=tareasD.id_fase%>', '<%=tareasD.id_tarea%>', '<%=tareasD.nombre_tarea%>')">
-                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='red'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
+                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='#ff425f'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
                                     </a>                                    
                                 </td>
     
@@ -221,7 +221,7 @@
                     <% } %>   
 
                     <%if(tareasImplementacion.length < 1){%>
-                        <th rowspan="2" class = "text-center">Implementacion</th>  <!-- rowspan = N + 1  -->
+                        <th rowspan="2" class = "text-center">Implementación</th>  <!-- rowspan = N + 1  -->
                     
                         <tr>
 
@@ -243,7 +243,7 @@
                     <% }
                     else{ %>
 
-                        <th rowspan="<%= nI %>" class = "text-center">Implementacion</th>  
+                        <th rowspan="<%= nI %>" class = "text-center">Implementación</th>  
                         <% for (let tareasI of tareasImplementacion) { %>
                             <tr>
                                 
@@ -252,11 +252,11 @@
 
                                 <td class="text-center"  style="width: 5rem;">
                                     <a onMouseover="this.style.cursor='pointer'" role="button" title="Modificar" data-toggle="tooltip" data-placement="top" onclick="modificar_practica('<%=id%>', '<%=tareasI.id_fase%>', '<%=tareasI.nombre_fase%>', '<%=tareasI.id_tarea%>', '<%=tareasI.nombre_tarea%>')">
-                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
+                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='#3dc8f2'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
                                     </a>
                                     &nbsp
                                     <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_practica('<%=id%>', '<%=tareasI.id_fase%>', '<%=tareasI.id_tarea%>', '<%=tareasI.nombre_tarea%>')">
-                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='red'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
+                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='#ff425f'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
                                     </a>          
                                 </td>
     
@@ -309,11 +309,11 @@
 
                                 <td class="text-center"  style="width: 5rem;">
                                     <a onMouseover="this.style.cursor='pointer'" role="button" title="Modificar" data-toggle="tooltip" data-placement="top" onclick="modificar_practica('<%=id%>', '<%=tareasP.id_fase%>', '<%=tareasP.nombre_fase%>', '<%=tareasP.id_tarea%>', '<%=tareasP.nombre_tarea%>')">
-                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
+                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='#3dc8f2'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
                                     </a>
                                     &nbsp
                                     <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_practica('<%=id%>', '<%=tareasP.id_fase%>', '<%=tareasP.id_tarea%>', '<%=tareasP.nombre_tarea%>')">
-                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='red'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
+                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='#ff425f'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
                                     </a>          
                                 </td>
     
@@ -366,11 +366,11 @@
 
                                 <td class="text-center"  style="width: 5rem;">
                                     <a onMouseover="this.style.cursor='pointer'" role="button" title="Modificar" data-toggle="tooltip" data-placement="top" onclick="modificar_practica('<%=id%>', '<%=tareasDes.id_fase%>', '<%=tareasDes.nombre_fase%>', '<%=tareasDes.id_tarea%>', '<%=tareasDes.nombre_tarea%>')">
-                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='blue'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
+                                        <i data-toggle="modal" data-target="#modificarPractica" onMouseover="this.style.color='#3dc8f2'" onMouseout="this.style.color='white'" class="fas fa-edit "></i>
                                     </a>
                                     &nbsp
                                     <a onMouseover="this.style.cursor='pointer'" role="button" title="Eliminar" data-toggle="tooltip" data-placement="top" onclick="eliminar_practica('<%=id%>', '<%=tareasDes.id_fase%>', '<%=tareasDes.id_tarea%>', '<%=tareasDes.nombre_tarea%>')">
-                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='red'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
+                                        <i data-toggle="modal" data-target="#eliminarPractica" onMouseover="this.style.color='#ff425f'" onMouseout="this.style.color='white'" class="fas fa-trash-alt"></i>
                                     </a>      
                                 </td>
     
