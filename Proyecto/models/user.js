@@ -56,7 +56,7 @@ module.exports = class User{
     }
 
     static fetchUsers_Proyects(id_proyecto){
-        return db.execute('SELECT us.id_usuario, us.nombre_usuario, pu.tiempo_por_semana FROM `proyecto_usuario` as pu, usuario as us WHERE us.id_usuario=pu.id_usuario and id_proyecto=? and us.id_usuario in (select id_usuario as miembro from usuario_rol where id_rol!=7002)', [id_proyecto]);
+        return db.execute('SELECT us.id_usuario, us.nombre_usuario, pu.tiempo_por_semana FROM `proyecto_usuario` as pu, usuario as us WHERE us.id_usuario=pu.id_usuario and id_proyecto=? and us.id_usuario in (select id_usuario as miembro from usuario_rol where id_rol!=78001)', [id_proyecto]);
     }
 
     static fetchSuma_Horas(id_proyecto){
