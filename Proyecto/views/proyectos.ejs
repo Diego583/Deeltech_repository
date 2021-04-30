@@ -69,9 +69,8 @@
                             <label for="mod_descripcion<%= proyecto.id_proyecto %>" class="form-label text-success">Descripción:</label>
                             <input type="text" class="form-control" id="mod_descripcion<%= proyecto.id_proyecto %>" name="mod_descripcion">          
                         </div>
-                        <label class="form-label text-success">Usuarios:</label>
-                        <div class="mb-3" id="iusuarios<%= proyecto.id_proyecto %>">
-                        </div>
+                        <label class="form-label text-success" for="users<%= proyecto.id_proyecto %>">Usuarios:</label>
+                        <div class="mb-3" id="iusuarios<%= proyecto.id_proyecto %>""></div>
                         <div class="modal-footer">
                             <button id="mod_ingresar<%= proyecto.id_proyecto %>" type="button" class="btn btn-success">Guardar cambios</button>
                         </div>

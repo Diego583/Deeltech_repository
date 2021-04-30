@@ -509,8 +509,8 @@ exports.postCapacidadEquipo = (request, response, next) => {
     var arrUsers_horario = request.body.horario;
 
     const nuevos_horarios = new Usuario(request.body.id_proyecto, request.body.id_usuario, request.body.horario);
-    nuevos_horarios.getHorarios1(request.body.id_proyecto)
-        .then(() => {
+    /*nuevos_horarios.getHorarios1(request.body.id_proyecto)
+        .then(() => {*/
             if(Array.isArray(arrUsers_proyecto)){
                 for (var i = 0; i < arrUsers_proyecto.length; i++) {
                     nuevos_horarios.saveHorarios(arrUsers_proyecto[i],arrUsers_usuario[i],arrUsers_horario[i]);
@@ -521,7 +521,7 @@ exports.postCapacidadEquipo = (request, response, next) => {
                 nuevos_horarios.saveHorarios(request.body.id_proyecto, request.body.id_usuario, request.body.horario)
                 response.redirect('/proyectos/'+ request.body.id_proyecto +'/capacidad_de_equipo');
             }
-        }).catch(err => console.log(err));
+        /*}).catch(err => console.log(err));*/
 }
 
 exports.postporcentajes = (request, response, next) => {
